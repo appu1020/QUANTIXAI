@@ -1,0 +1,767 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ symbol|default:"Dashboard" }} — Trading Dashboard{% endblock %}
+
+{% block content %}
+{% if error %}
+<div class="alert alert-error"><i class="fas fa-exclamation-triangle"></i> {{ error }}</div>
+{% endif %}
+
+{% if model_warning %}
+<div class="alert alert-warning"><i class="fas fa-info-circle"></i> {{ model_warning }}</div>
+{% endif %}
+
+<!-- ── Symbol header row ──────────────────────────────────────────────────── -->
+<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;flex-wrap:wrap;gap:0.75rem;">
+  <div style="display:flex;align-items:center;gap:1rem;">
+    <div>
+      <div style="font-size:1.6rem;font-weight:800;color:var(--text-primary);letter-spacing:-0.5px;">{{ symbol|default:"—" }}</div>
+      <div style="font-size:0.8rem;color:var(--text-muted);">Stock Analysis &amp; AI Prediction</div>
+    </div>
+
+    {% if current_price %}
+    <div class="price-display" style="border-left:1px solid var(--border);padding-left:1rem;">
+      <div class="price-large" id="live-price-main">${{ current_price }}</div>
+      {% if price_change %}
+      <div class="price-change {% if price_change >= 0 %}positive{% else %}negative{% endif %}" id="live-price-change">
+        <i class="fas fa-{% if price_change >= 0 %}arrow-trend-up{% else %}arrow-trend-down{% endif %}"></i>
+        {% if price_change >= 0 %}+{% endif %}{{ price_change_pct }}%
+      </div>
+      {% endif %}
+      <div id="live-last-updated" style="font-size:0.65rem;color:var(--text-muted);margin-top:0.15rem;">—</div>
+    </div>
+    {% endif %}
+  </div>
+
+  <!-- Interval selector -->
+  <div class="interval-pills">
+    {% for iv in intervals %}
+    <a href="?symbol={{ symbol }}&interval={{ iv }}"
+       class="interval-pill {% if iv == interval %}active{% endif %}">{{ iv }}</a>
+    {% endfor %}
+  </div>
+</div>
+
+<!-- ── Main dashboard grid ───────────────────────────────────────────────── -->
+<div class="dashboard-grid">
+
+  <!-- Left: Chart + bottom panels -->
+  <div>
+    <!-- Candlestick Chart Card -->
+    <div class="card" style="padding:1rem;">
+      <div class="card-header" style="margin-bottom:0.75rem;">
+        <span class="card-title">{{ symbol }} Price Chart</span>
+        <div style="display:flex;align-items:center;gap:0.5rem;">
+          <span style="font-size:0.75rem;color:var(--text-muted);" id="chart-last-update">Loading…</span>
+          <button onclick="loadCandleChart()" style="background:rgba(37,99,235,0.15);border:1px solid rgba(37,99,235,0.3);border-radius:4px;padding:0.2rem 0.5rem;color:var(--accent-blue-lt);font-size:0.72rem;cursor:pointer;">
+            <i class="fas fa-rotate-right"></i> Refresh
+          </button>
+        </div>
+      </div>
+      <div id="chart-container" style="width:100%; height:480px; position:relative;"></div>
+    </div>
+
+    <!-- Bottom row: Indicators | Backtest | Explanation -->
+    <div class="bottom-grid" style="margin-top:1rem;">
+
+      <!-- Technical Indicators -->
+      <div class="card">
+        <div class="card-header">
+          <span class="card-title">Technical Indicators</span>
+          <i class="fas fa-chart-bar" style="color:var(--text-muted);font-size:0.85rem;"></i>
+        </div>
+        {% if signal %}
+        <div class="indicator-grid">
+          {% if indicator_signals %}
+            {% for sig in indicator_signals %}
+            <div class="indicator-pill" title="{{ sig.explanation }}">
+              <div class="indicator-name">{{ sig.indicator|truncatechars:12 }}</div>
+              <div class="indicator-value">{{ sig.value|truncatechars:10 }}</div>
+              <div class="indicator-signal {{ sig.signal|lower }}">{{ sig.signal }}</div>
+            </div>
+            {% endfor %}
+          {% endif %}
+          <!-- Raw indicator values from feature snapshot -->
+          {% for key, val in indicator_raw.items %}
+          <div class="indicator-pill">
+            <div class="indicator-name">{{ key }}</div>
+            <div class="indicator-value">{{ val }}</div>
+          </div>
+          {% endfor %}
+        </div>
+        {% else %}
+        <div style="color:var(--text-muted);font-size:0.85rem;padding:1rem 0;">
+          Train models first to see indicator analysis.
+        </div>
+        {% endif %}
+      </div>
+
+      <!-- Backtest Results -->
+      <div class="card">
+        <div class="card-header">
+          <span class="card-title">Strategy Backtest</span>
+          <i class="fas fa-flask" style="color:var(--text-muted);font-size:0.85rem;"></i>
+        </div>
+        {% if backtest %}
+        <div class="stat-grid">
+          <div class="stat-item">
+            <div class="stat-label">Win Rate</div>
+            <div class="stat-value" style="color:{% if backtest.win_rate >= 50 %}var(--accent-green){% else %}var(--accent-red){% endif %};">
+              {{ backtest.win_rate }}%
+            </div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-label">Profit Factor</div>
+            <div class="stat-value" style="color:{% if backtest.profit_factor >= 1 %}var(--accent-green){% else %}var(--accent-red){% endif %};">
+              {{ backtest.profit_factor }}
+            </div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-label">Sharpe Ratio</div>
+            <div class="stat-value">{{ backtest.sharpe_ratio }}</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-label">Max Drawdown</div>
+            <div class="stat-value" style="color:var(--accent-red);">{{ backtest.max_drawdown }}%</div>
+          </div>
+          <div class="stat-item" style="grid-column:span 2;">
+            <div class="stat-label">Total Trades</div>
+            <div class="stat-value">{{ backtest.trades }}</div>
+          </div>
+        </div>
+        {% else %}
+        <div style="color:var(--text-muted);font-size:0.85rem;padding:1rem 0;">Backtest data unavailable.</div>
+        {% endif %}
+      </div>
+
+      <!-- Signal Explanation -->
+      <div class="card">
+        <div class="card-header">
+          <span class="card-title">Signal Reasoning</span>
+          <i class="fas fa-brain" style="color:var(--text-muted);font-size:0.85rem;"></i>
+        </div>
+        {% if explanation %}
+        <div class="explanation-panel">
+          <p style="margin-bottom:0.75rem;">{{ explanation }}</p>
+          {% if indicator_signals %}
+          <div style="margin-top:0.5rem;">
+            {% for sig in indicator_signals|slice:":4" %}
+            <div class="signal-factor">
+              <div class="signal-factor-dot {{ sig.signal }}"></div>
+              <div class="signal-factor-content">
+                <div class="signal-factor-title">{{ sig.indicator }}</div>
+                <div class="signal-factor-desc">{{ sig.explanation|truncatechars:120 }}</div>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+          {% endif %}
+        </div>
+        {% else %}
+        <div style="color:var(--text-muted);font-size:0.85rem;padding:1rem 0;">
+          Run model inference to see AI explanation.
+        </div>
+        {% endif %}
+      </div>
+
+    </div><!-- .bottom-grid -->
+
+    <!-- Model Metrics -->
+    {% if model_metrics %}
+    <div class="card" style="margin-top:1rem;">
+      <div class="card-header">
+        <span class="card-title">Model Performance Comparison</span>
+        <i class="fas fa-table" style="color:var(--text-muted);font-size:0.85rem;"></i>
+      </div>
+      <div style="overflow-x:auto;">
+        <table class="metrics-table">
+          <thead>
+            <tr>
+              <th>Model</th>
+              <th>RMSE</th>
+              <th>MAE</th>
+              <th>MAPE</th>
+              <th>R²</th>
+              <th>Accuracy</th>
+              <th>F1</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for mname, metrics in model_metrics.items %}
+            <tr>
+              <td>{{ mname }}</td>
+              {% if metrics.rmse %}
+              <td>{{ metrics.rmse|floatformat:4 }}</td>
+              <td>{{ metrics.mae|floatformat:4 }}</td>
+              <td>{{ metrics.mape|floatformat:2 }}%</td>
+              <td>{{ metrics.r2|floatformat:4 }}</td>
+              {% if 'accuracy' in metrics %}
+              <td>{{ metrics.accuracy|floatformat:4 }}</td>
+              {% else %}
+              <td style="color:var(--text-muted); font-size:0.75rem;">N/A (Reg)</td>
+              {% endif %}
+              <td style="color:var(--text-muted); font-size:0.75rem;">N/A (Reg)</td>
+              {% elif metrics.accuracy %}
+              <td style="color:var(--text-muted); font-size:0.75rem;">N/A (Cls)</td>
+              <td style="color:var(--text-muted); font-size:0.75rem;">N/A (Cls)</td>
+              <td style="color:var(--text-muted); font-size:0.75rem;">N/A (Cls)</td>
+              <td style="color:var(--text-muted); font-size:0.75rem;">N/A (Cls)</td>
+              <td>{{ metrics.accuracy|floatformat:4 }}</td>
+              <td>{{ metrics.f1|floatformat:4 }}</td>
+              {% endif %}
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+    {% endif %}
+
+  </div><!-- left column -->
+
+  <!-- Right panel: Signal | Probabilities | Horizons | Sentiment | AI -->
+  <div class="right-panel">
+
+    <!-- Signal Card -->
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title">AI Signal</span>
+        {% if signal %}
+        <div class="confidence-ring" id="conf-ring">
+          <svg width="72" height="72" viewBox="0 0 72 72">
+            <circle class="ring-bg" cx="36" cy="36" r="32"/>
+            <circle class="ring-fill" id="ring-fill" cx="36" cy="36" r="32"/>
+          </svg>
+          <span class="confidence-value" id="conf-value">{{ confidence_score|floatformat:0 }}%</span>
+        </div>
+        {% endif %}
+      </div>
+
+      {% if signal %}
+      <div style="text-align:center;margin-bottom:1rem;">
+        <div class="signal-badge signal-{{ signal|lower }}">
+          {% if signal == 'BUY' %}<i class="fas fa-arrow-up"></i>
+          {% elif signal == 'SELL' %}<i class="fas fa-arrow-down"></i>
+          {% else %}<i class="fas fa-minus"></i>{% endif %}
+          {{ signal }}
+        </div>
+      </div>
+
+      <!-- Probability bars -->
+      <div class="prob-bar-container">
+        <div class="prob-row">
+          <span class="prob-label">BUY</span>
+          <div class="prob-track">
+            <div class="prob-fill buy" style="width:{{ probability.buy|floatformat:0 }}%;"></div>
+          </div>
+          <span class="prob-value buy">{{ probability.buy|floatformat:1 }}%</span>
+        </div>
+        <div class="prob-row">
+          <span class="prob-label">SELL</span>
+          <div class="prob-track">
+            <div class="prob-fill sell" style="width:{{ probability.sell|floatformat:0 }}%;"></div>
+          </div>
+          <span class="prob-value sell">{{ probability.sell|floatformat:1 }}%</span>
+        </div>
+        <div class="prob-row">
+          <span class="prob-label">HOLD</span>
+          <div class="prob-track">
+            <div class="prob-fill hold" style="width:{{ probability.hold|floatformat:0 }}%;"></div>
+          </div>
+          <span class="prob-value hold">{{ probability.hold|floatformat:1 }}%</span>
+        </div>
+      </div>
+
+      <!-- Watchlist button -->
+      <form method="POST" action="{% url 'add_to_wishlist' %}" style="margin-top:1rem;">
+        {% csrf_token %}
+        <input type="hidden" name="symbol" value="{{ symbol }}">
+        <button type="submit" class="btn btn-primary btn-full" style="font-size:0.82rem;">
+          <i class="fas fa-star"></i> Add to Watchlist
+        </button>
+      </form>
+
+      {% else %}
+      <div style="color:var(--text-muted);font-size:0.85rem;text-align:center;padding:1.5rem 0;">
+        <i class="fas fa-brain" style="font-size:2rem;opacity:0.3;display:block;margin-bottom:0.5rem;"></i>
+        Train models to activate AI predictions.
+        <br><br>
+        <code style="font-size:0.75rem;color:var(--text-muted);">POST /api/train/</code>
+      </div>
+      {% endif %}
+    </div>
+
+    <!-- Price Horizons -->
+    {% if horizon_prices %}
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title">Price Targets</span>
+        <i class="fas fa-bullseye" style="color:var(--text-muted);font-size:0.85rem;"></i>
+      </div>
+      <div class="horizon-grid">
+        {% for label, price in horizon_prices.items %}
+        <div class="horizon-card">
+          <div class="horizon-label">{{ label }}</div>
+          <div class="horizon-price">${{ price|floatformat:2 }}</div>
+          {% if current_price %}
+          {% with delta_pct=price|add:"-0"|floatformat:4 %}
+          <div class="horizon-delta {% if price >= current_price %}up{% else %}down{% endif %}">
+            {% if price >= current_price %}▲{% else %}▼{% endif %}
+          </div>
+          {% endwith %}
+          {% endif %}
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+    {% endif %}
+
+    <!-- Sentiment -->
+    {% if sentiment %}
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title">Market Sentiment</span>
+        <i class="fas fa-newspaper" style="color:var(--text-muted);font-size:0.85rem;"></i>
+      </div>
+      <div style="font-size:0.8rem;color:var(--text-secondary);margin-bottom:0.75rem;" id="sentiment-summary">{{ sentiment.summary }}</div>
+      <div class="sentiment-gauge">
+        <div class="sentiment-bar-container">
+          <div class="sentiment-label">Bullish</div>
+          <div class="sentiment-track">
+            <div class="sentiment-fill-bull" id="bull-fill" style="width:{{ sentiment.bullish_score|floatformat:0 }}%;"></div>
+          </div>
+        </div>
+        <span id="bull-val" style="font-family:'JetBrains Mono';font-size:0.8rem;color:var(--accent-green);">{{ sentiment.bullish_score|floatformat:1 }}</span>
+      </div>
+      <div class="sentiment-gauge">
+        <div class="sentiment-bar-container">
+          <div class="sentiment-label">Bearish</div>
+          <div class="sentiment-track">
+            <div class="sentiment-fill-bear" id="bear-fill" style="width:{{ sentiment.bearish_score|floatformat:0 }}%;"></div>
+          </div>
+        </div>
+        <span id="bear-val" style="font-family:'JetBrains Mono';font-size:0.8rem;color:var(--accent-red);">{{ sentiment.bearish_score|floatformat:1 }}</span>
+      </div>
+      <div class="news-list" id="sentiment-news-list">
+      {% if sentiment.articles %}
+        {% for article in sentiment.articles %}
+        <a href="{{ article.url }}" target="_blank" class="news-item">
+          <div class="news-sentiment-dot {{ article.sentiment|lower }}"></div>
+          <div>
+            <div class="news-title">{{ article.title }}</div>
+            <div class="news-source">{{ article.source }}</div>
+          </div>
+        </a>
+        {% endfor %}
+      {% endif %}
+      </div>
+    </div>
+    {% endif %}
+
+    <!-- AI Financial Assistant -->
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title">AI Financial Assistant</span>
+        <i class="fas fa-robot" style="color:var(--accent-blue-lt);font-size:0.85rem;"></i>
+      </div>
+      <div class="ai-assistant">
+        <div class="ai-messages" id="ai-messages">
+          <div class="ai-message assistant fade-in">
+            👋 I'm your AI financial analyst powered by RAG technology. Ask me anything about
+            <strong>{{ symbol|default:"this stock" }}</strong>'s prediction, indicators, or market conditions.
+          </div>
+        </div>
+        <div class="ai-suggestions" id="ai-suggestions">
+          <span class="ai-chip" onclick="askAI('Why did the model predict {{ signal|default:'BUY' }}?')">Why {{ signal|default:'BUY' }}?</span>
+          <span class="ai-chip" onclick="askAI('What does the RSI indicate?')">RSI meaning?</span>
+          <span class="ai-chip" onclick="askAI('What are the key risks right now?')">Key risks?</span>
+          <span class="ai-chip" onclick="askAI('Explain the MACD signal')">MACD signal?</span>
+        </div>
+        <div class="ai-input-row">
+          <input type="text" id="ai-input" class="ai-input" placeholder="Ask about indicators, signals, risks…"
+                 onkeydown="if(event.key==='Enter') sendAIQuery()">
+          <button class="ai-send-btn" onclick="sendAIQuery()" id="ai-btn">
+            <i class="fas fa-paper-plane"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- .right-panel -->
+</div><!-- .dashboard-grid -->
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+const SYMBOL   = "{{ symbol|default:'AAPL' }}";
+const INTERVAL = "{{ interval|default:'1d' }}";
+
+// ── Confidence ring animation ──────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', () => {
+  const confidence = parseFloat("{{ confidence_score|default:0 }}");
+  const ring = document.getElementById('ring-fill');
+  if (ring) {
+    const circumference = 2 * Math.PI * 32; // r=32
+    const offset = circumference - (confidence / 100) * circumference;
+    setTimeout(() => { ring.style.strokeDashoffset = offset; }, 300);
+
+    // Color based on confidence
+    if (confidence >= 70) ring.style.stroke = 'var(--accent-green)';
+    else if (confidence >= 50) ring.style.stroke = 'var(--accent-gold)';
+    else ring.style.stroke = 'var(--accent-red)';
+  }
+});
+
+// ── TradingView Lightweight Charts ─────────────────────────────────────────
+let chart, candleSeries, volumeSeries;
+
+async function loadCandleChart() {
+  const container = document.getElementById('chart-container');
+  if (!container) return;
+
+  try {
+    const resp = await fetch(`/api/candle-data/?symbol=${SYMBOL}&interval=${INTERVAL}&limit=500`);
+    if (!resp.ok) throw new Error('Candle data unavailable');
+    const data = await resp.json();
+    const candles = data.candles || [];
+
+    if (!chart) {
+      chart = LightweightCharts.createChart(container, {
+        width: container.offsetWidth || 800,
+        height: 480,
+        layout: {
+          background:  { type: 'solid', color: 'transparent' },
+          textColor:   '#8aa4c8',
+          fontFamily:  'JetBrains Mono, monospace',
+          fontSize:    11,
+        },
+        grid: {
+          vertLines:  { color: 'rgba(96,165,250,0.05)' },
+          horzLines:  { color: 'rgba(96,165,250,0.05)' },
+        },
+        crosshair: { mode: 0 }, // 0 = Normal
+        rightPriceScale: { borderColor: 'rgba(96,165,250,0.1)' },
+        timeScale: {
+          borderColor: 'rgba(96,165,250,0.1)',
+          timeVisible: INTERVAL !== '1d',
+          secondsVisible: false,
+        },
+        handleScroll: { mouseWheel: true, pressedMouseMove: true },
+        handleScale:  { axisPressedMouseMove: true, mouseWheel: true, pinch: true },
+      });
+
+      candleSeries = chart.addCandlestickSeries({
+        upColor:      '#10b981',
+        downColor:    '#ef4444',
+        borderUpColor:   '#10b981',
+        borderDownColor: '#ef4444',
+        wickUpColor:     '#10b981',
+        wickDownColor:   '#ef4444',
+      });
+
+      // Resize observer
+      new ResizeObserver(() => {
+        chart.applyOptions({ width: container.offsetWidth });
+      }).observe(container);
+    }
+
+    if (candles.length > 0) {
+      candleSeries.setData(candles);
+      chart.timeScale().fitContent();
+
+      // Add predicted price line if available
+      const predictedPrice = parseFloat("{{ predicted_price|default:0 }}");
+      if (predictedPrice > 0 && candles.length > 0) {
+        if (window.predictedPriceLine) {
+          candleSeries.removePriceLine(window.predictedPriceLine);
+        }
+        window.predictedPriceLine = candleSeries.createPriceLine({
+          price: predictedPrice,
+          color: '#f59e0b',
+          lineWidth: 2,
+          lineStyle: 2, // 2 = Dashed
+          axisLabelVisible: true,
+          title: '⚡ AI Target',
+        });
+      }
+
+      const lastUpdate = document.getElementById('chart-last-update');
+      if (lastUpdate) lastUpdate.textContent = `${candles.length} candles · ${new Date().toLocaleTimeString()}`;
+    }
+  } catch(err) {
+    console.error('Candle API or Chart Error:', err);
+    if (container) {
+        container.innerHTML += `<div style="color:red; padding:20px; position:absolute; z-index:999;">Chart Error: ${err.message}</div>`;
+    }
+    
+    // Fallback: simple line chart from template data
+    if (chart) return; // Don't replace existing chart
+    chart = LightweightCharts.createChart(container, {
+      layout: { background: { type: 'solid', color: 'transparent' }, textColor: '#8aa4c8' },
+      grid: { vertLines: { color: 'rgba(96,165,250,0.05)' }, horzLines: { color: 'rgba(96,165,250,0.05)' } },
+    });
+    const lineSeries = chart.addLineSeries({ color: '#3b82f6', lineWidth: 2 });
+    const dates  = {{ stock_dates|safe|default:"[]" }};
+    const prices = {{ stock_prices|safe|default:"[]" }};
+    const lineData = dates.map((d, i) => {
+      // Convert date string to YYYY-MM-DD for LightweightCharts v4
+      const dt = new Date(d);
+      const y = dt.getFullYear();
+      const m = String(dt.getMonth() + 1).padStart(2, '0');
+      const day = String(dt.getDate()).padStart(2, '0');
+      return { time: `${y}-${m}-${day}`, value: prices[i] };
+    }).filter(p => p.value > 0);
+    if (lineData.length > 0) {
+      lineSeries.setData(lineData);
+      chart.timeScale().fitContent();
+    }
+  }
+}
+
+document.addEventListener('DOMContentLoaded', loadCandleChart);
+
+// ── AI Assistant ───────────────────────────────────────────────────────────
+function appendMessage(text, role) {
+  const msgs = document.getElementById('ai-messages');
+  const div = document.createElement('div');
+  div.className = `ai-message ${role} fade-in`;
+  div.innerHTML = text;
+  msgs.appendChild(div);
+  msgs.scrollTop = msgs.scrollHeight;
+}
+
+function askAI(question) {
+  document.getElementById('ai-input').value = question;
+  sendAIQuery();
+}
+
+async function sendAIQuery() {
+  const input = document.getElementById('ai-input');
+  const btn   = document.getElementById('ai-btn');
+  const question = input.value.trim();
+  if (!question) return;
+
+  appendMessage(question, 'user');
+  input.value = '';
+  btn.disabled = true;
+  btn.innerHTML = '<div class="spinner"></div>';
+
+  const thinking = document.createElement('div');
+  thinking.className = 'ai-message thinking fade-in';
+  thinking.textContent = '⚡ Analyzing market context…';
+  document.getElementById('ai-messages').appendChild(thinking);
+
+  try {
+    const resp = await fetch('/api/rag-query/', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'X-CSRFToken': getCookie('csrftoken') },
+      body: JSON.stringify({ question, symbol: SYMBOL, include_prediction: true }),
+    });
+    const data = await resp.json();
+    thinking.remove();
+    
+    appendMessage(`${data.answer || data.error}`, 'assistant');
+  } catch(e) {
+    thinking.remove();
+    appendMessage('Connection error. Please try again.', 'assistant');
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = '<i class="fas fa-paper-plane"></i>';
+  }
+}
+
+// ── Comprehensive 30s Auto-Refresh (Dashboard) ─────────────────────────
+// Fixes F1-F6: Atomically updates Price, Chart, Indicators, and AI Signal
+let _liveRetryCount = 0;
+let _lastKnownPrice = parseFloat("{{ current_price|default:0 }}") || 0;
+let _livePollingInterval = null;
+
+async function pollDashboardData() {
+  try {
+    // Concurrent fetch for performance
+    const [liveResp, candleResp, predictResp, sentimentResp] = await Promise.all([
+      fetch(`/api/live-data/?symbol=${SYMBOL}`, { cache: 'no-store', headers: { 'Cache-Control': 'no-cache' } }),
+      fetch(`/api/candle-data/?symbol=${SYMBOL}&interval=${INTERVAL}&limit=1`, { cache: 'no-store', headers: { 'Cache-Control': 'no-cache' } }),
+      fetch(`/api/predict/?symbol=${SYMBOL}&interval=${INTERVAL}`, { cache: 'no-store', headers: { 'Cache-Control': 'no-cache' } }),
+      fetch(`/api/sentiment/?symbol=${SYMBOL}`, { cache: 'no-store', headers: { 'Cache-Control': 'no-cache' } })
+    ]);
+
+    if (!liveResp.ok || !predictResp.ok) throw new Error(`HTTP Error`);
+    
+    const liveData = await liveResp.json();
+    const candleData = await candleResp.json();
+    const predictData = await predictResp.json();
+    
+    let sentimentData = null;
+    if (sentimentResp.ok) {
+      sentimentData = await sentimentResp.json();
+    }
+
+    if (liveData.status !== 'ok' || !liveData.latest) throw new Error('Invalid live data response');
+    
+    _liveRetryCount = 0; // reset on success
+
+    // ── Update Price ───────────────────────────────────────────────────
+    const q = liveData.latest;
+    const price = q.close;
+    const changePct = q.change_pct;
+
+    const priceLarge = document.getElementById('live-price-main');
+    const priceChange = document.getElementById('live-price-change');
+    const priceChangeIcon = priceChange?.querySelector('i');
+    const lastUpdateEl = document.getElementById('live-last-updated');
+
+    if (priceLarge && price > 0) {
+      const prevPrice = _lastKnownPrice;
+      if (Math.abs(price - prevPrice) > 0.0001) {
+        _flashEl(priceLarge, price > prevPrice ? 'up' : 'down');
+      }
+      priceLarge.textContent = '$' + price.toFixed(2);
+      _lastKnownPrice = price;
+    }
+
+    if (priceChange) {
+      const up = changePct >= 0;
+      priceChange.className = 'price-change ' + (up ? 'positive' : 'negative');
+      if (priceChangeIcon) priceChangeIcon.className = `fas fa-${up ? 'arrow-trend-up' : 'arrow-trend-down'}`;
+      for (const node of priceChange.childNodes) {
+        if (node.nodeType === 3) {
+          node.textContent = `\n        ${up ? '+' : ''}${changePct.toFixed(2)}%`;
+          break;
+        }
+      }
+    }
+
+    if (lastUpdateEl) {
+      lastUpdateEl.textContent = 'Live · ' + new Date().toLocaleTimeString();
+    }
+
+    // ── Update Chart (Latest Candle) ───────────────────────────────────
+    if (window.candleSeries && candleData.status === 'ok' && candleData.candles.length > 0) {
+      try {
+        const c = candleData.candles[0];
+        window.candleSeries.update({
+          time: new Date(c.time).getTime() / 1000,
+          open: c.open,
+          high: c.high,
+          low: c.low,
+          close: c.close
+        });
+        
+        if (window._livePriceLine) {
+          window.candleSeries.removePriceLine(window._livePriceLine);
+        }
+        window._livePriceLine = window.candleSeries.createPriceLine({
+          price: price,
+          color: changePct >= 0 ? '#10b981' : '#ef4444',
+          lineWidth: 1,
+          lineStyle: 1,
+          axisLabelVisible: true,
+          title: '● Live',
+        });
+      } catch(e) { console.warn('Chart update failed:', e); }
+    }
+
+    // ── Update AI Signal & Indicators ──────────────────────────────────
+    if (predictData.status === 'ok') {
+      // Update Confidence Ring
+      const confidence = predictData.confidence || 0;
+      const ring = document.getElementById('ring-fill');
+      const confText = document.querySelector('.confidence-val');
+      const confLabel = document.querySelector('.confidence-label');
+      
+      if (ring && confText) {
+        const circumference = 2 * Math.PI * 32;
+        const offset = circumference - (confidence / 100) * circumference;
+        ring.style.strokeDashoffset = offset;
+        if (confidence >= 70) ring.style.stroke = 'var(--accent-green)';
+        else if (confidence >= 50) ring.style.stroke = 'var(--accent-gold)';
+        else ring.style.stroke = 'var(--accent-red)';
+        
+        confText.textContent = confidence.toFixed(1) + '%';
+        if (confLabel) confLabel.textContent = predictData.signal || 'WAIT';
+      }
+
+      // Update AI Insights
+      const signalValue = document.querySelector('.signal-value');
+      const signalDesc = document.querySelector('.signal-desc');
+      if (signalValue && signalDesc) {
+        const sig = predictData.signal || 'NEUTRAL';
+        signalValue.textContent = sig;
+        signalValue.className = `signal-value ${sig.toLowerCase()}`;
+        signalDesc.textContent = `Probability: ${(predictData.probability * 100 || 0).toFixed(1)}%`;
+      }
+      
+      const pxPred = document.querySelector('.prediction-item:nth-child(2) .pred-val');
+      if (pxPred) {
+        pxPred.textContent = '$' + (predictData.ensemble_price || 0).toFixed(2);
+      }
+    }
+
+    // ── Update Sentiment ───────────────────────────────────────────────
+    if (sentimentData && sentimentData.status === 'ok') {
+      const sent = sentimentData.sentiment;
+      
+      const summaryEl = document.getElementById('sentiment-summary');
+      if (summaryEl) summaryEl.textContent = sent.summary;
+      
+      const bullFill = document.getElementById('bull-fill');
+      const bullVal = document.getElementById('bull-val');
+      if (bullFill) bullFill.style.width = Math.round(sent.bullish_score) + '%';
+      if (bullVal) bullVal.textContent = sent.bullish_score.toFixed(1);
+      
+      const bearFill = document.getElementById('bear-fill');
+      const bearVal = document.getElementById('bear-val');
+      if (bearFill) bearFill.style.width = Math.round(sent.bearish_score) + '%';
+      if (bearVal) bearVal.textContent = sent.bearish_score.toFixed(1);
+      
+      const newsList = document.getElementById('sentiment-news-list');
+      if (newsList && sentimentData.articles) {
+        let html = '';
+        sentimentData.articles.forEach(article => {
+          html += `
+            <a href="${article.url}" target="_blank" class="news-item">
+              <div class="news-sentiment-dot ${article.sentiment.toLowerCase()}"></div>
+              <div>
+                <div class="news-title">${article.title}</div>
+                <div class="news-source">${article.source}</div>
+              </div>
+            </a>
+          `;
+        });
+        newsList.innerHTML = html;
+      }
+    }
+
+  } catch(err) {
+    _liveRetryCount++;
+    console.warn('Dashboard data poll failed:', err.message);
+    const lastUpdateEl = document.getElementById('live-last-updated');
+    if (lastUpdateEl) {
+      lastUpdateEl.textContent = 'Waiting for latest market data...';
+      lastUpdateEl.style.color = 'var(--accent-gold)';
+    }
+  }
+}
+
+function startLivePolling() {
+  // Clear any existing interval to prevent memory leaks/duplicates
+  if (_livePollingInterval) clearInterval(_livePollingInterval);
+  // Fetch immediately
+  pollDashboardData();
+  // Set exact 30s interval
+  _livePollingInterval = setInterval(pollDashboardData, 30000);
+}
+
+document.addEventListener('DOMContentLoaded', startLivePolling);
+
+function getCookie(name) {
+  const value = `; ${document.cookie}`;
+  const parts = value.split(`; ${name}=`);
+  if (parts.length === 2) return parts.pop().split(';').shift();
+  return '';
+}
+</script>
+{% endblock %}

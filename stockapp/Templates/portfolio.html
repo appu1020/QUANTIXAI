@@ -1,0 +1,137 @@
+{% extends 'base.html' %}
+
+{% block title %}My Watchlist{% endblock %}
+
+{% block content %}
+<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem;">
+  <div class="page-title" style="margin-bottom:0;">
+    <i class="fas fa-briefcase" style="color:var(--accent-blue-lt);margin-right:0.5rem;"></i>
+    My Watchlist
+  </div>
+  <span style="font-size:0.8rem;color:var(--text-muted);">{{ watchlist|length }} symbol{{ watchlist|length|pluralize }}</span>
+</div>
+
+{% if messages %}
+  {% for message in messages %}
+  <div class="alert alert-{% if message.tags == 'success' %}success{% elif message.tags == 'error' %}error{% else %}info{% endif %}">
+    {{ message }}
+  </div>
+  {% endfor %}
+{% endif %}
+
+{% if watchlist %}
+<div class="card">
+  <table class="market-table">
+    <thead>
+      <tr>
+        <th>Symbol</th>
+        <th>Current Price</th>
+        <th>Added On</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for item in watchlist %}
+      <tr>
+        <td>
+          <a href="/dashboard?symbol={{ item.symbol }}" class="sym"
+             style="color:var(--accent-blue-lt);text-decoration:none;">
+            {{ item.symbol }}
+          </a>
+        </td>
+        <td class="price">
+          {% if item.current_price != "N/A" %}
+          <span class="live-price" data-symbol="{{ item.symbol }}">${{ item.current_price }}</span>
+          {% else %}
+          <span class="live-price" data-symbol="{{ item.symbol }}" style="color:var(--text-muted);">N/A</span>
+          {% endif %}
+        </td>
+        <td style="color:var(--text-muted);font-size:0.8rem;">
+          {{ item.added_on|date:"M j, Y" }}
+        </td>
+        <td>
+          <div style="display:flex;gap:0.5rem;">
+            <a href="/dashboard?symbol={{ item.symbol }}"
+               style="padding:0.3rem 0.6rem;background:rgba(37,99,235,0.15);border:1px solid rgba(37,99,235,0.25);
+                      border-radius:4px;color:var(--accent-blue-lt);font-size:0.75rem;text-decoration:none;
+                      transition:all 150ms;">
+              <i class="fas fa-chart-line"></i> Analyze
+            </a>
+            <form method="POST" action="{% url 'remove_from_wishlist' item.symbol %}" style="margin:0;">
+              {% csrf_token %}
+              <button type="submit"
+                      style="padding:0.3rem 0.6rem;background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.25);
+                             border-radius:4px;color:#fca5a5;font-size:0.75rem;cursor:pointer;
+                             transition:all 150ms;">
+                <i class="fas fa-trash-alt"></i>
+              </button>
+            </form>
+          </div>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+{% else %}
+<div class="card" style="text-align:center;padding:3rem;">
+  <div style="font-size:3rem;opacity:0.2;margin-bottom:1rem;">⭐</div>
+  <div style="color:var(--text-secondary);font-size:0.9rem;margin-bottom:1rem;">
+    Your watchlist is empty. Add stocks from the Dashboard.
+  </div>
+  <a href="{% url 'dashboard' %}" class="btn btn-primary" style="font-size:0.85rem;padding:0.5rem 1.25rem;">
+    <i class="fas fa-plus"></i> Add Stocks
+  </a>
+</div>
+{% endif %}
+{% endblock %}
+
+{% block extra_js %}
+<script>
+// ── 30-Second Auto-Refresh (Portfolio/Watchlist) ────────────────────────
+function startPortfolioPolling() {
+  const priceEls = document.querySelectorAll('.live-price');
+  if (priceEls.length === 0) return;
+
+  // Extract unique symbols
+  const symbols = Array.from(new Set(Array.from(priceEls).map(el => el.getAttribute('data-symbol'))));
+  
+  async function pollPortfolioPrices() {
+    try {
+      // Chunk symbols if there are too many (API limits to 10 per request usually, but let's send them all)
+      const chunk = symbols.slice(0, 10).join(','); 
+      const resp = await fetch(`/api/price-stream/?symbols=${chunk}`, { cache: 'no-store', headers: { 'Cache-Control': 'no-cache' } });
+      if (!resp.ok) throw new Error('Network error');
+      const data = await resp.json();
+      
+      if (data.status === 'ok' && data.quotes) {
+        priceEls.forEach(el => {
+          const sym = el.getAttribute('data-symbol');
+          const q = data.quotes[sym];
+          if (q && q.close > 0) {
+            const oldPrice = parseFloat(el.textContent.replace('$', '')) || 0;
+            const newPrice = q.close;
+            el.textContent = '$' + newPrice.toFixed(2);
+            el.style.color = 'var(--text-main)'; // reset N/A color
+            
+            // Flash animation if price changed
+            if (oldPrice > 0 && Math.abs(newPrice - oldPrice) > 0.0001) {
+              const bg = newPrice > oldPrice ? 'rgba(16,185,129,0.2)' : 'rgba(239,68,68,0.2)';
+              el.style.transition = 'background-color 0.2s';
+              el.style.backgroundColor = bg;
+              setTimeout(() => { el.style.backgroundColor = 'transparent'; }, 800);
+            }
+          }
+        });
+      }
+    } catch(err) {
+      console.warn('Portfolio polling failed:', err);
+    }
+  }
+
+  setInterval(pollPortfolioPrices, 30000);
+}
+document.addEventListener('DOMContentLoaded', startPortfolioPolling);
+</script>
+{% endblock %}

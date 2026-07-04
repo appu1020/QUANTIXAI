@@ -1,0 +1,1583 @@
+2026-07-03 11:16:54 [ERROR] django.request log:246 — Internal Server Error: /market
+Traceback (most recent call last):
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\views.py", line 328, in market
+    us_stocks = fetch_quotes(us_symbols)
+  File "C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\views.py", line 301, in fetch_quotes
+    import yfinance as yf
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\yfinance\__init__.py", line 27, in <module>
+    from .tickers import Tickers
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\yfinance\tickers.py", line 24, in <module>
+    from . import Ticker, multi
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\yfinance\multi.py", line 29, in <module>
+    import multitasking as _multitasking
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\multitasking\__init__.py", line 36, in <module>
+    class PoolConfig(TypedDict):
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\multitasking\__init__.py", line 44, in PoolConfig
+    engine: Union[type[Thread], type[Process]]  # Execution engine
+TypeError: 'type' object is not subscriptable
+2026-07-03 11:17:27 [INFO] django.utils.autoreload autoreload:667 — Watching for file changes with StatReloader
+2026-07-03 11:34:16 [INFO] django.utils.autoreload autoreload:667 — Watching for file changes with StatReloader
+2026-07-03 11:34:32 [WARNING] django.request log:246 — Not Found: /favicon.ico
+2026-07-03 11:35:49 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading AAPL | interval=1d | period=5y
+2026-07-03 11:35:50 [WARNING] django.security.csrf log:246 — Forbidden (CSRF token from POST incorrect.): /login
+2026-07-03 11:35:57 [ERROR] myapp.views views:199 — Dashboard error for AAPL: Failed to fetch data from yfinance: 'NoneType' object is not subscriptable
+2026-07-03 11:36:22 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading AAPL | interval=1d | period=5y
+2026-07-03 11:36:22 [ERROR] myapp.views views:199 — Dashboard error for AAPL: Failed to fetch data from yfinance: 'NoneType' object is not subscriptable
+2026-07-03 11:36:22 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading SPY | interval=1d | period=5y
+2026-07-03 11:36:22 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading AAPL | interval=1d | period=5y
+2026-07-03 11:36:22 [ERROR] yfinance base:190 — Failed to get ticker 'SPY' reason: Failed to perform, curl: (6) Could not resolve host: query1.finance.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2026-07-03 11:36:22 [ERROR] myapp.api_views api_views:245 — Candle data API error
+Traceback (most recent call last):
+  File "C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\data_pipeline.py", line 50, in download_market_data
+    df = ticker.history(period=config["period"], interval=config["interval"])
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\yfinance\utils.py", line 95, in wrapper
+    result = func(*args, **kwargs)
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\yfinance\base.py", line 129, in history
+    return self._lazy_load_price_history().history(*args, **kwargs)
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\yfinance\utils.py", line 95, in wrapper
+    result = func(*args, **kwargs)
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\yfinance\scrapers\history.py", line 224, in history
+    if data['chart']['result'] is None:
+TypeError: 'NoneType' object is not subscriptable
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\api_views.py", line 235, in candle_data
+    candles = fetch_candle_data(symbol=symbol, interval=interval)
+  File "C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\data_pipeline.py", line 217, in fetch_candle_data
+    df = harmonize_market_data(symbol, interval)
+  File "C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\data_pipeline.py", line 125, in harmonize_market_data
+    df = download_market_data(symbol, interval)
+  File "C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\data_pipeline.py", line 54, in download_market_data
+    raise ValueError(f"Failed to fetch data from yfinance: {e}")
+ValueError: Failed to fetch data from yfinance: 'NoneType' object is not subscriptable
+2026-07-03 11:36:22 [ERROR] myapp.api_views api_views:217 — Live data API error
+Traceback (most recent call last):
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\curl_cffi\requests\session.py", line 577, in request
+    c.perform()
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\curl_cffi\curl.py", line 307, in perform
+    self._check_error(ret, "perform")
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\curl_cffi\curl.py", line 150, in _check_error
+    raise error
+curl_cffi.curl.CurlError: Failed to perform, curl: (6) Could not resolve host: query1.finance.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\data_pipeline.py", line 50, in download_market_data
+    df = ticker.history(period=config["period"], interval=config["interval"])
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\yfinance\utils.py", line 95, in wrapper
+    result = func(*args, **kwargs)
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\yfinance\base.py", line 129, in history
+    return self._lazy_load_price_history().history(*args, **kwargs)
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\yfinance\base.py", line 135, in _lazy_load_price_history
+    self._price_history = PriceHistory(self._data, self.ticker, self._get_ticker_tz(timeout=10))
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\yfinance\base.py", line 160, in _get_ticker_tz
+    if k in self.info:
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\yfinance\ticker.py", line 159, in info
+    return self.get_info()
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\yfinance\base.py", line 282, in get_info
+    data = self._quote.info
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\yfinance\scrapers\quote.py", line 503, in info
+    self._fetch_info()
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\yfinance\scrapers\quote.py", line 612, in _fetch_info
+    result = self._fetch(modules=modules)
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\yfinance\scrapers\quote.py", line 588, in _fetch
+    result = self._data.get_raw_json(_QUOTE_SUMMARY_URL_ + f"/{self._symbol}", params=params_dict)
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\yfinance\data.py", line 462, in get_raw_json
+    response = self.get(url, params=params, timeout=timeout)
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\yfinance\utils.py", line 95, in wrapper
+    result = func(*args, **kwargs)
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\yfinance\data.py", line 375, in get
+    response = self._make_request(url, request_method = self._session.get, params=params, timeout=timeout)
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\yfinance\utils.py", line 95, in wrapper
+    result = func(*args, **kwargs)
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\yfinance\data.py", line 409, in _make_request
+    crumb, strategy = self._get_cookie_and_crumb()
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\yfinance\utils.py", line 95, in wrapper
+    result = func(*args, **kwargs)
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\yfinance\data.py", line 365, in _get_cookie_and_crumb
+    crumb = self._get_cookie_and_crumb_basic(timeout)
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\yfinance\utils.py", line 95, in wrapper
+    result = func(*args, **kwargs)
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\yfinance\data.py", line 246, in _get_cookie_and_crumb_basic
+    return self._get_crumb_basic(timeout)
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\yfinance\utils.py", line 95, in wrapper
+    result = func(*args, **kwargs)
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\yfinance\data.py", line 229, in _get_crumb_basic
+    crumb_response = self._session.get(**get_args)
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\curl_cffi\requests\session.py", line 594, in get
+    return self.request(method="GET", url=url, **kwargs)
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\curl_cffi\requests\session.py", line 582, in request
+    raise error(str(e), e.code, rsp) from e
+curl_cffi.requests.exceptions.DNSError: Failed to perform, curl: (6) Could not resolve host: query1.finance.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\api_views.py", line 194, in live_data
+    df = download_market_data(symbol=symbol, interval=interval)
+  File "C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\data_pipeline.py", line 54, in download_market_data
+    raise ValueError(f"Failed to fetch data from yfinance: {e}")
+ValueError: Failed to fetch data from yfinance: Failed to perform, curl: (6) Could not resolve host: query1.finance.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2026-07-03 11:36:23 [ERROR] myapp.api_views api_views:44 — API error [500]: Failed to fetch data from yfinance: 'NoneType' object is not subscriptable
+2026-07-03 11:36:23 [WARNING] django.request log:246 — Not Found: /favicon.ico
+2026-07-03 11:36:23 [ERROR] myapp.api_views api_views:44 — API error [500]: Failed to fetch data from yfinance: Failed to perform, curl: (6) Could not resolve host: query1.finance.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2026-07-03 11:36:23 [ERROR] django.request log:246 — Internal Server Error: /api/candle-data/
+2026-07-03 11:36:23 [ERROR] django.request log:246 — Internal Server Error: /api/live-data/
+2026-07-03 11:36:23 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading QQQ | interval=1d | period=5y
+2026-07-03 11:36:23 [ERROR] yfinance base:190 — Failed to get ticker 'QQQ' reason: Failed to perform, curl: (6) Could not resolve host: query1.finance.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2026-07-03 11:36:23 [ERROR] myapp.api_views api_views:217 — Live data API error
+Traceback (most recent call last):
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\curl_cffi\requests\session.py", line 577, in request
+    c.perform()
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\curl_cffi\curl.py", line 307, in perform
+    self._check_error(ret, "perform")
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\curl_cffi\curl.py", line 150, in _check_error
+    raise error
+curl_cffi.curl.CurlError: Failed to perform, curl: (6) Could not resolve host: query1.finance.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\data_pipeline.py", line 50, in download_market_data
+    df = ticker.history(period=config["period"], interval=config["interval"])
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\yfinance\utils.py", line 95, in wrapper
+    result = func(*args, **kwargs)
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\yfinance\base.py", line 129, in history
+    return self._lazy_load_price_history().history(*args, **kwargs)
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\yfinance\base.py", line 135, in _lazy_load_price_history
+    self._price_history = PriceHistory(self._data, self.ticker, self._get_ticker_tz(timeout=10))
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\yfinance\base.py", line 160, in _get_ticker_tz
+    if k in self.info:
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\yfinance\ticker.py", line 159, in info
+    return self.get_info()
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\yfinance\base.py", line 282, in get_info
+    data = self._quote.info
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\yfinance\scrapers\quote.py", line 503, in info
+    self._fetch_info()
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\yfinance\scrapers\quote.py", line 612, in _fetch_info
+    result = self._fetch(modules=modules)
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\yfinance\scrapers\quote.py", line 588, in _fetch
+    result = self._data.get_raw_json(_QUOTE_SUMMARY_URL_ + f"/{self._symbol}", params=params_dict)
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\yfinance\data.py", line 462, in get_raw_json
+    response = self.get(url, params=params, timeout=timeout)
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\yfinance\utils.py", line 95, in wrapper
+    result = func(*args, **kwargs)
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\yfinance\data.py", line 375, in get
+    response = self._make_request(url, request_method = self._session.get, params=params, timeout=timeout)
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\yfinance\utils.py", line 95, in wrapper
+    result = func(*args, **kwargs)
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\yfinance\data.py", line 409, in _make_request
+    crumb, strategy = self._get_cookie_and_crumb()
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\yfinance\utils.py", line 95, in wrapper
+    result = func(*args, **kwargs)
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\yfinance\data.py", line 365, in _get_cookie_and_crumb
+    crumb = self._get_cookie_and_crumb_basic(timeout)
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\yfinance\utils.py", line 95, in wrapper
+    result = func(*args, **kwargs)
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\yfinance\data.py", line 246, in _get_cookie_and_crumb_basic
+    return self._get_crumb_basic(timeout)
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\yfinance\utils.py", line 95, in wrapper
+    result = func(*args, **kwargs)
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\yfinance\data.py", line 229, in _get_crumb_basic
+    crumb_response = self._session.get(**get_args)
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\curl_cffi\requests\session.py", line 594, in get
+    return self.request(method="GET", url=url, **kwargs)
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\curl_cffi\requests\session.py", line 582, in request
+    raise error(str(e), e.code, rsp) from e
+curl_cffi.requests.exceptions.DNSError: Failed to perform, curl: (6) Could not resolve host: query1.finance.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\api_views.py", line 194, in live_data
+    df = download_market_data(symbol=symbol, interval=interval)
+  File "C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\data_pipeline.py", line 54, in download_market_data
+    raise ValueError(f"Failed to fetch data from yfinance: {e}")
+ValueError: Failed to fetch data from yfinance: Failed to perform, curl: (6) Could not resolve host: query1.finance.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2026-07-03 11:36:23 [ERROR] myapp.api_views api_views:44 — API error [500]: Failed to fetch data from yfinance: Failed to perform, curl: (6) Could not resolve host: query1.finance.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2026-07-03 11:36:23 [ERROR] django.request log:246 — Internal Server Error: /api/live-data/
+2026-07-03 11:36:23 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading BTC-USD | interval=1d | period=5y
+2026-07-03 11:36:23 [ERROR] myapp.api_views api_views:217 — Live data API error
+Traceback (most recent call last):
+  File "C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\data_pipeline.py", line 50, in download_market_data
+    df = ticker.history(period=config["period"], interval=config["interval"])
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\yfinance\utils.py", line 95, in wrapper
+    result = func(*args, **kwargs)
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\yfinance\base.py", line 129, in history
+    return self._lazy_load_price_history().history(*args, **kwargs)
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\yfinance\utils.py", line 95, in wrapper
+    result = func(*args, **kwargs)
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\yfinance\scrapers\history.py", line 224, in history
+    if data['chart']['result'] is None:
+TypeError: 'NoneType' object is not subscriptable
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\api_views.py", line 194, in live_data
+    df = download_market_data(symbol=symbol, interval=interval)
+  File "C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\data_pipeline.py", line 54, in download_market_data
+    raise ValueError(f"Failed to fetch data from yfinance: {e}")
+ValueError: Failed to fetch data from yfinance: 'NoneType' object is not subscriptable
+2026-07-03 11:36:23 [ERROR] myapp.api_views api_views:44 — API error [500]: Failed to fetch data from yfinance: 'NoneType' object is not subscriptable
+2026-07-03 11:36:23 [ERROR] django.request log:246 — Internal Server Error: /api/live-data/
+2026-07-03 11:36:28 [ERROR] yfinance base:190 — Failed to get ticker 'GOOGL' reason: Failed to perform, curl: (6) Could not resolve host: query1.finance.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2026-07-03 11:36:28 [ERROR] yfinance base:190 — Failed to get ticker 'AMZN' reason: Failed to perform, curl: (6) Could not resolve host: query1.finance.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2026-07-03 11:36:28 [ERROR] yfinance base:190 — Failed to get ticker 'NVDA' reason: Failed to perform, curl: (6) Could not resolve host: query1.finance.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2026-07-03 11:36:28 [ERROR] yfinance base:190 — Failed to get ticker 'META' reason: Failed to perform, curl: (6) Could not resolve host: query1.finance.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2026-07-03 11:36:28 [ERROR] yfinance base:190 — Failed to get ticker 'JPM' reason: Failed to perform, curl: (6) Could not resolve host: query1.finance.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2026-07-03 11:36:28 [ERROR] yfinance base:190 — Failed to get ticker 'BRK-B' reason: Failed to perform, curl: (6) Could not resolve host: query1.finance.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2026-07-03 11:36:28 [ERROR] yfinance base:190 — Failed to get ticker 'V' reason: Failed to perform, curl: (6) Could not resolve host: query1.finance.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2026-07-03 11:36:28 [ERROR] yfinance base:190 — Failed to get ticker 'WIPRO.NS' reason: Failed to perform, curl: (6) Could not resolve host: query1.finance.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2026-07-03 11:36:28 [ERROR] yfinance base:190 — Failed to get ticker 'HINDUNILVR.NS' reason: Failed to perform, curl: (6) Could not resolve host: query1.finance.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2026-07-03 11:36:28 [ERROR] yfinance base:190 — Failed to get ticker 'LT.NS' reason: Failed to perform, curl: (6) Could not resolve host: query1.finance.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2026-07-03 11:36:28 [ERROR] yfinance base:190 — Failed to get ticker 'BAJFINANCE.NS' reason: Failed to perform, curl: (6) Could not resolve host: query1.finance.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2026-07-03 11:36:28 [ERROR] yfinance base:190 — Failed to get ticker 'MARUTI.NS' reason: Failed to perform, curl: (6) Could not resolve host: query1.finance.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2026-07-03 11:36:28 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading SPY | interval=1d | period=5y
+2026-07-03 11:36:28 [ERROR] yfinance base:190 — Failed to get ticker 'SPY' reason: Failed to perform, curl: (6) Could not resolve host: query1.finance.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2026-07-03 11:36:28 [ERROR] myapp.api_views api_views:217 — Live data API error
+Traceback (most recent call last):
+  File "C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\data_pipeline.py", line 50, in download_market_data
+    df = ticker.history(period=config["period"], interval=config["interval"])
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\yfinance\utils.py", line 95, in wrapper
+    result = func(*args, **kwargs)
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\yfinance\base.py", line 129, in history
+    return self._lazy_load_price_history().history(*args, **kwargs)
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\yfinance\utils.py", line 95, in wrapper
+    result = func(*args, **kwargs)
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\yfinance\scrapers\history.py", line 224, in history
+    if data['chart']['result'] is None:
+TypeError: 'NoneType' object is not subscriptable
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\api_views.py", line 194, in live_data
+    df = download_market_data(symbol=symbol, interval=interval)
+  File "C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\data_pipeline.py", line 54, in download_market_data
+    raise ValueError(f"Failed to fetch data from yfinance: {e}")
+ValueError: Failed to fetch data from yfinance: 'NoneType' object is not subscriptable
+2026-07-03 11:36:28 [ERROR] myapp.api_views api_views:44 — API error [500]: Failed to fetch data from yfinance: 'NoneType' object is not subscriptable
+2026-07-03 11:36:28 [ERROR] django.request log:246 — Internal Server Error: /api/live-data/
+2026-07-03 11:36:28 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading QQQ | interval=1d | period=5y
+2026-07-03 11:36:28 [ERROR] yfinance base:190 — Failed to get ticker 'QQQ' reason: Failed to perform, curl: (6) Could not resolve host: query1.finance.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2026-07-03 11:36:28 [ERROR] myapp.api_views api_views:217 — Live data API error
+Traceback (most recent call last):
+  File "C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\data_pipeline.py", line 50, in download_market_data
+    df = ticker.history(period=config["period"], interval=config["interval"])
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\yfinance\utils.py", line 95, in wrapper
+    result = func(*args, **kwargs)
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\yfinance\base.py", line 129, in history
+    return self._lazy_load_price_history().history(*args, **kwargs)
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\yfinance\utils.py", line 95, in wrapper
+    result = func(*args, **kwargs)
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\yfinance\scrapers\history.py", line 224, in history
+    if data['chart']['result'] is None:
+TypeError: 'NoneType' object is not subscriptable
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\api_views.py", line 194, in live_data
+    df = download_market_data(symbol=symbol, interval=interval)
+  File "C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\data_pipeline.py", line 54, in download_market_data
+    raise ValueError(f"Failed to fetch data from yfinance: {e}")
+ValueError: Failed to fetch data from yfinance: 'NoneType' object is not subscriptable
+2026-07-03 11:36:28 [ERROR] myapp.api_views api_views:44 — API error [500]: Failed to fetch data from yfinance: 'NoneType' object is not subscriptable
+2026-07-03 11:36:28 [ERROR] django.request log:246 — Internal Server Error: /api/live-data/
+2026-07-03 11:36:28 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading BTC-USD | interval=1d | period=5y
+2026-07-03 11:36:28 [ERROR] myapp.api_views api_views:217 — Live data API error
+Traceback (most recent call last):
+  File "C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\data_pipeline.py", line 50, in download_market_data
+    df = ticker.history(period=config["period"], interval=config["interval"])
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\yfinance\utils.py", line 95, in wrapper
+    result = func(*args, **kwargs)
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\yfinance\base.py", line 129, in history
+    return self._lazy_load_price_history().history(*args, **kwargs)
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\yfinance\utils.py", line 95, in wrapper
+    result = func(*args, **kwargs)
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\yfinance\scrapers\history.py", line 224, in history
+    if data['chart']['result'] is None:
+TypeError: 'NoneType' object is not subscriptable
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\api_views.py", line 194, in live_data
+    df = download_market_data(symbol=symbol, interval=interval)
+  File "C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\data_pipeline.py", line 54, in download_market_data
+    raise ValueError(f"Failed to fetch data from yfinance: {e}")
+ValueError: Failed to fetch data from yfinance: 'NoneType' object is not subscriptable
+2026-07-03 11:36:28 [ERROR] myapp.api_views api_views:44 — API error [500]: Failed to fetch data from yfinance: 'NoneType' object is not subscriptable
+2026-07-03 11:36:28 [ERROR] django.request log:246 — Internal Server Error: /api/live-data/
+2026-07-03 11:36:30 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading AAPL | interval=1d | period=5y
+2026-07-03 11:36:30 [ERROR] myapp.views views:199 — Dashboard error for AAPL: Failed to fetch data from yfinance: 'NoneType' object is not subscriptable
+2026-07-03 11:36:30 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading SPY | interval=1d | period=5y
+2026-07-03 11:36:30 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading AAPL | interval=1d | period=5y
+2026-07-03 11:36:30 [ERROR] yfinance base:190 — Failed to get ticker 'SPY' reason: Failed to perform, curl: (6) Could not resolve host: query1.finance.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2026-07-03 11:36:30 [ERROR] myapp.api_views api_views:217 — Live data API error
+Traceback (most recent call last):
+  File "C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\data_pipeline.py", line 50, in download_market_data
+    df = ticker.history(period=config["period"], interval=config["interval"])
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\yfinance\utils.py", line 95, in wrapper
+    result = func(*args, **kwargs)
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\yfinance\base.py", line 129, in history
+    return self._lazy_load_price_history().history(*args, **kwargs)
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\yfinance\utils.py", line 95, in wrapper
+    result = func(*args, **kwargs)
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\yfinance\scrapers\history.py", line 224, in history
+    if data['chart']['result'] is None:
+TypeError: 'NoneType' object is not subscriptable
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\api_views.py", line 194, in live_data
+    df = download_market_data(symbol=symbol, interval=interval)
+  File "C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\data_pipeline.py", line 54, in download_market_data
+    raise ValueError(f"Failed to fetch data from yfinance: {e}")
+ValueError: Failed to fetch data from yfinance: 'NoneType' object is not subscriptable
+2026-07-03 11:36:30 [ERROR] myapp.api_views api_views:44 — API error [500]: Failed to fetch data from yfinance: 'NoneType' object is not subscriptable
+2026-07-03 11:36:30 [ERROR] django.request log:246 — Internal Server Error: /api/live-data/
+2026-07-03 11:36:30 [ERROR] myapp.api_views api_views:245 — Candle data API error
+Traceback (most recent call last):
+  File "C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\data_pipeline.py", line 50, in download_market_data
+    df = ticker.history(period=config["period"], interval=config["interval"])
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\yfinance\utils.py", line 95, in wrapper
+    result = func(*args, **kwargs)
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\yfinance\base.py", line 129, in history
+    return self._lazy_load_price_history().history(*args, **kwargs)
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\yfinance\utils.py", line 95, in wrapper
+    result = func(*args, **kwargs)
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\yfinance\scrapers\history.py", line 224, in history
+    if data['chart']['result'] is None:
+TypeError: 'NoneType' object is not subscriptable
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\api_views.py", line 235, in candle_data
+    candles = fetch_candle_data(symbol=symbol, interval=interval)
+  File "C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\data_pipeline.py", line 217, in fetch_candle_data
+    df = harmonize_market_data(symbol, interval)
+  File "C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\data_pipeline.py", line 125, in harmonize_market_data
+    df = download_market_data(symbol, interval)
+  File "C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\data_pipeline.py", line 54, in download_market_data
+    raise ValueError(f"Failed to fetch data from yfinance: {e}")
+ValueError: Failed to fetch data from yfinance: 'NoneType' object is not subscriptable
+2026-07-03 11:36:30 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading QQQ | interval=1d | period=5y
+2026-07-03 11:36:30 [ERROR] myapp.api_views api_views:44 — API error [500]: Failed to fetch data from yfinance: 'NoneType' object is not subscriptable
+2026-07-03 11:36:30 [ERROR] django.request log:246 — Internal Server Error: /api/candle-data/
+2026-07-03 11:36:30 [ERROR] yfinance base:190 — Failed to get ticker 'QQQ' reason: Failed to perform, curl: (6) Could not resolve host: query1.finance.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2026-07-03 11:36:30 [ERROR] myapp.api_views api_views:217 — Live data API error
+Traceback (most recent call last):
+  File "C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\data_pipeline.py", line 50, in download_market_data
+    df = ticker.history(period=config["period"], interval=config["interval"])
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\yfinance\utils.py", line 95, in wrapper
+    result = func(*args, **kwargs)
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\yfinance\base.py", line 129, in history
+    return self._lazy_load_price_history().history(*args, **kwargs)
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\yfinance\utils.py", line 95, in wrapper
+    result = func(*args, **kwargs)
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\yfinance\scrapers\history.py", line 224, in history
+    if data['chart']['result'] is None:
+TypeError: 'NoneType' object is not subscriptable
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\api_views.py", line 194, in live_data
+    df = download_market_data(symbol=symbol, interval=interval)
+  File "C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\data_pipeline.py", line 54, in download_market_data
+    raise ValueError(f"Failed to fetch data from yfinance: {e}")
+ValueError: Failed to fetch data from yfinance: 'NoneType' object is not subscriptable
+2026-07-03 11:36:30 [ERROR] myapp.api_views api_views:44 — API error [500]: Failed to fetch data from yfinance: 'NoneType' object is not subscriptable
+2026-07-03 11:36:30 [ERROR] django.request log:246 — Internal Server Error: /api/live-data/
+2026-07-03 11:36:30 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading BTC-USD | interval=1d | period=5y
+2026-07-03 11:36:30 [ERROR] myapp.api_views api_views:217 — Live data API error
+Traceback (most recent call last):
+  File "C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\data_pipeline.py", line 50, in download_market_data
+    df = ticker.history(period=config["period"], interval=config["interval"])
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\yfinance\utils.py", line 95, in wrapper
+    result = func(*args, **kwargs)
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\yfinance\base.py", line 129, in history
+    return self._lazy_load_price_history().history(*args, **kwargs)
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\yfinance\utils.py", line 95, in wrapper
+    result = func(*args, **kwargs)
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\yfinance\scrapers\history.py", line 224, in history
+    if data['chart']['result'] is None:
+TypeError: 'NoneType' object is not subscriptable
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\api_views.py", line 194, in live_data
+    df = download_market_data(symbol=symbol, interval=interval)
+  File "C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\data_pipeline.py", line 54, in download_market_data
+    raise ValueError(f"Failed to fetch data from yfinance: {e}")
+ValueError: Failed to fetch data from yfinance: 'NoneType' object is not subscriptable
+2026-07-03 11:36:30 [ERROR] myapp.api_views api_views:44 — API error [500]: Failed to fetch data from yfinance: 'NoneType' object is not subscriptable
+2026-07-03 11:36:30 [ERROR] django.request log:246 — Internal Server Error: /api/live-data/
+2026-07-03 11:36:34 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading SPY | interval=1d | period=5y
+2026-07-03 11:36:34 [ERROR] yfinance base:190 — Failed to get ticker 'SPY' reason: Failed to perform, curl: (6) Could not resolve host: query1.finance.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2026-07-03 11:36:34 [ERROR] myapp.api_views api_views:217 — Live data API error
+Traceback (most recent call last):
+  File "C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\data_pipeline.py", line 50, in download_market_data
+    df = ticker.history(period=config["period"], interval=config["interval"])
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\yfinance\utils.py", line 95, in wrapper
+    result = func(*args, **kwargs)
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\yfinance\base.py", line 129, in history
+    return self._lazy_load_price_history().history(*args, **kwargs)
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\yfinance\utils.py", line 95, in wrapper
+    result = func(*args, **kwargs)
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\yfinance\scrapers\history.py", line 224, in history
+    if data['chart']['result'] is None:
+TypeError: 'NoneType' object is not subscriptable
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\api_views.py", line 194, in live_data
+    df = download_market_data(symbol=symbol, interval=interval)
+  File "C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\data_pipeline.py", line 54, in download_market_data
+    raise ValueError(f"Failed to fetch data from yfinance: {e}")
+ValueError: Failed to fetch data from yfinance: 'NoneType' object is not subscriptable
+2026-07-03 11:36:34 [ERROR] myapp.api_views api_views:44 — API error [500]: Failed to fetch data from yfinance: 'NoneType' object is not subscriptable
+2026-07-03 11:36:34 [ERROR] django.request log:246 — Internal Server Error: /api/live-data/
+2026-07-03 11:36:34 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading QQQ | interval=1d | period=5y
+2026-07-03 11:36:34 [ERROR] yfinance base:190 — Failed to get ticker 'QQQ' reason: Failed to perform, curl: (6) Could not resolve host: query1.finance.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2026-07-03 11:36:34 [ERROR] myapp.api_views api_views:217 — Live data API error
+Traceback (most recent call last):
+  File "C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\data_pipeline.py", line 50, in download_market_data
+    df = ticker.history(period=config["period"], interval=config["interval"])
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\yfinance\utils.py", line 95, in wrapper
+    result = func(*args, **kwargs)
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\yfinance\base.py", line 129, in history
+    return self._lazy_load_price_history().history(*args, **kwargs)
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\yfinance\utils.py", line 95, in wrapper
+    result = func(*args, **kwargs)
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\yfinance\scrapers\history.py", line 224, in history
+    if data['chart']['result'] is None:
+TypeError: 'NoneType' object is not subscriptable
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\api_views.py", line 194, in live_data
+    df = download_market_data(symbol=symbol, interval=interval)
+  File "C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\data_pipeline.py", line 54, in download_market_data
+    raise ValueError(f"Failed to fetch data from yfinance: {e}")
+ValueError: Failed to fetch data from yfinance: 'NoneType' object is not subscriptable
+2026-07-03 11:36:34 [ERROR] myapp.api_views api_views:44 — API error [500]: Failed to fetch data from yfinance: 'NoneType' object is not subscriptable
+2026-07-03 11:36:34 [ERROR] django.request log:246 — Internal Server Error: /api/live-data/
+2026-07-03 11:36:34 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading BTC-USD | interval=1d | period=5y
+2026-07-03 11:36:34 [ERROR] myapp.api_views api_views:217 — Live data API error
+Traceback (most recent call last):
+  File "C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\data_pipeline.py", line 50, in download_market_data
+    df = ticker.history(period=config["period"], interval=config["interval"])
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\yfinance\utils.py", line 95, in wrapper
+    result = func(*args, **kwargs)
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\yfinance\base.py", line 129, in history
+    return self._lazy_load_price_history().history(*args, **kwargs)
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\yfinance\utils.py", line 95, in wrapper
+    result = func(*args, **kwargs)
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\yfinance\scrapers\history.py", line 224, in history
+    if data['chart']['result'] is None:
+TypeError: 'NoneType' object is not subscriptable
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\api_views.py", line 194, in live_data
+    df = download_market_data(symbol=symbol, interval=interval)
+  File "C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\data_pipeline.py", line 54, in download_market_data
+    raise ValueError(f"Failed to fetch data from yfinance: {e}")
+ValueError: Failed to fetch data from yfinance: 'NoneType' object is not subscriptable
+2026-07-03 11:36:34 [ERROR] myapp.api_views api_views:44 — API error [500]: Failed to fetch data from yfinance: 'NoneType' object is not subscriptable
+2026-07-03 11:36:34 [ERROR] django.request log:246 — Internal Server Error: /api/live-data/
+2026-07-03 11:36:38 [ERROR] yfinance base:190 — Failed to get ticker 'GOOGL' reason: Failed to perform, curl: (6) Could not resolve host: query1.finance.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2026-07-03 11:36:38 [ERROR] yfinance base:190 — Failed to get ticker 'AMZN' reason: Failed to perform, curl: (6) Could not resolve host: query1.finance.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2026-07-03 11:36:38 [ERROR] yfinance base:190 — Failed to get ticker 'NVDA' reason: Failed to perform, curl: (6) Could not resolve host: query1.finance.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2026-07-03 11:36:38 [ERROR] yfinance base:190 — Failed to get ticker 'META' reason: Failed to perform, curl: (6) Could not resolve host: query1.finance.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2026-07-03 11:36:38 [ERROR] yfinance base:190 — Failed to get ticker 'JPM' reason: Failed to perform, curl: (6) Could not resolve host: query1.finance.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2026-07-03 11:36:38 [ERROR] yfinance base:190 — Failed to get ticker 'BRK-B' reason: Failed to perform, curl: (6) Could not resolve host: query1.finance.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2026-07-03 11:36:38 [ERROR] yfinance base:190 — Failed to get ticker 'V' reason: Failed to perform, curl: (6) Could not resolve host: query1.finance.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2026-07-03 11:36:38 [ERROR] yfinance base:190 — Failed to get ticker 'WIPRO.NS' reason: Failed to perform, curl: (6) Could not resolve host: query1.finance.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2026-07-03 11:36:38 [ERROR] yfinance base:190 — Failed to get ticker 'HINDUNILVR.NS' reason: Failed to perform, curl: (6) Could not resolve host: query1.finance.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2026-07-03 11:36:38 [ERROR] yfinance base:190 — Failed to get ticker 'LT.NS' reason: Failed to perform, curl: (6) Could not resolve host: query1.finance.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2026-07-03 11:36:38 [ERROR] yfinance base:190 — Failed to get ticker 'BAJFINANCE.NS' reason: Failed to perform, curl: (6) Could not resolve host: query1.finance.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2026-07-03 11:36:38 [ERROR] yfinance base:190 — Failed to get ticker 'MARUTI.NS' reason: Failed to perform, curl: (6) Could not resolve host: query1.finance.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2026-07-03 11:36:38 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading SPY | interval=1d | period=5y
+2026-07-03 11:36:38 [ERROR] yfinance base:190 — Failed to get ticker 'SPY' reason: Failed to perform, curl: (6) Could not resolve host: query1.finance.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2026-07-03 11:36:38 [ERROR] myapp.api_views api_views:217 — Live data API error
+Traceback (most recent call last):
+  File "C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\data_pipeline.py", line 50, in download_market_data
+    df = ticker.history(period=config["period"], interval=config["interval"])
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\yfinance\utils.py", line 95, in wrapper
+    result = func(*args, **kwargs)
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\yfinance\base.py", line 129, in history
+    return self._lazy_load_price_history().history(*args, **kwargs)
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\yfinance\utils.py", line 95, in wrapper
+    result = func(*args, **kwargs)
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\yfinance\scrapers\history.py", line 224, in history
+    if data['chart']['result'] is None:
+TypeError: 'NoneType' object is not subscriptable
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\api_views.py", line 194, in live_data
+    df = download_market_data(symbol=symbol, interval=interval)
+  File "C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\data_pipeline.py", line 54, in download_market_data
+    raise ValueError(f"Failed to fetch data from yfinance: {e}")
+ValueError: Failed to fetch data from yfinance: 'NoneType' object is not subscriptable
+2026-07-03 11:36:38 [ERROR] myapp.api_views api_views:44 — API error [500]: Failed to fetch data from yfinance: 'NoneType' object is not subscriptable
+2026-07-03 11:36:38 [ERROR] django.request log:246 — Internal Server Error: /api/live-data/
+2026-07-03 11:36:38 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading QQQ | interval=1d | period=5y
+2026-07-03 11:36:38 [ERROR] yfinance base:190 — Failed to get ticker 'QQQ' reason: Failed to perform, curl: (6) Could not resolve host: query1.finance.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2026-07-03 11:36:38 [ERROR] myapp.api_views api_views:217 — Live data API error
+Traceback (most recent call last):
+  File "C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\data_pipeline.py", line 50, in download_market_data
+    df = ticker.history(period=config["period"], interval=config["interval"])
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\yfinance\utils.py", line 95, in wrapper
+    result = func(*args, **kwargs)
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\yfinance\base.py", line 129, in history
+    return self._lazy_load_price_history().history(*args, **kwargs)
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\yfinance\utils.py", line 95, in wrapper
+    result = func(*args, **kwargs)
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\yfinance\scrapers\history.py", line 224, in history
+    if data['chart']['result'] is None:
+TypeError: 'NoneType' object is not subscriptable
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\api_views.py", line 194, in live_data
+    df = download_market_data(symbol=symbol, interval=interval)
+  File "C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\data_pipeline.py", line 54, in download_market_data
+    raise ValueError(f"Failed to fetch data from yfinance: {e}")
+ValueError: Failed to fetch data from yfinance: 'NoneType' object is not subscriptable
+2026-07-03 11:36:38 [ERROR] myapp.api_views api_views:44 — API error [500]: Failed to fetch data from yfinance: 'NoneType' object is not subscriptable
+2026-07-03 11:36:38 [ERROR] django.request log:246 — Internal Server Error: /api/live-data/
+2026-07-03 11:36:38 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading BTC-USD | interval=1d | period=5y
+2026-07-03 11:36:38 [ERROR] myapp.api_views api_views:217 — Live data API error
+Traceback (most recent call last):
+  File "C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\data_pipeline.py", line 50, in download_market_data
+    df = ticker.history(period=config["period"], interval=config["interval"])
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\yfinance\utils.py", line 95, in wrapper
+    result = func(*args, **kwargs)
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\yfinance\base.py", line 129, in history
+    return self._lazy_load_price_history().history(*args, **kwargs)
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\yfinance\utils.py", line 95, in wrapper
+    result = func(*args, **kwargs)
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\yfinance\scrapers\history.py", line 224, in history
+    if data['chart']['result'] is None:
+TypeError: 'NoneType' object is not subscriptable
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\api_views.py", line 194, in live_data
+    df = download_market_data(symbol=symbol, interval=interval)
+  File "C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\data_pipeline.py", line 54, in download_market_data
+    raise ValueError(f"Failed to fetch data from yfinance: {e}")
+ValueError: Failed to fetch data from yfinance: 'NoneType' object is not subscriptable
+2026-07-03 11:36:38 [ERROR] myapp.api_views api_views:44 — API error [500]: Failed to fetch data from yfinance: 'NoneType' object is not subscriptable
+2026-07-03 11:36:38 [ERROR] django.request log:246 — Internal Server Error: /api/live-data/
+2026-07-03 11:36:40 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading AAPL | interval=1d | period=5y
+2026-07-03 11:36:40 [ERROR] myapp.views views:199 — Dashboard error for AAPL: Failed to fetch data from yfinance: 'NoneType' object is not subscriptable
+2026-07-03 11:36:40 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading SPY | interval=1d | period=5y
+2026-07-03 11:36:40 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading AAPL | interval=1d | period=5y
+2026-07-03 11:36:40 [ERROR] yfinance base:190 — Failed to get ticker 'SPY' reason: Failed to perform, curl: (6) Could not resolve host: query1.finance.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2026-07-03 11:36:40 [ERROR] myapp.api_views api_views:245 — Candle data API error
+Traceback (most recent call last):
+  File "C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\data_pipeline.py", line 50, in download_market_data
+    df = ticker.history(period=config["period"], interval=config["interval"])
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\yfinance\utils.py", line 95, in wrapper
+    result = func(*args, **kwargs)
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\yfinance\base.py", line 129, in history
+    return self._lazy_load_price_history().history(*args, **kwargs)
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\yfinance\utils.py", line 95, in wrapper
+    result = func(*args, **kwargs)
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\yfinance\scrapers\history.py", line 224, in history
+    if data['chart']['result'] is None:
+TypeError: 'NoneType' object is not subscriptable
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\api_views.py", line 235, in candle_data
+    candles = fetch_candle_data(symbol=symbol, interval=interval)
+  File "C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\data_pipeline.py", line 217, in fetch_candle_data
+    df = harmonize_market_data(symbol, interval)
+  File "C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\data_pipeline.py", line 125, in harmonize_market_data
+    df = download_market_data(symbol, interval)
+  File "C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\data_pipeline.py", line 54, in download_market_data
+    raise ValueError(f"Failed to fetch data from yfinance: {e}")
+ValueError: Failed to fetch data from yfinance: 'NoneType' object is not subscriptable
+2026-07-03 11:36:40 [ERROR] myapp.api_views api_views:44 — API error [500]: Failed to fetch data from yfinance: 'NoneType' object is not subscriptable
+2026-07-03 11:36:40 [ERROR] myapp.api_views api_views:217 — Live data API error
+Traceback (most recent call last):
+  File "C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\data_pipeline.py", line 50, in download_market_data
+    df = ticker.history(period=config["period"], interval=config["interval"])
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\yfinance\utils.py", line 95, in wrapper
+    result = func(*args, **kwargs)
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\yfinance\base.py", line 129, in history
+    return self._lazy_load_price_history().history(*args, **kwargs)
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\yfinance\utils.py", line 95, in wrapper
+    result = func(*args, **kwargs)
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\yfinance\scrapers\history.py", line 224, in history
+    if data['chart']['result'] is None:
+TypeError: 'NoneType' object is not subscriptable
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\api_views.py", line 194, in live_data
+    df = download_market_data(symbol=symbol, interval=interval)
+  File "C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\data_pipeline.py", line 54, in download_market_data
+    raise ValueError(f"Failed to fetch data from yfinance: {e}")
+ValueError: Failed to fetch data from yfinance: 'NoneType' object is not subscriptable
+2026-07-03 11:36:40 [ERROR] django.request log:246 — Internal Server Error: /api/candle-data/
+2026-07-03 11:36:40 [ERROR] myapp.api_views api_views:44 — API error [500]: Failed to fetch data from yfinance: 'NoneType' object is not subscriptable
+2026-07-03 11:36:40 [ERROR] django.request log:246 — Internal Server Error: /api/live-data/
+2026-07-03 11:36:40 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading QQQ | interval=1d | period=5y
+2026-07-03 11:36:40 [ERROR] yfinance base:190 — Failed to get ticker 'QQQ' reason: Failed to perform, curl: (6) Could not resolve host: query1.finance.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2026-07-03 11:36:40 [ERROR] myapp.api_views api_views:217 — Live data API error
+Traceback (most recent call last):
+  File "C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\data_pipeline.py", line 50, in download_market_data
+    df = ticker.history(period=config["period"], interval=config["interval"])
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\yfinance\utils.py", line 95, in wrapper
+    result = func(*args, **kwargs)
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\yfinance\base.py", line 129, in history
+    return self._lazy_load_price_history().history(*args, **kwargs)
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\yfinance\utils.py", line 95, in wrapper
+    result = func(*args, **kwargs)
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\yfinance\scrapers\history.py", line 224, in history
+    if data['chart']['result'] is None:
+TypeError: 'NoneType' object is not subscriptable
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\api_views.py", line 194, in live_data
+    df = download_market_data(symbol=symbol, interval=interval)
+  File "C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\data_pipeline.py", line 54, in download_market_data
+    raise ValueError(f"Failed to fetch data from yfinance: {e}")
+ValueError: Failed to fetch data from yfinance: 'NoneType' object is not subscriptable
+2026-07-03 11:36:40 [ERROR] myapp.api_views api_views:44 — API error [500]: Failed to fetch data from yfinance: 'NoneType' object is not subscriptable
+2026-07-03 11:36:40 [ERROR] django.request log:246 — Internal Server Error: /api/live-data/
+2026-07-03 11:36:40 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading BTC-USD | interval=1d | period=5y
+2026-07-03 11:36:40 [ERROR] myapp.api_views api_views:217 — Live data API error
+Traceback (most recent call last):
+  File "C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\data_pipeline.py", line 50, in download_market_data
+    df = ticker.history(period=config["period"], interval=config["interval"])
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\yfinance\utils.py", line 95, in wrapper
+    result = func(*args, **kwargs)
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\yfinance\base.py", line 129, in history
+    return self._lazy_load_price_history().history(*args, **kwargs)
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\yfinance\utils.py", line 95, in wrapper
+    result = func(*args, **kwargs)
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\yfinance\scrapers\history.py", line 224, in history
+    if data['chart']['result'] is None:
+TypeError: 'NoneType' object is not subscriptable
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\api_views.py", line 194, in live_data
+    df = download_market_data(symbol=symbol, interval=interval)
+  File "C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\data_pipeline.py", line 54, in download_market_data
+    raise ValueError(f"Failed to fetch data from yfinance: {e}")
+ValueError: Failed to fetch data from yfinance: 'NoneType' object is not subscriptable
+2026-07-03 11:36:40 [ERROR] myapp.api_views api_views:44 — API error [500]: Failed to fetch data from yfinance: 'NoneType' object is not subscriptable
+2026-07-03 11:36:40 [ERROR] django.request log:246 — Internal Server Error: /api/live-data/
+2026-07-03 11:37:09 [INFO] rag.pipeline pipeline:98 — Building RAG pipeline from documents…
+2026-07-03 11:37:09 [DEBUG] rag.document_loader document_loader:37 — Loaded static document: market_regimes.txt (6441 chars)
+2026-07-03 11:37:09 [DEBUG] rag.document_loader document_loader:37 — Loaded static document: technical_analysis.txt (9606 chars)
+2026-07-03 11:37:09 [INFO] rag.document_loader document_loader:41 — Loaded 2 static knowledge documents
+2026-07-03 11:37:09 [INFO] rag.document_loader document_loader:114 — Total RAG documents loaded: 2
+2026-07-03 11:37:09 [DEBUG] rag.vector_store vector_store:36 — VectorStore: 10 documents total
+2026-07-03 11:37:10 [WARNING] myapp.api_views api_views:343 — Could not build prediction context for RAG: Scaler artifact not found at C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\stockapp\models\scaler.npy.
+2026-07-03 11:37:10 [DEBUG] rag.retriever retriever:148 — Retrieved 5 documents for query: 'hello AAPL stock'
+2026-07-03 11:37:21 [WARNING] myapp.api_views api_views:343 — Could not build prediction context for RAG: Scaler artifact not found at C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\stockapp\models\scaler.npy.
+2026-07-03 11:37:21 [DEBUG] rag.retriever retriever:148 — Retrieved 5 documents for query: 'Why did the model predict BUY? AAPL stock'
+2026-07-03 11:37:24 [WARNING] myapp.api_views api_views:343 — Could not build prediction context for RAG: Scaler artifact not found at C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\stockapp\models\scaler.npy.
+2026-07-03 11:37:24 [DEBUG] rag.retriever retriever:148 — Retrieved 5 documents for query: 'What does the RSI indicate? AAPL stock'
+2026-07-03 11:37:40 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading SPY | interval=1d | period=5y
+2026-07-03 11:37:40 [ERROR] yfinance base:190 — Failed to get ticker 'SPY' reason: Failed to perform, curl: (6) Could not resolve host: query1.finance.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2026-07-03 11:37:40 [ERROR] myapp.api_views api_views:217 — Live data API error
+Traceback (most recent call last):
+  File "C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\data_pipeline.py", line 50, in download_market_data
+    df = ticker.history(period=config["period"], interval=config["interval"])
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\yfinance\utils.py", line 95, in wrapper
+    result = func(*args, **kwargs)
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\yfinance\base.py", line 129, in history
+    return self._lazy_load_price_history().history(*args, **kwargs)
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\yfinance\utils.py", line 95, in wrapper
+    result = func(*args, **kwargs)
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\yfinance\scrapers\history.py", line 224, in history
+    if data['chart']['result'] is None:
+TypeError: 'NoneType' object is not subscriptable
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\api_views.py", line 194, in live_data
+    df = download_market_data(symbol=symbol, interval=interval)
+  File "C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\data_pipeline.py", line 54, in download_market_data
+    raise ValueError(f"Failed to fetch data from yfinance: {e}")
+ValueError: Failed to fetch data from yfinance: 'NoneType' object is not subscriptable
+2026-07-03 11:37:40 [ERROR] myapp.api_views api_views:44 — API error [500]: Failed to fetch data from yfinance: 'NoneType' object is not subscriptable
+2026-07-03 11:37:40 [ERROR] django.request log:246 — Internal Server Error: /api/live-data/
+2026-07-03 11:37:40 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading QQQ | interval=1d | period=5y
+2026-07-03 11:37:40 [ERROR] yfinance base:190 — Failed to get ticker 'QQQ' reason: Failed to perform, curl: (6) Could not resolve host: query1.finance.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2026-07-03 11:37:40 [ERROR] myapp.api_views api_views:217 — Live data API error
+Traceback (most recent call last):
+  File "C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\data_pipeline.py", line 50, in download_market_data
+    df = ticker.history(period=config["period"], interval=config["interval"])
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\yfinance\utils.py", line 95, in wrapper
+    result = func(*args, **kwargs)
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\yfinance\base.py", line 129, in history
+    return self._lazy_load_price_history().history(*args, **kwargs)
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\yfinance\utils.py", line 95, in wrapper
+    result = func(*args, **kwargs)
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\yfinance\scrapers\history.py", line 224, in history
+    if data['chart']['result'] is None:
+TypeError: 'NoneType' object is not subscriptable
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\api_views.py", line 194, in live_data
+    df = download_market_data(symbol=symbol, interval=interval)
+  File "C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\data_pipeline.py", line 54, in download_market_data
+    raise ValueError(f"Failed to fetch data from yfinance: {e}")
+ValueError: Failed to fetch data from yfinance: 'NoneType' object is not subscriptable
+2026-07-03 11:37:40 [ERROR] myapp.api_views api_views:44 — API error [500]: Failed to fetch data from yfinance: 'NoneType' object is not subscriptable
+2026-07-03 11:37:40 [ERROR] django.request log:246 — Internal Server Error: /api/live-data/
+2026-07-03 11:37:40 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading BTC-USD | interval=1d | period=5y
+2026-07-03 11:37:40 [ERROR] myapp.api_views api_views:217 — Live data API error
+Traceback (most recent call last):
+  File "C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\data_pipeline.py", line 50, in download_market_data
+    df = ticker.history(period=config["period"], interval=config["interval"])
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\yfinance\utils.py", line 95, in wrapper
+    result = func(*args, **kwargs)
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\yfinance\base.py", line 129, in history
+    return self._lazy_load_price_history().history(*args, **kwargs)
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\yfinance\utils.py", line 95, in wrapper
+    result = func(*args, **kwargs)
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\yfinance\scrapers\history.py", line 224, in history
+    if data['chart']['result'] is None:
+TypeError: 'NoneType' object is not subscriptable
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\api_views.py", line 194, in live_data
+    df = download_market_data(symbol=symbol, interval=interval)
+  File "C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\data_pipeline.py", line 54, in download_market_data
+    raise ValueError(f"Failed to fetch data from yfinance: {e}")
+ValueError: Failed to fetch data from yfinance: 'NoneType' object is not subscriptable
+2026-07-03 11:37:40 [ERROR] myapp.api_views api_views:44 — API error [500]: Failed to fetch data from yfinance: 'NoneType' object is not subscriptable
+2026-07-03 11:37:40 [ERROR] django.request log:246 — Internal Server Error: /api/live-data/
+2026-07-03 11:37:43 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading AAPL | interval=5m | period=7d
+2026-07-03 11:37:43 [ERROR] myapp.views views:199 — Dashboard error for AAPL: Failed to fetch data from yfinance: 'NoneType' object is not subscriptable
+2026-07-03 11:37:43 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading SPY | interval=1d | period=5y
+2026-07-03 11:37:43 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading AAPL | interval=5m | period=7d
+2026-07-03 11:37:43 [ERROR] yfinance base:190 — Failed to get ticker 'SPY' reason: Failed to perform, curl: (6) Could not resolve host: query1.finance.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2026-07-03 11:37:43 [ERROR] myapp.api_views api_views:245 — Candle data API error
+Traceback (most recent call last):
+  File "C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\data_pipeline.py", line 50, in download_market_data
+    df = ticker.history(period=config["period"], interval=config["interval"])
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\yfinance\utils.py", line 95, in wrapper
+    result = func(*args, **kwargs)
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\yfinance\base.py", line 129, in history
+    return self._lazy_load_price_history().history(*args, **kwargs)
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\yfinance\utils.py", line 95, in wrapper
+    result = func(*args, **kwargs)
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\yfinance\scrapers\history.py", line 224, in history
+    if data['chart']['result'] is None:
+TypeError: 'NoneType' object is not subscriptable
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\api_views.py", line 235, in candle_data
+    candles = fetch_candle_data(symbol=symbol, interval=interval)
+  File "C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\data_pipeline.py", line 217, in fetch_candle_data
+    df = harmonize_market_data(symbol, interval)
+  File "C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\data_pipeline.py", line 125, in harmonize_market_data
+    df = download_market_data(symbol, interval)
+  File "C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\data_pipeline.py", line 54, in download_market_data
+    raise ValueError(f"Failed to fetch data from yfinance: {e}")
+ValueError: Failed to fetch data from yfinance: 'NoneType' object is not subscriptable
+2026-07-03 11:37:43 [ERROR] myapp.api_views api_views:44 — API error [500]: Failed to fetch data from yfinance: 'NoneType' object is not subscriptable
+2026-07-03 11:37:43 [ERROR] django.request log:246 — Internal Server Error: /api/candle-data/
+2026-07-03 11:37:43 [ERROR] myapp.api_views api_views:217 — Live data API error
+Traceback (most recent call last):
+  File "C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\data_pipeline.py", line 50, in download_market_data
+    df = ticker.history(period=config["period"], interval=config["interval"])
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\yfinance\utils.py", line 95, in wrapper
+    result = func(*args, **kwargs)
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\yfinance\base.py", line 129, in history
+    return self._lazy_load_price_history().history(*args, **kwargs)
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\yfinance\utils.py", line 95, in wrapper
+    result = func(*args, **kwargs)
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\yfinance\scrapers\history.py", line 224, in history
+    if data['chart']['result'] is None:
+TypeError: 'NoneType' object is not subscriptable
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\api_views.py", line 194, in live_data
+    df = download_market_data(symbol=symbol, interval=interval)
+  File "C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\data_pipeline.py", line 54, in download_market_data
+    raise ValueError(f"Failed to fetch data from yfinance: {e}")
+ValueError: Failed to fetch data from yfinance: 'NoneType' object is not subscriptable
+2026-07-03 11:37:43 [ERROR] myapp.api_views api_views:44 — API error [500]: Failed to fetch data from yfinance: 'NoneType' object is not subscriptable
+2026-07-03 11:37:43 [ERROR] django.request log:246 — Internal Server Error: /api/live-data/
+2026-07-03 11:37:43 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading QQQ | interval=1d | period=5y
+2026-07-03 11:37:43 [ERROR] yfinance base:190 — Failed to get ticker 'QQQ' reason: Failed to perform, curl: (6) Could not resolve host: query1.finance.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2026-07-03 11:37:43 [ERROR] myapp.api_views api_views:217 — Live data API error
+Traceback (most recent call last):
+  File "C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\data_pipeline.py", line 50, in download_market_data
+    df = ticker.history(period=config["period"], interval=config["interval"])
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\yfinance\utils.py", line 95, in wrapper
+    result = func(*args, **kwargs)
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\yfinance\base.py", line 129, in history
+    return self._lazy_load_price_history().history(*args, **kwargs)
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\yfinance\utils.py", line 95, in wrapper
+    result = func(*args, **kwargs)
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\yfinance\scrapers\history.py", line 224, in history
+    if data['chart']['result'] is None:
+TypeError: 'NoneType' object is not subscriptable
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\api_views.py", line 194, in live_data
+    df = download_market_data(symbol=symbol, interval=interval)
+  File "C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\data_pipeline.py", line 54, in download_market_data
+    raise ValueError(f"Failed to fetch data from yfinance: {e}")
+ValueError: Failed to fetch data from yfinance: 'NoneType' object is not subscriptable
+2026-07-03 11:37:43 [ERROR] myapp.api_views api_views:44 — API error [500]: Failed to fetch data from yfinance: 'NoneType' object is not subscriptable
+2026-07-03 11:37:43 [ERROR] django.request log:246 — Internal Server Error: /api/live-data/
+2026-07-03 11:37:43 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading BTC-USD | interval=1d | period=5y
+2026-07-03 11:37:43 [ERROR] myapp.api_views api_views:217 — Live data API error
+Traceback (most recent call last):
+  File "C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\data_pipeline.py", line 50, in download_market_data
+    df = ticker.history(period=config["period"], interval=config["interval"])
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\yfinance\utils.py", line 95, in wrapper
+    result = func(*args, **kwargs)
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\yfinance\base.py", line 129, in history
+    return self._lazy_load_price_history().history(*args, **kwargs)
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\yfinance\utils.py", line 95, in wrapper
+    result = func(*args, **kwargs)
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\yfinance\scrapers\history.py", line 224, in history
+    if data['chart']['result'] is None:
+TypeError: 'NoneType' object is not subscriptable
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\api_views.py", line 194, in live_data
+    df = download_market_data(symbol=symbol, interval=interval)
+  File "C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\data_pipeline.py", line 54, in download_market_data
+    raise ValueError(f"Failed to fetch data from yfinance: {e}")
+ValueError: Failed to fetch data from yfinance: 'NoneType' object is not subscriptable
+2026-07-03 11:37:43 [ERROR] myapp.api_views api_views:44 — API error [500]: Failed to fetch data from yfinance: 'NoneType' object is not subscriptable
+2026-07-03 11:37:43 [ERROR] django.request log:246 — Internal Server Error: /api/live-data/
+2026-07-03 11:37:45 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading AAPL | interval=15m | period=60d
+2026-07-03 11:37:45 [ERROR] myapp.views views:199 — Dashboard error for AAPL: Failed to fetch data from yfinance: 'NoneType' object is not subscriptable
+2026-07-03 11:37:45 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading SPY | interval=1d | period=5y
+2026-07-03 11:37:45 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading AAPL | interval=15m | period=60d
+2026-07-03 11:37:45 [ERROR] yfinance base:190 — Failed to get ticker 'SPY' reason: Failed to perform, curl: (6) Could not resolve host: query1.finance.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2026-07-03 11:37:45 [ERROR] myapp.api_views api_views:245 — Candle data API error
+Traceback (most recent call last):
+  File "C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\data_pipeline.py", line 50, in download_market_data
+    df = ticker.history(period=config["period"], interval=config["interval"])
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\yfinance\utils.py", line 95, in wrapper
+    result = func(*args, **kwargs)
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\yfinance\base.py", line 129, in history
+    return self._lazy_load_price_history().history(*args, **kwargs)
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\yfinance\utils.py", line 95, in wrapper
+    result = func(*args, **kwargs)
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\yfinance\scrapers\history.py", line 224, in history
+    if data['chart']['result'] is None:
+TypeError: 'NoneType' object is not subscriptable
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\api_views.py", line 235, in candle_data
+    candles = fetch_candle_data(symbol=symbol, interval=interval)
+  File "C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\data_pipeline.py", line 217, in fetch_candle_data
+    df = harmonize_market_data(symbol, interval)
+  File "C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\data_pipeline.py", line 125, in harmonize_market_data
+    df = download_market_data(symbol, interval)
+  File "C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\data_pipeline.py", line 54, in download_market_data
+    raise ValueError(f"Failed to fetch data from yfinance: {e}")
+ValueError: Failed to fetch data from yfinance: 'NoneType' object is not subscriptable
+2026-07-03 11:37:45 [ERROR] myapp.api_views api_views:44 — API error [500]: Failed to fetch data from yfinance: 'NoneType' object is not subscriptable
+2026-07-03 11:37:45 [ERROR] django.request log:246 — Internal Server Error: /api/candle-data/
+2026-07-03 11:37:45 [ERROR] myapp.api_views api_views:217 — Live data API error
+Traceback (most recent call last):
+  File "C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\data_pipeline.py", line 50, in download_market_data
+    df = ticker.history(period=config["period"], interval=config["interval"])
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\yfinance\utils.py", line 95, in wrapper
+    result = func(*args, **kwargs)
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\yfinance\base.py", line 129, in history
+    return self._lazy_load_price_history().history(*args, **kwargs)
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\yfinance\utils.py", line 95, in wrapper
+    result = func(*args, **kwargs)
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\yfinance\scrapers\history.py", line 224, in history
+    if data['chart']['result'] is None:
+TypeError: 'NoneType' object is not subscriptable
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\api_views.py", line 194, in live_data
+    df = download_market_data(symbol=symbol, interval=interval)
+  File "C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\data_pipeline.py", line 54, in download_market_data
+    raise ValueError(f"Failed to fetch data from yfinance: {e}")
+ValueError: Failed to fetch data from yfinance: 'NoneType' object is not subscriptable
+2026-07-03 11:37:45 [ERROR] myapp.api_views api_views:44 — API error [500]: Failed to fetch data from yfinance: 'NoneType' object is not subscriptable
+2026-07-03 11:37:45 [ERROR] django.request log:246 — Internal Server Error: /api/live-data/
+2026-07-03 11:37:45 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading QQQ | interval=1d | period=5y
+2026-07-03 11:37:45 [ERROR] yfinance base:190 — Failed to get ticker 'QQQ' reason: Failed to perform, curl: (6) Could not resolve host: query1.finance.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2026-07-03 11:37:45 [ERROR] myapp.api_views api_views:217 — Live data API error
+Traceback (most recent call last):
+  File "C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\data_pipeline.py", line 50, in download_market_data
+    df = ticker.history(period=config["period"], interval=config["interval"])
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\yfinance\utils.py", line 95, in wrapper
+    result = func(*args, **kwargs)
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\yfinance\base.py", line 129, in history
+    return self._lazy_load_price_history().history(*args, **kwargs)
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\yfinance\utils.py", line 95, in wrapper
+    result = func(*args, **kwargs)
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\yfinance\scrapers\history.py", line 224, in history
+    if data['chart']['result'] is None:
+TypeError: 'NoneType' object is not subscriptable
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\api_views.py", line 194, in live_data
+    df = download_market_data(symbol=symbol, interval=interval)
+  File "C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\data_pipeline.py", line 54, in download_market_data
+    raise ValueError(f"Failed to fetch data from yfinance: {e}")
+ValueError: Failed to fetch data from yfinance: 'NoneType' object is not subscriptable
+2026-07-03 11:37:45 [ERROR] myapp.api_views api_views:44 — API error [500]: Failed to fetch data from yfinance: 'NoneType' object is not subscriptable
+2026-07-03 11:37:45 [ERROR] django.request log:246 — Internal Server Error: /api/live-data/
+2026-07-03 11:37:45 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading BTC-USD | interval=1d | period=5y
+2026-07-03 11:37:45 [ERROR] myapp.api_views api_views:217 — Live data API error
+Traceback (most recent call last):
+  File "C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\data_pipeline.py", line 50, in download_market_data
+    df = ticker.history(period=config["period"], interval=config["interval"])
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\yfinance\utils.py", line 95, in wrapper
+    result = func(*args, **kwargs)
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\yfinance\base.py", line 129, in history
+    return self._lazy_load_price_history().history(*args, **kwargs)
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\yfinance\utils.py", line 95, in wrapper
+    result = func(*args, **kwargs)
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\yfinance\scrapers\history.py", line 224, in history
+    if data['chart']['result'] is None:
+TypeError: 'NoneType' object is not subscriptable
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\api_views.py", line 194, in live_data
+    df = download_market_data(symbol=symbol, interval=interval)
+  File "C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\data_pipeline.py", line 54, in download_market_data
+    raise ValueError(f"Failed to fetch data from yfinance: {e}")
+ValueError: Failed to fetch data from yfinance: 'NoneType' object is not subscriptable
+2026-07-03 11:37:45 [ERROR] myapp.api_views api_views:44 — API error [500]: Failed to fetch data from yfinance: 'NoneType' object is not subscriptable
+2026-07-03 11:37:45 [ERROR] django.request log:246 — Internal Server Error: /api/live-data/
+2026-07-03 11:37:46 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading AAPL | interval=5m | period=7d
+2026-07-03 11:37:46 [ERROR] myapp.views views:199 — Dashboard error for AAPL: Failed to fetch data from yfinance: 'NoneType' object is not subscriptable
+2026-07-03 11:37:47 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading SPY | interval=1d | period=5y
+2026-07-03 11:37:47 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading AAPL | interval=5m | period=7d
+2026-07-03 11:37:47 [ERROR] yfinance base:190 — Failed to get ticker 'SPY' reason: Failed to perform, curl: (6) Could not resolve host: query1.finance.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2026-07-03 11:37:47 [ERROR] myapp.api_views api_views:245 — Candle data API error
+Traceback (most recent call last):
+  File "C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\data_pipeline.py", line 50, in download_market_data
+    df = ticker.history(period=config["period"], interval=config["interval"])
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\yfinance\utils.py", line 95, in wrapper
+    result = func(*args, **kwargs)
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\yfinance\base.py", line 129, in history
+    return self._lazy_load_price_history().history(*args, **kwargs)
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\yfinance\utils.py", line 95, in wrapper
+    result = func(*args, **kwargs)
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\yfinance\scrapers\history.py", line 224, in history
+    if data['chart']['result'] is None:
+TypeError: 'NoneType' object is not subscriptable
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\api_views.py", line 235, in candle_data
+    candles = fetch_candle_data(symbol=symbol, interval=interval)
+  File "C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\data_pipeline.py", line 217, in fetch_candle_data
+    df = harmonize_market_data(symbol, interval)
+  File "C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\data_pipeline.py", line 125, in harmonize_market_data
+    df = download_market_data(symbol, interval)
+  File "C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\data_pipeline.py", line 54, in download_market_data
+    raise ValueError(f"Failed to fetch data from yfinance: {e}")
+ValueError: Failed to fetch data from yfinance: 'NoneType' object is not subscriptable
+2026-07-03 11:37:47 [ERROR] myapp.api_views api_views:44 — API error [500]: Failed to fetch data from yfinance: 'NoneType' object is not subscriptable
+2026-07-03 11:37:47 [ERROR] django.request log:246 — Internal Server Error: /api/candle-data/
+2026-07-03 11:37:47 [ERROR] myapp.api_views api_views:217 — Live data API error
+Traceback (most recent call last):
+  File "C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\data_pipeline.py", line 50, in download_market_data
+    df = ticker.history(period=config["period"], interval=config["interval"])
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\yfinance\utils.py", line 95, in wrapper
+    result = func(*args, **kwargs)
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\yfinance\base.py", line 129, in history
+    return self._lazy_load_price_history().history(*args, **kwargs)
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\yfinance\utils.py", line 95, in wrapper
+    result = func(*args, **kwargs)
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\yfinance\scrapers\history.py", line 224, in history
+    if data['chart']['result'] is None:
+TypeError: 'NoneType' object is not subscriptable
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\api_views.py", line 194, in live_data
+    df = download_market_data(symbol=symbol, interval=interval)
+  File "C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\data_pipeline.py", line 54, in download_market_data
+    raise ValueError(f"Failed to fetch data from yfinance: {e}")
+ValueError: Failed to fetch data from yfinance: 'NoneType' object is not subscriptable
+2026-07-03 11:37:47 [ERROR] myapp.api_views api_views:44 — API error [500]: Failed to fetch data from yfinance: 'NoneType' object is not subscriptable
+2026-07-03 11:37:47 [ERROR] django.request log:246 — Internal Server Error: /api/live-data/
+2026-07-03 11:37:47 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading QQQ | interval=1d | period=5y
+2026-07-03 11:37:47 [ERROR] yfinance base:190 — Failed to get ticker 'QQQ' reason: Failed to perform, curl: (6) Could not resolve host: query1.finance.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2026-07-03 11:37:47 [ERROR] myapp.api_views api_views:217 — Live data API error
+Traceback (most recent call last):
+  File "C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\data_pipeline.py", line 50, in download_market_data
+    df = ticker.history(period=config["period"], interval=config["interval"])
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\yfinance\utils.py", line 95, in wrapper
+    result = func(*args, **kwargs)
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\yfinance\base.py", line 129, in history
+    return self._lazy_load_price_history().history(*args, **kwargs)
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\yfinance\utils.py", line 95, in wrapper
+    result = func(*args, **kwargs)
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\yfinance\scrapers\history.py", line 224, in history
+    if data['chart']['result'] is None:
+TypeError: 'NoneType' object is not subscriptable
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\api_views.py", line 194, in live_data
+    df = download_market_data(symbol=symbol, interval=interval)
+  File "C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\data_pipeline.py", line 54, in download_market_data
+    raise ValueError(f"Failed to fetch data from yfinance: {e}")
+ValueError: Failed to fetch data from yfinance: 'NoneType' object is not subscriptable
+2026-07-03 11:37:47 [ERROR] myapp.api_views api_views:44 — API error [500]: Failed to fetch data from yfinance: 'NoneType' object is not subscriptable
+2026-07-03 11:37:47 [ERROR] django.request log:246 — Internal Server Error: /api/live-data/
+2026-07-03 11:37:47 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading BTC-USD | interval=1d | period=5y
+2026-07-03 11:37:47 [ERROR] myapp.api_views api_views:217 — Live data API error
+Traceback (most recent call last):
+  File "C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\data_pipeline.py", line 50, in download_market_data
+    df = ticker.history(period=config["period"], interval=config["interval"])
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\yfinance\utils.py", line 95, in wrapper
+    result = func(*args, **kwargs)
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\yfinance\base.py", line 129, in history
+    return self._lazy_load_price_history().history(*args, **kwargs)
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\yfinance\utils.py", line 95, in wrapper
+    result = func(*args, **kwargs)
+  File "C:\Users\abhishek\AppData\Local\Programs\Python\Python38\lib\site-packages\yfinance\scrapers\history.py", line 224, in history
+    if data['chart']['result'] is None:
+TypeError: 'NoneType' object is not subscriptable
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\api_views.py", line 194, in live_data
+    df = download_market_data(symbol=symbol, interval=interval)
+  File "C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\data_pipeline.py", line 54, in download_market_data
+    raise ValueError(f"Failed to fetch data from yfinance: {e}")
+ValueError: Failed to fetch data from yfinance: 'NoneType' object is not subscriptable
+2026-07-03 11:37:47 [ERROR] myapp.api_views api_views:44 — API error [500]: Failed to fetch data from yfinance: 'NoneType' object is not subscriptable
+2026-07-03 11:37:47 [ERROR] django.request log:246 — Internal Server Error: /api/live-data/
+2026-07-03 11:40:20 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading AAPL | interval=1d | period=5y
+2026-07-03 11:40:21 [WARNING] myapp.views views:40 — Could not load model artifacts: Scaler artifact not found at C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\stockapp\models\scaler.npy.
+2026-07-03 11:40:23 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading SPY | interval=1d | period=5y
+2026-07-03 11:40:23 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading AAPL | interval=1d | period=5y
+2026-07-03 11:40:23 [WARNING] django.request log:246 — Not Found: /favicon.ico
+2026-07-03 11:40:24 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading QQQ | interval=1d | period=5y
+2026-07-03 11:40:24 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading BTC-USD | interval=1d | period=5y
+2026-07-03 11:40:28 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading AAPL | interval=1d | period=5y
+2026-07-03 11:40:29 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading AAPL | interval=1d | period=5y
+2026-07-03 11:40:30 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading AAPL | interval=1d | period=5y
+2026-07-03 11:40:32 [WARNING] myapp.api_views api_views:343 — Could not build prediction context for RAG: Scaler artifact not found at C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\stockapp\models\scaler.npy.
+2026-07-03 11:40:32 [DEBUG] rag.retriever retriever:148 — Retrieved 5 documents for query: 'Why did the model predict BUY? AAPL stock'
+2026-07-03 11:40:55 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading SPY | interval=1d | period=5y
+2026-07-03 11:40:56 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading QQQ | interval=1d | period=5y
+2026-07-03 11:40:56 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading BTC-USD | interval=1d | period=5y
+2026-07-03 11:40:58 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading STOCK MARKET | interval=1d | period=5y
+2026-07-03 11:41:00 [ERROR] yfinance history:276 — $STOCK MARKET: possibly delisted; no price data found  (period=5y) (Yahoo error = "No data found, symbol may be delisted")
+2026-07-03 11:41:00 [WARNING] myapp.data_pipeline data_pipeline:52 — yFinance returned empty DataFrame for STOCK MARKET at interval 1d.
+2026-07-03 11:41:00 [ERROR] myapp.views views:199 — Dashboard error for STOCK MARKET: yfinance returned empty data for STOCK MARKET at interval 1d.
+2026-07-03 11:41:00 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading SPY | interval=1d | period=5y
+2026-07-03 11:41:00 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading STOCK MARKET | interval=1d | period=5y
+2026-07-03 11:41:01 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading QQQ | interval=1d | period=5y
+2026-07-03 11:41:01 [ERROR] yfinance history:276 — $STOCK MARKET: possibly delisted; no price data found  (period=5y) (Yahoo error = "No data found, symbol may be delisted")
+2026-07-03 11:41:01 [WARNING] myapp.data_pipeline data_pipeline:52 — yFinance returned empty DataFrame for STOCK MARKET at interval 1d.
+2026-07-03 11:41:01 [ERROR] myapp.api_views api_views:245 — Candle data API error
+Traceback (most recent call last):
+  File "C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\api_views.py", line 235, in candle_data
+    candles = fetch_candle_data(symbol=symbol, interval=interval)
+  File "C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\data_pipeline.py", line 217, in fetch_candle_data
+    df = harmonize_market_data(symbol, interval)
+  File "C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\data_pipeline.py", line 125, in harmonize_market_data
+    df = download_market_data(symbol, interval)
+  File "C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\data_pipeline.py", line 57, in download_market_data
+    raise ValueError(f"yfinance returned empty data for {symbol} at interval {interval}.")
+ValueError: yfinance returned empty data for STOCK MARKET at interval 1d.
+2026-07-03 11:41:01 [ERROR] myapp.api_views api_views:44 — API error [500]: yfinance returned empty data for STOCK MARKET at interval 1d.
+2026-07-03 11:41:01 [ERROR] django.request log:246 — Internal Server Error: /api/candle-data/
+2026-07-03 11:41:02 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading BTC-USD | interval=1d | period=5y
+2026-07-03 11:41:37 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading STOCK MARKET | interval=5m | period=7d
+2026-07-03 11:41:38 [ERROR] yfinance history:276 — $STOCK MARKET: possibly delisted; no price data found  (period=7d) (Yahoo error = "No data found, symbol may be delisted")
+2026-07-03 11:41:38 [WARNING] myapp.data_pipeline data_pipeline:52 — yFinance returned empty DataFrame for STOCK MARKET at interval 5m.
+2026-07-03 11:41:38 [ERROR] myapp.views views:199 — Dashboard error for STOCK MARKET: yfinance returned empty data for STOCK MARKET at interval 5m.
+2026-07-03 11:41:38 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading SPY | interval=1d | period=5y
+2026-07-03 11:41:38 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading STOCK MARKET | interval=5m | period=7d
+2026-07-03 11:41:38 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading QQQ | interval=1d | period=5y
+2026-07-03 11:41:39 [ERROR] yfinance history:276 — $STOCK MARKET: possibly delisted; no price data found  (period=7d) (Yahoo error = "No data found, symbol may be delisted")
+2026-07-03 11:41:39 [WARNING] myapp.data_pipeline data_pipeline:52 — yFinance returned empty DataFrame for STOCK MARKET at interval 5m.
+2026-07-03 11:41:39 [ERROR] myapp.api_views api_views:245 — Candle data API error
+Traceback (most recent call last):
+  File "C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\api_views.py", line 235, in candle_data
+    candles = fetch_candle_data(symbol=symbol, interval=interval)
+  File "C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\data_pipeline.py", line 217, in fetch_candle_data
+    df = harmonize_market_data(symbol, interval)
+  File "C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\data_pipeline.py", line 125, in harmonize_market_data
+    df = download_market_data(symbol, interval)
+  File "C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\data_pipeline.py", line 57, in download_market_data
+    raise ValueError(f"yfinance returned empty data for {symbol} at interval {interval}.")
+ValueError: yfinance returned empty data for STOCK MARKET at interval 5m.
+2026-07-03 11:41:39 [ERROR] myapp.api_views api_views:44 — API error [500]: yfinance returned empty data for STOCK MARKET at interval 5m.
+2026-07-03 11:41:39 [ERROR] django.request log:246 — Internal Server Error: /api/candle-data/
+2026-07-03 11:41:39 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading BTC-USD | interval=1d | period=5y
+2026-07-03 11:41:39 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading STOCK MARKET | interval=15m | period=60d
+2026-07-03 11:41:40 [ERROR] yfinance history:276 — $STOCK MARKET: possibly delisted; no price data found  (period=60d) (Yahoo error = "No data found, symbol may be delisted")
+2026-07-03 11:41:40 [WARNING] myapp.data_pipeline data_pipeline:52 — yFinance returned empty DataFrame for STOCK MARKET at interval 15m.
+2026-07-03 11:41:40 [ERROR] myapp.views views:199 — Dashboard error for STOCK MARKET: yfinance returned empty data for STOCK MARKET at interval 15m.
+2026-07-03 11:41:40 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading SPY | interval=1d | period=5y
+2026-07-03 11:41:40 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading STOCK MARKET | interval=15m | period=60d
+2026-07-03 11:41:40 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading QQQ | interval=1d | period=5y
+2026-07-03 11:41:41 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading BTC-USD | interval=1d | period=5y
+2026-07-03 11:41:41 [ERROR] yfinance history:276 — $STOCK MARKET: possibly delisted; no price data found  (period=60d) (Yahoo error = "No data found, symbol may be delisted")
+2026-07-03 11:41:41 [WARNING] myapp.data_pipeline data_pipeline:52 — yFinance returned empty DataFrame for STOCK MARKET at interval 15m.
+2026-07-03 11:41:41 [ERROR] myapp.api_views api_views:245 — Candle data API error
+Traceback (most recent call last):
+  File "C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\api_views.py", line 235, in candle_data
+    candles = fetch_candle_data(symbol=symbol, interval=interval)
+  File "C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\data_pipeline.py", line 217, in fetch_candle_data
+    df = harmonize_market_data(symbol, interval)
+  File "C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\data_pipeline.py", line 125, in harmonize_market_data
+    df = download_market_data(symbol, interval)
+  File "C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\data_pipeline.py", line 57, in download_market_data
+    raise ValueError(f"yfinance returned empty data for {symbol} at interval {interval}.")
+ValueError: yfinance returned empty data for STOCK MARKET at interval 15m.
+2026-07-03 11:41:41 [ERROR] myapp.api_views api_views:44 — API error [500]: yfinance returned empty data for STOCK MARKET at interval 15m.
+2026-07-03 11:41:41 [ERROR] django.request log:246 — Internal Server Error: /api/candle-data/
+2026-07-03 11:41:46 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading STOCK MARKET | interval=15m | period=60d
+2026-07-03 11:41:47 [ERROR] yfinance history:276 — $STOCK MARKET: possibly delisted; no price data found  (period=60d) (Yahoo error = "No data found, symbol may be delisted")
+2026-07-03 11:41:47 [WARNING] myapp.data_pipeline data_pipeline:52 — yFinance returned empty DataFrame for STOCK MARKET at interval 15m.
+2026-07-03 11:41:47 [ERROR] myapp.api_views api_views:245 — Candle data API error
+Traceback (most recent call last):
+  File "C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\api_views.py", line 235, in candle_data
+    candles = fetch_candle_data(symbol=symbol, interval=interval)
+  File "C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\data_pipeline.py", line 217, in fetch_candle_data
+    df = harmonize_market_data(symbol, interval)
+  File "C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\data_pipeline.py", line 125, in harmonize_market_data
+    df = download_market_data(symbol, interval)
+  File "C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\data_pipeline.py", line 57, in download_market_data
+    raise ValueError(f"yfinance returned empty data for {symbol} at interval {interval}.")
+ValueError: yfinance returned empty data for STOCK MARKET at interval 15m.
+2026-07-03 11:41:47 [ERROR] myapp.api_views api_views:44 — API error [500]: yfinance returned empty data for STOCK MARKET at interval 15m.
+2026-07-03 11:41:47 [ERROR] django.request log:246 — Internal Server Error: /api/candle-data/
+2026-07-03 11:41:47 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading STOCK MARKET | interval=15m | period=60d
+2026-07-03 11:41:48 [ERROR] yfinance history:276 — $STOCK MARKET: possibly delisted; no price data found  (period=60d) (Yahoo error = "No data found, symbol may be delisted")
+2026-07-03 11:41:48 [WARNING] myapp.data_pipeline data_pipeline:52 — yFinance returned empty DataFrame for STOCK MARKET at interval 15m.
+2026-07-03 11:41:48 [ERROR] myapp.api_views api_views:245 — Candle data API error
+Traceback (most recent call last):
+  File "C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\api_views.py", line 235, in candle_data
+    candles = fetch_candle_data(symbol=symbol, interval=interval)
+  File "C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\data_pipeline.py", line 217, in fetch_candle_data
+    df = harmonize_market_data(symbol, interval)
+  File "C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\data_pipeline.py", line 125, in harmonize_market_data
+    df = download_market_data(symbol, interval)
+  File "C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\data_pipeline.py", line 57, in download_market_data
+    raise ValueError(f"yfinance returned empty data for {symbol} at interval {interval}.")
+ValueError: yfinance returned empty data for STOCK MARKET at interval 15m.
+2026-07-03 11:41:48 [ERROR] myapp.api_views api_views:44 — API error [500]: yfinance returned empty data for STOCK MARKET at interval 15m.
+2026-07-03 11:41:48 [ERROR] django.request log:246 — Internal Server Error: /api/candle-data/
+2026-07-03 11:41:48 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading STOCK MARKET | interval=15m | period=60d
+2026-07-03 11:41:49 [ERROR] yfinance history:276 — $STOCK MARKET: possibly delisted; no price data found  (period=60d) (Yahoo error = "No data found, symbol may be delisted")
+2026-07-03 11:41:49 [WARNING] myapp.data_pipeline data_pipeline:52 — yFinance returned empty DataFrame for STOCK MARKET at interval 15m.
+2026-07-03 11:41:49 [ERROR] myapp.api_views api_views:245 — Candle data API error
+Traceback (most recent call last):
+  File "C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\api_views.py", line 235, in candle_data
+    candles = fetch_candle_data(symbol=symbol, interval=interval)
+  File "C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\data_pipeline.py", line 217, in fetch_candle_data
+    df = harmonize_market_data(symbol, interval)
+  File "C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\data_pipeline.py", line 125, in harmonize_market_data
+    df = download_market_data(symbol, interval)
+  File "C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\data_pipeline.py", line 57, in download_market_data
+    raise ValueError(f"yfinance returned empty data for {symbol} at interval {interval}.")
+ValueError: yfinance returned empty data for STOCK MARKET at interval 15m.
+2026-07-03 11:41:49 [ERROR] myapp.api_views api_views:44 — API error [500]: yfinance returned empty data for STOCK MARKET at interval 15m.
+2026-07-03 11:41:49 [ERROR] django.request log:246 — Internal Server Error: /api/candle-data/
+2026-07-03 11:41:51 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading SPY | interval=1d | period=5y
+2026-07-03 11:41:52 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading QQQ | interval=1d | period=5y
+2026-07-03 11:41:52 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading BTC-USD | interval=1d | period=5y
+2026-07-03 11:41:53 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading SPY | interval=1d | period=5y
+2026-07-03 11:41:53 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading QQQ | interval=1d | period=5y
+2026-07-03 11:41:53 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading BTC-USD | interval=1d | period=5y
+2026-07-03 11:41:55 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading AAPL | interval=1d | period=5y
+2026-07-03 11:41:55 [WARNING] myapp.views views:40 — Could not load model artifacts: Scaler artifact not found at C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\stockapp\models\scaler.npy.
+2026-07-03 11:41:55 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading SPY | interval=1d | period=5y
+2026-07-03 11:41:55 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading AAPL | interval=1d | period=5y
+2026-07-03 11:41:56 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading QQQ | interval=1d | period=5y
+2026-07-03 11:41:56 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading BTC-USD | interval=1d | period=5y
+2026-07-03 11:42:01 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading AAPL | interval=1d | period=5y
+2026-07-03 11:42:11 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading AAPL | interval=1d | period=5y
+2026-07-03 11:42:12 [WARNING] myapp.views views:40 — Could not load model artifacts: Scaler artifact not found at C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\stockapp\models\scaler.npy.
+2026-07-03 11:42:12 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading SPY | interval=1d | period=5y
+2026-07-03 11:42:12 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading AAPL | interval=1d | period=5y
+2026-07-03 11:42:13 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading QQQ | interval=1d | period=5y
+2026-07-03 11:42:13 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading BTC-USD | interval=1d | period=5y
+2026-07-03 11:43:12 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading SPY | interval=1d | period=5y
+2026-07-03 11:43:12 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading QQQ | interval=1d | period=5y
+2026-07-03 11:43:13 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading BTC-USD | interval=1d | period=5y
+2026-07-03 11:44:12 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading SPY | interval=1d | period=5y
+2026-07-03 11:44:12 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading QQQ | interval=1d | period=5y
+2026-07-03 11:44:13 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading BTC-USD | interval=1d | period=5y
+2026-07-03 11:45:12 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading SPY | interval=1d | period=5y
+2026-07-03 11:45:12 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading QQQ | interval=1d | period=5y
+2026-07-03 11:45:13 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading BTC-USD | interval=1d | period=5y
+2026-07-03 11:47:58 [INFO] django.utils.autoreload autoreload:667 — Watching for file changes with StatReloader
+2026-07-03 11:49:40 [DEBUG] myapp.model_engine model_engine:125 — Loaded model 'gru' from models\gru.h5
+2026-07-03 11:49:41 [DEBUG] myapp.model_engine model_engine:125 — Loaded model 'cnn_lstm' from models\cnn_lstm.h5
+2026-07-03 11:49:43 [DEBUG] myapp.model_engine model_engine:125 — Loaded model 'xgboost' from models\xgboost.pkl
+2026-07-03 11:49:43 [DEBUG] myapp.model_engine model_engine:125 — Loaded model 'lightgbm' from models\lightgbm.pkl
+2026-07-03 11:49:43 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading AAPL | interval=1d | period=5y
+2026-07-03 12:29:29 [INFO] myapp.training_engine training_engine:121 — Starting training pipeline for AAPL @ 1d
+2026-07-03 12:29:29 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading AAPL | interval=1d | period=5y
+2026-07-03 12:29:32 [INFO] myapp.training_engine training_engine:125 — Feature dataset shape: (1254, 33)
+2026-07-03 12:29:44 [INFO] django.utils.autoreload autoreload:265 — C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\training_engine.py changed, reloading.
+2026-07-03 12:29:46 [INFO] django.utils.autoreload autoreload:667 — Watching for file changes with StatReloader
+2026-07-03 12:29:57 [INFO] myapp.training_engine training_engine:121 — Starting training pipeline for AAPL @ 1d
+2026-07-03 12:29:57 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading AAPL | interval=1d | period=5y
+2026-07-03 12:30:00 [INFO] myapp.training_engine training_engine:125 — Feature dataset shape: (1254, 33)
+2026-07-03 12:30:12 [INFO] myapp.training_engine training_engine:165 — Training LSTM…
+2026-07-03 12:30:31 [DEBUG] myapp.model_engine model_engine:98 — Saved model artifact: C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\models\lstm.h5
+2026-07-03 12:30:31 [INFO] myapp.training_engine training_engine:179 — LSTM metrics: {'rmse': 249.0850372314453, 'mae': 247.95172119140625, 'mape': 94.31670904159546, 'r2': -109.12026360279783}
+2026-07-03 12:30:31 [INFO] myapp.training_engine training_engine:165 — Training BiLSTM…
+2026-07-03 12:30:56 [DEBUG] myapp.model_engine model_engine:98 — Saved model artifact: C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\models\bilstm.h5
+2026-07-03 12:30:56 [INFO] myapp.training_engine training_engine:179 — BiLSTM metrics: {'rmse': 251.96022033691406, 'mae': 250.84298706054688, 'mape': 95.4276442527771, 'r2': -111.67718198704603}
+2026-07-03 12:30:56 [INFO] myapp.training_engine training_engine:165 — Training GRU…
+2026-07-03 12:31:14 [DEBUG] myapp.model_engine model_engine:98 — Saved model artifact: C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\models\gru.h5
+2026-07-03 12:31:14 [INFO] myapp.training_engine training_engine:179 — GRU metrics: {'rmse': 252.83056640625, 'mae': 251.7139434814453, 'mape': 95.76067924499512, 'r2': -112.45696543147703}
+2026-07-03 12:31:14 [INFO] myapp.training_engine training_engine:165 — Training CNN-LSTM…
+2026-07-03 12:31:28 [DEBUG] myapp.model_engine model_engine:98 — Saved model artifact: C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\models\cnn_lstm.h5
+2026-07-03 12:31:28 [INFO] myapp.training_engine training_engine:179 — CNN-LSTM metrics: {'rmse': 259.35089111328125, 'mae': 258.26324462890625, 'mape': 98.27477931976318, 'r2': -118.38440009342683}
+2026-07-03 12:31:28 [INFO] myapp.training_engine training_engine:187 — Training RandomForest (regression)…
+2026-07-03 12:34:05 [INFO] django.utils.autoreload autoreload:265 — C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\model_engine.py changed, reloading.
+2026-07-03 12:34:08 [INFO] django.utils.autoreload autoreload:667 — Watching for file changes with StatReloader
+2026-07-03 12:34:20 [INFO] django.utils.autoreload autoreload:265 — C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\model_engine.py changed, reloading.
+2026-07-03 12:34:22 [INFO] django.utils.autoreload autoreload:667 — Watching for file changes with StatReloader
+2026-07-03 12:34:34 [INFO] myapp.training_engine training_engine:121 — Starting training pipeline for AAPL @ 1d
+2026-07-03 12:34:34 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading AAPL | interval=1d | period=5y
+2026-07-03 12:34:36 [INFO] myapp.training_engine training_engine:125 — Feature dataset shape: (1254, 33)
+2026-07-03 12:34:45 [INFO] myapp.training_engine training_engine:165 — Training LSTM…
+2026-07-03 12:35:03 [DEBUG] myapp.model_engine model_engine:98 — Saved model artifact: C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\models\lstm.h5
+2026-07-03 12:35:03 [INFO] myapp.training_engine training_engine:179 — LSTM metrics: {'rmse': 247.40208435058594, 'mae': 246.26100158691406, 'mape': 93.66774559020996, 'r2': -107.63724450412411}
+2026-07-03 12:35:03 [INFO] myapp.training_engine training_engine:165 — Training BiLSTM…
+2026-07-03 12:35:29 [DEBUG] myapp.model_engine model_engine:98 — Saved model artifact: C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\models\bilstm.h5
+2026-07-03 12:35:29 [INFO] myapp.training_engine training_engine:179 — BiLSTM metrics: {'rmse': 254.36700439453125, 'mae': 253.26002502441406, 'mape': 96.35522961616516, 'r2': -113.84009769544062}
+2026-07-03 12:35:29 [INFO] myapp.training_engine training_engine:165 — Training GRU…
+2026-07-03 12:35:47 [DEBUG] myapp.model_engine model_engine:98 — Saved model artifact: C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\models\gru.h5
+2026-07-03 12:35:47 [INFO] myapp.training_engine training_engine:179 — GRU metrics: {'rmse': 251.04286193847656, 'mae': 249.91822814941406, 'mape': 95.07142901420593, 'r2': -110.85817774161875}
+2026-07-03 12:35:47 [INFO] myapp.training_engine training_engine:165 — Training CNN-LSTM…
+2026-07-03 12:36:02 [DEBUG] myapp.model_engine model_engine:98 — Saved model artifact: C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\models\cnn_lstm.h5
+2026-07-03 12:36:02 [INFO] myapp.training_engine training_engine:179 — CNN-LSTM metrics: {'rmse': 256.698974609375, 'mae': 255.59994506835938, 'mape': 97.25252389907837, 'r2': -115.95539684974743}
+2026-07-03 12:36:02 [INFO] myapp.training_engine training_engine:187 — Training RandomForest (regression)…
+2026-07-03 12:37:07 [DEBUG] myapp.model_engine model_engine:98 — Saved model artifact: C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\models\rf.pkl
+2026-07-03 12:37:07 [INFO] myapp.training_engine training_engine:194 — Training XGBoost (regression)…
+2026-07-03 12:37:12 [DEBUG] myapp.model_engine model_engine:98 — Saved model artifact: C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\models\xgboost.pkl
+2026-07-03 12:37:12 [INFO] myapp.training_engine training_engine:201 — Training LightGBM (regression)…
+2026-07-03 12:37:13 [DEBUG] myapp.model_engine model_engine:98 — Saved model artifact: C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\models\lightgbm.pkl
+2026-07-03 12:37:13 [INFO] myapp.training_engine training_engine:212 — Training RandomForest (classifier)…
+2026-07-03 12:37:14 [DEBUG] myapp.model_engine model_engine:98 — Saved model artifact: C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\models\rf_cls.pkl
+2026-07-03 12:37:14 [INFO] myapp.training_engine training_engine:221 — Training XGBoost (classifier)…
+2026-07-03 12:37:16 [DEBUG] myapp.model_engine model_engine:98 — Saved model artifact: C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\models\xgb_cls.pkl
+2026-07-03 12:37:16 [INFO] myapp.training_engine training_engine:230 — Training LightGBM (classifier)…
+2026-07-03 12:37:17 [DEBUG] myapp.model_engine model_engine:98 — Saved model artifact: C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\models\lgbm_cls.pkl
+2026-07-03 12:37:17 [INFO] myapp.model_engine model_engine:137 — Saved metrics report: C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\models\model_metrics.json
+2026-07-03 12:37:18 [INFO] myapp.training_engine training_engine:245 — Training complete. Models saved to: C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\models
+2026-07-03 12:37:18 [DEBUG] myapp.model_engine model_engine:125 — Loaded model 'lstm' from C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\models\lstm.h5
+2026-07-03 12:37:20 [DEBUG] myapp.model_engine model_engine:125 — Loaded model 'bilstm' from C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\models\bilstm.h5
+2026-07-03 12:37:21 [DEBUG] myapp.model_engine model_engine:125 — Loaded model 'gru' from C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\models\gru.h5
+2026-07-03 12:37:22 [DEBUG] myapp.model_engine model_engine:125 — Loaded model 'cnn_lstm' from C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\models\cnn_lstm.h5
+2026-07-03 12:37:22 [DEBUG] myapp.model_engine model_engine:125 — Loaded model 'xgboost' from C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\models\xgboost.pkl
+2026-07-03 12:37:22 [DEBUG] myapp.model_engine model_engine:125 — Loaded model 'lightgbm' from C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\models\lightgbm.pkl
+2026-07-03 12:37:22 [DEBUG] myapp.model_engine model_engine:125 — Loaded model 'rf' from C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\models\rf.pkl
+2026-07-03 12:37:22 [DEBUG] myapp.model_engine model_engine:125 — Loaded model 'xgb_cls' from C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\models\xgb_cls.pkl
+2026-07-03 12:37:22 [DEBUG] myapp.model_engine model_engine:125 — Loaded model 'lgbm_cls' from C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\models\lgbm_cls.pkl
+2026-07-03 12:37:22 [DEBUG] myapp.model_engine model_engine:125 — Loaded model 'rf_cls' from C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\models\rf_cls.pkl
+2026-07-03 12:37:22 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading AAPL | interval=1d | period=5y
+2026-07-03 12:37:29 [WARNING] tensorflow polymorphic_function:159 — 5 out of the last 12 calls to <function Model.make_predict_function.<locals>.predict_function at 0x00000234B6C74670> triggered tf.function retracing. Tracing is expensive and the excessive number of tracings could be due to (1) creating @tf.function repeatedly in a loop, (2) passing tensors with different shapes, (3) passing Python objects instead of tensors. For (1), please define your @tf.function outside of the loop. For (2), @tf.function has reduce_retracing=True option that can avoid unnecessary retracing. For (3), please refer to https://www.tensorflow.org/guide/function#controlling_retracing and https://www.tensorflow.org/api_docs/python/tf/function for  more details.
+2026-07-03 12:38:19 [INFO] django.utils.autoreload autoreload:667 — Watching for file changes with StatReloader
+2026-07-03 12:38:38 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading AAPL | interval=1d | period=5y
+2026-07-03 12:38:47 [WARNING] myapp.views views:40 — Could not load model artifacts: Scaler artifact not found at C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\stockapp\models\scaler.npy.
+2026-07-03 12:38:47 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading SPY | interval=1d | period=5y
+2026-07-03 12:38:47 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading AAPL | interval=1d | period=5y
+2026-07-03 12:38:48 [WARNING] django.request log:246 — Not Found: /favicon.ico
+2026-07-03 12:38:48 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading QQQ | interval=1d | period=5y
+2026-07-03 12:38:48 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading BTC-USD | interval=1d | period=5y
+2026-07-03 12:38:52 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading AAPL | interval=15m | period=60d
+2026-07-03 12:38:53 [WARNING] myapp.views views:40 — Could not load model artifacts: Scaler artifact not found at C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\stockapp\models\scaler.npy.
+2026-07-03 12:38:53 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading SPY | interval=1d | period=5y
+2026-07-03 12:38:53 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading AAPL | interval=15m | period=60d
+2026-07-03 12:38:53 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading QQQ | interval=1d | period=5y
+2026-07-03 12:38:53 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading BTC-USD | interval=1d | period=5y
+2026-07-03 12:38:55 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading AAPL | interval=5m | period=7d
+2026-07-03 12:38:55 [WARNING] myapp.views views:40 — Could not load model artifacts: Scaler artifact not found at C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\stockapp\models\scaler.npy.
+2026-07-03 12:38:55 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading SPY | interval=1d | period=5y
+2026-07-03 12:38:55 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading AAPL | interval=5m | period=7d
+2026-07-03 12:38:55 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading QQQ | interval=1d | period=5y
+2026-07-03 12:38:55 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading BTC-USD | interval=1d | period=5y
+2026-07-03 12:38:58 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading AAPL | interval=5m | period=7d
+2026-07-03 12:39:13 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading SPY | interval=1d | period=5y
+2026-07-03 12:39:13 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading QQQ | interval=1d | period=5y
+2026-07-03 12:39:13 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading BTC-USD | interval=1d | period=5y
+2026-07-03 12:39:29 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading GOOGL | interval=1d | period=5y
+2026-07-03 12:39:29 [WARNING] myapp.views views:40 — Could not load model artifacts: Scaler artifact not found at C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\stockapp\models\scaler.npy.
+2026-07-03 12:39:29 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading SPY | interval=1d | period=5y
+2026-07-03 12:39:29 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading GOOGL | interval=1d | period=5y
+2026-07-03 12:39:30 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading QQQ | interval=1d | period=5y
+2026-07-03 12:39:30 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading BTC-USD | interval=1d | period=5y
+2026-07-03 12:39:31 [DEBUG] myapp.data_pipeline data_pipeline:131 — Removing 43 outlier rows for GOOGL @ 1d
+2026-07-03 12:39:32 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading GOOGL | interval=1d | period=5y
+2026-07-03 12:39:32 [DEBUG] myapp.data_pipeline data_pipeline:131 — Removing 43 outlier rows for GOOGL @ 1d
+2026-07-03 12:39:44 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading GOOGL | interval=1d | period=5y
+2026-07-03 12:39:45 [WARNING] myapp.views views:40 — Could not load model artifacts: Scaler artifact not found at C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\stockapp\models\scaler.npy.
+2026-07-03 12:39:45 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading SPY | interval=1d | period=5y
+2026-07-03 12:39:45 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading GOOGL | interval=1d | period=5y
+2026-07-03 12:39:45 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading QQQ | interval=1d | period=5y
+2026-07-03 12:39:45 [DEBUG] myapp.data_pipeline data_pipeline:131 — Removing 43 outlier rows for GOOGL @ 1d
+2026-07-03 12:39:45 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading BTC-USD | interval=1d | period=5y
+2026-07-03 12:41:10 [INFO] django.utils.autoreload autoreload:265 — C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\views.py changed, reloading.
+2026-07-03 12:41:10 [INFO] django.utils.autoreload autoreload:265 — C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\views.py changed, reloading.
+2026-07-03 12:41:12 [INFO] django.utils.autoreload autoreload:667 — Watching for file changes with StatReloader
+2026-07-03 12:41:12 [INFO] django.utils.autoreload autoreload:667 — Watching for file changes with StatReloader
+2026-07-03 12:41:32 [INFO] django.utils.autoreload autoreload:265 — C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\api_views.py changed, reloading.
+2026-07-03 12:41:32 [INFO] django.utils.autoreload autoreload:265 — C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\api_views.py changed, reloading.
+2026-07-03 12:41:34 [INFO] django.utils.autoreload autoreload:667 — Watching for file changes with StatReloader
+2026-07-03 12:41:34 [INFO] django.utils.autoreload autoreload:667 — Watching for file changes with StatReloader
+2026-07-03 13:41:34 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading AAPL | interval=1d | period=5y
+2026-07-03 13:41:56 [DEBUG] myapp.model_engine model_engine:125 — Loaded model 'lstm' from C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\models\lstm.h5
+2026-07-03 13:41:58 [DEBUG] myapp.model_engine model_engine:125 — Loaded model 'bilstm' from C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\models\bilstm.h5
+2026-07-03 13:41:59 [DEBUG] myapp.model_engine model_engine:125 — Loaded model 'gru' from C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\models\gru.h5
+2026-07-03 13:42:00 [DEBUG] myapp.model_engine model_engine:125 — Loaded model 'cnn_lstm' from C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\models\cnn_lstm.h5
+2026-07-03 13:42:02 [DEBUG] myapp.model_engine model_engine:125 — Loaded model 'xgboost' from C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\models\xgboost.pkl
+2026-07-03 13:42:02 [DEBUG] myapp.model_engine model_engine:125 — Loaded model 'lightgbm' from C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\models\lightgbm.pkl
+2026-07-03 13:42:04 [DEBUG] myapp.model_engine model_engine:125 — Loaded model 'rf' from C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\models\rf.pkl
+2026-07-03 13:42:04 [DEBUG] myapp.model_engine model_engine:125 — Loaded model 'xgb_cls' from C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\models\xgb_cls.pkl
+2026-07-03 13:42:04 [DEBUG] myapp.model_engine model_engine:125 — Loaded model 'lgbm_cls' from C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\models\lgbm_cls.pkl
+2026-07-03 13:42:04 [DEBUG] myapp.model_engine model_engine:125 — Loaded model 'rf_cls' from C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\models\rf_cls.pkl
+2026-07-03 13:42:05 [DEBUG] myapp.model_engine model_engine:125 — Loaded model 'lstm' from C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\models\lstm.h5
+2026-07-03 13:42:07 [DEBUG] myapp.model_engine model_engine:125 — Loaded model 'bilstm' from C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\models\bilstm.h5
+2026-07-03 13:42:08 [DEBUG] myapp.model_engine model_engine:125 — Loaded model 'gru' from C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\models\gru.h5
+2026-07-03 13:42:09 [DEBUG] myapp.model_engine model_engine:125 — Loaded model 'cnn_lstm' from C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\models\cnn_lstm.h5
+2026-07-03 13:42:09 [DEBUG] myapp.model_engine model_engine:125 — Loaded model 'xgboost' from C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\models\xgboost.pkl
+2026-07-03 13:42:09 [DEBUG] myapp.model_engine model_engine:125 — Loaded model 'lightgbm' from C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\models\lightgbm.pkl
+2026-07-03 13:42:09 [DEBUG] myapp.model_engine model_engine:125 — Loaded model 'rf' from C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\models\rf.pkl
+2026-07-03 13:42:09 [DEBUG] myapp.model_engine model_engine:125 — Loaded model 'xgb_cls' from C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\models\xgb_cls.pkl
+2026-07-03 13:42:09 [DEBUG] myapp.model_engine model_engine:125 — Loaded model 'lgbm_cls' from C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\models\lgbm_cls.pkl
+2026-07-03 13:42:09 [DEBUG] myapp.model_engine model_engine:125 — Loaded model 'rf_cls' from C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\models\rf_cls.pkl
+2026-07-03 13:42:09 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading AAPL | interval=1d | period=5y
+2026-07-03 13:42:17 [INFO] myapp.sentiment_engine sentiment_engine:122 — Fetched 8 Yahoo Finance news for AAPL
+2026-07-03 13:42:35 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading AAPL | interval=1d | period=5y
+2026-07-03 13:42:37 [DEBUG] myapp.model_engine model_engine:125 — Loaded model 'lstm' from C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\models\lstm.h5
+2026-07-03 13:42:39 [DEBUG] myapp.model_engine model_engine:125 — Loaded model 'bilstm' from C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\models\bilstm.h5
+2026-07-03 13:42:41 [DEBUG] myapp.model_engine model_engine:125 — Loaded model 'gru' from C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\models\gru.h5
+2026-07-03 13:42:42 [DEBUG] myapp.model_engine model_engine:125 — Loaded model 'cnn_lstm' from C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\models\cnn_lstm.h5
+2026-07-03 13:42:42 [DEBUG] myapp.model_engine model_engine:125 — Loaded model 'xgboost' from C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\models\xgboost.pkl
+2026-07-03 13:42:42 [DEBUG] myapp.model_engine model_engine:125 — Loaded model 'lightgbm' from C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\models\lightgbm.pkl
+2026-07-03 13:42:42 [DEBUG] myapp.model_engine model_engine:125 — Loaded model 'rf' from C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\models\rf.pkl
+2026-07-03 13:42:42 [DEBUG] myapp.model_engine model_engine:125 — Loaded model 'xgb_cls' from C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\models\xgb_cls.pkl
+2026-07-03 13:42:42 [DEBUG] myapp.model_engine model_engine:125 — Loaded model 'lgbm_cls' from C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\models\lgbm_cls.pkl
+2026-07-03 13:42:42 [DEBUG] myapp.model_engine model_engine:125 — Loaded model 'rf_cls' from C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\models\rf_cls.pkl
+2026-07-03 13:42:43 [DEBUG] myapp.model_engine model_engine:125 — Loaded model 'lstm' from C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\models\lstm.h5
+2026-07-03 13:42:45 [DEBUG] myapp.model_engine model_engine:125 — Loaded model 'bilstm' from C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\models\bilstm.h5
+2026-07-03 13:42:46 [DEBUG] myapp.model_engine model_engine:125 — Loaded model 'gru' from C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\models\gru.h5
+2026-07-03 13:42:47 [DEBUG] myapp.model_engine model_engine:125 — Loaded model 'cnn_lstm' from C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\models\cnn_lstm.h5
+2026-07-03 13:42:47 [DEBUG] myapp.model_engine model_engine:125 — Loaded model 'xgboost' from C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\models\xgboost.pkl
+2026-07-03 13:42:47 [DEBUG] myapp.model_engine model_engine:125 — Loaded model 'lightgbm' from C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\models\lightgbm.pkl
+2026-07-03 13:42:47 [DEBUG] myapp.model_engine model_engine:125 — Loaded model 'rf' from C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\models\rf.pkl
+2026-07-03 13:42:47 [DEBUG] myapp.model_engine model_engine:125 — Loaded model 'xgb_cls' from C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\models\xgb_cls.pkl
+2026-07-03 13:42:47 [DEBUG] myapp.model_engine model_engine:125 — Loaded model 'lgbm_cls' from C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\models\lgbm_cls.pkl
+2026-07-03 13:42:47 [DEBUG] myapp.model_engine model_engine:125 — Loaded model 'rf_cls' from C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\models\rf_cls.pkl
+2026-07-03 13:42:47 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading AAPL | interval=1d | period=5y
+2026-07-03 13:42:49 [WARNING] tensorflow polymorphic_function:159 — 5 out of the last 5 calls to <function Model.make_predict_function.<locals>.predict_function at 0x000002126F7DF160> triggered tf.function retracing. Tracing is expensive and the excessive number of tracings could be due to (1) creating @tf.function repeatedly in a loop, (2) passing tensors with different shapes, (3) passing Python objects instead of tensors. For (1), please define your @tf.function outside of the loop. For (2), @tf.function has reduce_retracing=True option that can avoid unnecessary retracing. For (3), please refer to https://www.tensorflow.org/guide/function#controlling_retracing and https://www.tensorflow.org/api_docs/python/tf/function for  more details.
+2026-07-03 13:42:52 [WARNING] tensorflow polymorphic_function:159 — 6 out of the last 6 calls to <function Model.make_predict_function.<locals>.predict_function at 0x000002126B124DC0> triggered tf.function retracing. Tracing is expensive and the excessive number of tracings could be due to (1) creating @tf.function repeatedly in a loop, (2) passing tensors with different shapes, (3) passing Python objects instead of tensors. For (1), please define your @tf.function outside of the loop. For (2), @tf.function has reduce_retracing=True option that can avoid unnecessary retracing. For (3), please refer to https://www.tensorflow.org/guide/function#controlling_retracing and https://www.tensorflow.org/api_docs/python/tf/function for  more details.
+2026-07-03 13:42:57 [INFO] myapp.sentiment_engine sentiment_engine:122 — Fetched 8 Yahoo Finance news for AAPL
+2026-07-03 13:46:03 [INFO] django.utils.autoreload autoreload:265 — C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\model_engine.py changed, reloading.
+2026-07-03 13:46:03 [INFO] django.utils.autoreload autoreload:265 — C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\model_engine.py changed, reloading.
+2026-07-03 13:46:06 [INFO] django.utils.autoreload autoreload:667 — Watching for file changes with StatReloader
+2026-07-03 13:46:06 [INFO] django.utils.autoreload autoreload:667 — Watching for file changes with StatReloader
+2026-07-03 13:46:14 [INFO] django.utils.autoreload autoreload:265 — C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\model_engine.py changed, reloading.
+2026-07-03 13:46:14 [INFO] django.utils.autoreload autoreload:265 — C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\model_engine.py changed, reloading.
+2026-07-03 13:46:17 [INFO] django.utils.autoreload autoreload:667 — Watching for file changes with StatReloader
+2026-07-03 13:46:17 [INFO] django.utils.autoreload autoreload:667 — Watching for file changes with StatReloader
+2026-07-03 13:46:23 [INFO] django.utils.autoreload autoreload:265 — C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\training_engine.py changed, reloading.
+2026-07-03 13:46:23 [INFO] django.utils.autoreload autoreload:265 — C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\training_engine.py changed, reloading.
+2026-07-03 13:46:25 [INFO] django.utils.autoreload autoreload:667 — Watching for file changes with StatReloader
+2026-07-03 13:46:25 [INFO] django.utils.autoreload autoreload:667 — Watching for file changes with StatReloader
+2026-07-03 13:48:36 [DEBUG] myapp.model_engine model_engine:125 — Loaded model 'lstm' from C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\models\lstm.h5
+2026-07-03 13:48:38 [DEBUG] myapp.model_engine model_engine:125 — Loaded model 'bilstm' from C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\models\bilstm.h5
+2026-07-03 13:48:39 [DEBUG] myapp.model_engine model_engine:125 — Loaded model 'gru' from C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\models\gru.h5
+2026-07-03 13:48:40 [DEBUG] myapp.model_engine model_engine:125 — Loaded model 'cnn_lstm' from C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\models\cnn_lstm.h5
+2026-07-03 13:48:42 [DEBUG] myapp.model_engine model_engine:125 — Loaded model 'xgboost' from C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\models\xgboost.pkl
+2026-07-03 13:48:42 [DEBUG] myapp.model_engine model_engine:125 — Loaded model 'lightgbm' from C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\models\lightgbm.pkl
+2026-07-03 13:48:42 [DEBUG] myapp.model_engine model_engine:125 — Loaded model 'rf' from C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\models\rf.pkl
+2026-07-03 13:48:42 [DEBUG] myapp.model_engine model_engine:125 — Loaded model 'xgb_cls' from C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\models\xgb_cls.pkl
+2026-07-03 13:48:42 [DEBUG] myapp.model_engine model_engine:125 — Loaded model 'lgbm_cls' from C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\models\lgbm_cls.pkl
+2026-07-03 13:48:42 [DEBUG] myapp.model_engine model_engine:125 — Loaded model 'rf_cls' from C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\models\rf_cls.pkl
+2026-07-03 13:48:42 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading AAPL | interval=1d | period=5y
+2026-07-03 13:49:03 [INFO] django.utils.autoreload autoreload:667 — Watching for file changes with StatReloader
+2026-07-03 14:20:30 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading AAPL | interval=1d | period=5y
+2026-07-03 14:20:31 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading AAPL | interval=1d | period=5y
+2026-07-03 14:20:34 [INFO] myapp.sentiment_engine sentiment_engine:122 — Fetched 8 Yahoo Finance news for AAPL
+2026-07-03 14:20:37 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading SPY | interval=1d | period=5y
+2026-07-03 14:20:37 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading AAPL | interval=1d | period=5y
+2026-07-03 14:20:37 [WARNING] django.request log:246 — Not Found: /favicon.ico
+2026-07-03 14:20:38 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading QQQ | interval=1d | period=5y
+2026-07-03 14:20:39 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading BTC-USD | interval=1d | period=5y
+2026-07-03 14:21:37 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading SPY | interval=1d | period=5y
+2026-07-03 14:21:38 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading QQQ | interval=1d | period=5y
+2026-07-03 14:21:39 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading BTC-USD | interval=1d | period=5y
+2026-07-03 14:21:57 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading AAPL | interval=1d | period=5y
+2026-07-03 14:22:03 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading AAPL | interval=1d | period=5y
+2026-07-03 14:22:04 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading AAPL | interval=1d | period=5y
+2026-07-03 14:22:12 [INFO] myapp.sentiment_engine sentiment_engine:122 — Fetched 8 Yahoo Finance news for AAPL
+2026-07-03 14:22:13 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading SPY | interval=1d | period=5y
+2026-07-03 14:22:13 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading AAPL | interval=1d | period=5y
+2026-07-03 14:22:14 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading QQQ | interval=1d | period=5y
+2026-07-03 14:22:14 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading BTC-USD | interval=1d | period=5y
+2026-07-03 14:22:36 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading SPY | interval=1d | period=5y
+2026-07-03 14:22:36 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading QQQ | interval=1d | period=5y
+2026-07-03 14:22:37 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading BTC-USD | interval=1d | period=5y
+2026-07-03 14:22:39 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading AAPL | interval=1d | period=5y
+2026-07-03 14:22:39 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading AAPL | interval=1d | period=5y
+2026-07-03 14:22:41 [INFO] myapp.sentiment_engine sentiment_engine:122 — Fetched 8 Yahoo Finance news for AAPL
+2026-07-03 14:22:41 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading SPY | interval=1d | period=5y
+2026-07-03 14:22:41 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading AAPL | interval=1d | period=5y
+2026-07-03 14:22:41 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading QQQ | interval=1d | period=5y
+2026-07-03 14:22:42 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading BTC-USD | interval=1d | period=5y
+2026-07-03 14:22:59 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading SPY | interval=1d | period=5y
+2026-07-03 14:23:00 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading QQQ | interval=1d | period=5y
+2026-07-03 14:23:01 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading BTC-USD | interval=1d | period=5y
+2026-07-03 14:23:17 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading GOOGL | interval=1d | period=5y
+2026-07-03 14:23:17 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading GOOGL | interval=1d | period=5y
+2026-07-03 14:23:19 [INFO] myapp.sentiment_engine sentiment_engine:122 — Fetched 8 Yahoo Finance news for GOOGL
+2026-07-03 14:23:19 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading SPY | interval=1d | period=5y
+2026-07-03 14:23:19 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading GOOGL | interval=1d | period=5y
+2026-07-03 14:23:20 [DEBUG] myapp.data_pipeline data_pipeline:131 — Removing 43 outlier rows for GOOGL @ 1d
+2026-07-03 14:23:20 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading QQQ | interval=1d | period=5y
+2026-07-03 14:23:20 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading BTC-USD | interval=1d | period=5y
+2026-07-03 14:24:03 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading SPY | interval=1d | period=5y
+2026-07-03 14:24:04 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading QQQ | interval=1d | period=5y
+2026-07-03 14:24:04 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading BTC-USD | interval=1d | period=5y
+2026-07-03 14:24:11 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading RELIANCE.NS | interval=1d | period=5y
+2026-07-03 14:24:11 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading RELIANCE.NS | interval=1d | period=5y
+2026-07-03 14:24:12 [INFO] myapp.sentiment_engine sentiment_engine:122 — Fetched 8 Yahoo Finance news for RELIANCE.NS
+2026-07-03 14:24:13 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading SPY | interval=1d | period=5y
+2026-07-03 14:24:13 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading RELIANCE.NS | interval=1d | period=5y
+2026-07-03 14:24:13 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading QQQ | interval=1d | period=5y
+2026-07-03 14:24:13 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading BTC-USD | interval=1d | period=5y
+2026-07-03 14:24:57 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading SPY | interval=1d | period=5y
+2026-07-03 14:24:58 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading QQQ | interval=1d | period=5y
+2026-07-03 14:24:59 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading BTC-USD | interval=1d | period=5y
+2026-07-03 14:24:59 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading STOCK MARKET | interval=1d | period=5y
+2026-07-03 14:25:02 [ERROR] yfinance quote:592 — HTTP Error 404: {"quoteSummary":{"result":null,"error":{"code":"Not Found","description":"Quote not found for symbol: STOCK MARKET"}}}
+2026-07-03 14:25:03 [ERROR] yfinance history:276 — $STOCK MARKET: possibly delisted; no price data found  (period=5y) (Yahoo error = "No data found, symbol may be delisted")
+2026-07-03 14:25:03 [WARNING] myapp.data_pipeline data_pipeline:52 — yFinance returned empty DataFrame for STOCK MARKET at interval 1d.
+2026-07-03 14:25:03 [ERROR] myapp.views views:199 — Dashboard error for STOCK MARKET: yfinance returned empty data for STOCK MARKET at interval 1d.
+2026-07-03 14:25:03 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading SPY | interval=1d | period=5y
+2026-07-03 14:25:03 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading STOCK MARKET | interval=1d | period=5y
+2026-07-03 14:25:04 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading QQQ | interval=1d | period=5y
+2026-07-03 14:25:04 [ERROR] yfinance quote:592 — HTTP Error 404: {"quoteSummary":{"result":null,"error":{"code":"Not Found","description":"Quote not found for symbol: STOCK MARKET"}}}
+2026-07-03 14:25:05 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading BTC-USD | interval=1d | period=5y
+2026-07-03 14:25:05 [ERROR] yfinance history:276 — $STOCK MARKET: possibly delisted; no price data found  (period=5y) (Yahoo error = "No data found, symbol may be delisted")
+2026-07-03 14:25:05 [WARNING] myapp.data_pipeline data_pipeline:52 — yFinance returned empty DataFrame for STOCK MARKET at interval 1d.
+2026-07-03 14:25:05 [ERROR] myapp.api_views api_views:245 — Candle data API error
+Traceback (most recent call last):
+  File "C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\api_views.py", line 235, in candle_data
+    candles = fetch_candle_data(symbol=symbol, interval=interval)
+  File "C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\data_pipeline.py", line 217, in fetch_candle_data
+    df = harmonize_market_data(symbol, interval)
+  File "C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\data_pipeline.py", line 125, in harmonize_market_data
+    df = download_market_data(symbol, interval)
+  File "C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\data_pipeline.py", line 57, in download_market_data
+    raise ValueError(f"yfinance returned empty data for {symbol} at interval {interval}.")
+ValueError: yfinance returned empty data for STOCK MARKET at interval 1d.
+2026-07-03 14:25:05 [ERROR] myapp.api_views api_views:44 — API error [500]: yfinance returned empty data for STOCK MARKET at interval 1d.
+2026-07-03 14:25:05 [ERROR] django.request log:246 — Internal Server Error: /api/candle-data/
+2026-07-03 14:25:20 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading SPY | interval=1d | period=5y
+2026-07-03 14:25:21 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading QQQ | interval=1d | period=5y
+2026-07-03 14:25:21 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading BTC-USD | interval=1d | period=5y
+2026-07-03 14:25:24 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading AAPL | interval=1d | period=5y
+2026-07-03 14:25:24 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading AAPL | interval=1d | period=5y
+2026-07-03 14:25:26 [INFO] myapp.sentiment_engine sentiment_engine:122 — Fetched 8 Yahoo Finance news for AAPL
+2026-07-03 14:25:26 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading SPY | interval=1d | period=5y
+2026-07-03 14:25:26 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading AAPL | interval=1d | period=5y
+2026-07-03 14:25:26 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading QQQ | interval=1d | period=5y
+2026-07-03 14:25:26 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading AAPL | interval=1d | period=5y
+2026-07-03 14:25:27 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading BTC-USD | interval=1d | period=5y
+2026-07-03 14:25:28 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading AAPL | interval=1d | period=5y
+2026-07-03 14:25:30 [INFO] myapp.sentiment_engine sentiment_engine:122 — Fetched 8 Yahoo Finance news for AAPL
+2026-07-03 14:25:30 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading SPY | interval=1d | period=5y
+2026-07-03 14:25:30 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading AAPL | interval=1d | period=5y
+2026-07-03 14:25:30 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading QQQ | interval=1d | period=5y
+2026-07-03 14:25:31 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading BTC-USD | interval=1d | period=5y
+2026-07-03 14:25:38 [INFO] rag.vector_store vector_store:77 — VectorStore loaded: 10 docs from C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\rag\vector_store_data\vector_store.pkl
+2026-07-03 14:25:38 [INFO] rag.pipeline pipeline:83 — RAG pipeline loaded from disk: 10 documents indexed
+2026-07-03 14:25:38 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading AAPL | interval=1d | period=5y
+2026-07-03 14:25:40 [DEBUG] rag.retriever retriever:148 — Retrieved 5 documents for query: 'Why did the model predict SELL? AAPL stock'
+2026-07-03 14:25:47 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading AAPL | interval=1d | period=5y
+2026-07-03 14:25:48 [DEBUG] rag.retriever retriever:148 — Retrieved 5 documents for query: 'hello AAPL stock'
+2026-07-03 14:29:36 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading AAPL | interval=1d | period=5y
+2026-07-03 14:29:48 [DEBUG] myapp.model_engine model_engine:125 — Loaded model 'lstm' from C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\models\lstm.h5
+2026-07-03 14:29:50 [DEBUG] myapp.model_engine model_engine:125 — Loaded model 'bilstm' from C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\models\bilstm.h5
+2026-07-03 14:29:51 [DEBUG] myapp.model_engine model_engine:125 — Loaded model 'gru' from C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\models\gru.h5
+2026-07-03 14:29:52 [DEBUG] myapp.model_engine model_engine:125 — Loaded model 'cnn_lstm' from C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\models\cnn_lstm.h5
+2026-07-03 14:29:52 [DEBUG] myapp.model_engine model_engine:125 — Loaded model 'xgboost' from C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\models\xgboost.pkl
+2026-07-03 14:29:52 [DEBUG] myapp.model_engine model_engine:125 — Loaded model 'lightgbm' from C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\models\lightgbm.pkl
+2026-07-03 14:29:53 [DEBUG] myapp.model_engine model_engine:125 — Loaded model 'rf' from C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\models\rf.pkl
+2026-07-03 14:29:53 [DEBUG] myapp.model_engine model_engine:125 — Loaded model 'xgb_cls' from C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\models\xgb_cls.pkl
+2026-07-03 14:29:53 [DEBUG] myapp.model_engine model_engine:125 — Loaded model 'lgbm_cls' from C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\models\lgbm_cls.pkl
+2026-07-03 14:29:53 [DEBUG] myapp.model_engine model_engine:125 — Loaded model 'rf_cls' from C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\models\rf_cls.pkl
+2026-07-03 14:29:53 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading AAPL | interval=1d | period=5y
+2026-07-03 14:30:02 [INFO] myapp.sentiment_engine sentiment_engine:122 — Fetched 8 Yahoo Finance news for AAPL
+2026-07-03 14:30:58 [INFO] myapp.data_pipeline data_pipeline:45 — Downloading AAPL | interval=1d | period=5y
+2026-07-03 14:31:23 [INFO] django.utils.autoreload autoreload:265 — C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\api_views.py changed, reloading.
+2026-07-03 14:31:24 [INFO] django.utils.autoreload autoreload:265 — C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\rag\prompt_builder.py changed, reloading.

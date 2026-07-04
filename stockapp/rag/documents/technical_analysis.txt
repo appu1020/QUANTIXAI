@@ -1,0 +1,214 @@
+"""
+Financial Technical Analysis Knowledge Base
+=========================================
+
+This document contains definitions and interpretations of technical indicators
+used by the QuantixAI platform. It serves as a primary knowledge source for
+the RAG-powered AI Financial Assistant.
+
+─────────────────────────────────────────────────────────────────────────────
+TREND INDICATORS
+─────────────────────────────────────────────────────────────────────────────
+
+SIMPLE MOVING AVERAGE (SMA)
+The Simple Moving Average is calculated by averaging the closing prices over
+a specified number of periods. SMA20 represents a short-term trend while
+SMA50 and SMA200 represent medium and long-term trends respectively.
+
+Interpretation:
+- When price is above SMA200, the long-term trend is bullish (uptrend).
+- When price crosses above SMA50, a medium-term buy signal is generated.
+- The "Golden Cross" occurs when SMA50 crosses above SMA200 — a strong bullish signal.
+- The "Death Cross" occurs when SMA50 crosses below SMA200 — a strong bearish signal.
+- Price bouncing off SMA20 in an uptrend indicates continuation.
+
+EXPONENTIAL MOVING AVERAGE (EMA)
+EMA gives more weight to recent prices compared to SMA, making it more
+responsive to new information. EMA20 and EMA50 are commonly used.
+
+Interpretation:
+- EMA crossovers generate buy/sell signals similar to SMA but more quickly.
+- Price above EMA20 suggests short-term bullish momentum.
+- EMA20 crossing above EMA50 is a bullish signal; crossing below is bearish.
+- EMA is preferred over SMA when market conditions are rapidly changing.
+
+MACD (Moving Average Convergence Divergence)
+MACD consists of: MACD Line (EMA12 - EMA26), Signal Line (EMA9 of MACD),
+and Histogram (MACD Line - Signal Line).
+
+Interpretation:
+- Bullish Signal: MACD crosses above the signal line; histogram turns positive.
+- Bearish Signal: MACD crosses below the signal line; histogram turns negative.
+- Bullish Divergence: Price makes lower lows but MACD makes higher lows — reversal signal.
+- Bearish Divergence: Price makes higher highs but MACD makes lower highs — reversal signal.
+- Strong momentum: MACD histogram bars growing in size.
+
+AVERAGE DIRECTIONAL INDEX (ADX)
+ADX measures trend strength regardless of direction. Range: 0–100.
+
+Interpretation:
+- ADX < 20: Weak trend or ranging market — avoid trend-following strategies.
+- ADX 20–25: Trend emerging — monitor for confirmation.
+- ADX 25–50: Strong trend — trend-following strategies are appropriate.
+- ADX > 50: Very strong trend — trend is likely to continue.
+- ADX rising: Trend is strengthening.
+- ADX falling: Trend is weakening.
+
+─────────────────────────────────────────────────────────────────────────────
+MOMENTUM INDICATORS
+─────────────────────────────────────────────────────────────────────────────
+
+RELATIVE STRENGTH INDEX (RSI)
+RSI measures the magnitude of recent price changes to evaluate overbought or
+oversold conditions. Developed by J. Welles Wilder. Range: 0–100.
+
+Interpretation:
+- RSI > 70: Overbought — price may be due for a pullback or correction.
+- RSI < 30: Oversold — price may be due for a bounce or reversal.
+- RSI = 50: Neutral momentum.
+- RSI crossing 50 upward: Bullish momentum signal.
+- RSI crossing 50 downward: Bearish momentum signal.
+- Bullish divergence (price drops, RSI rises): Potential reversal upward.
+- Bearish divergence (price rises, RSI drops): Potential reversal downward.
+
+STOCHASTIC RSI
+Stochastic RSI applies the Stochastic oscillator to RSI values.
+It consists of %K and %D lines. Range: 0–100.
+
+Interpretation:
+- StochRSI > 80: Overbought — consider taking profits or tightening stops.
+- StochRSI < 20: Oversold — potential buying opportunity.
+- %K crossing above %D: Bullish signal.
+- %K crossing below %D: Bearish signal.
+- More sensitive than RSI — better for short-term trades.
+
+RATE OF CHANGE (ROC)
+ROC measures percentage change in price over a specified period.
+
+Interpretation:
+- Positive ROC: Price is higher than it was N periods ago — bullish momentum.
+- Negative ROC: Price is lower — bearish momentum.
+- ROC crossing zero upward: Momentum turning bullish.
+- ROC crossing zero downward: Momentum turning bearish.
+- Extreme ROC values suggest potential mean reversion.
+
+─────────────────────────────────────────────────────────────────────────────
+VOLATILITY INDICATORS
+─────────────────────────────────────────────────────────────────────────────
+
+BOLLINGER BANDS
+Bollinger Bands consist of a middle band (SMA20) and upper/lower bands
+set at 2 standard deviations from the middle.
+
+Interpretation:
+- Price touching upper band: Potentially overbought — watch for reversal.
+- Price touching lower band: Potentially oversold — watch for bounce.
+- Band squeeze (bands narrowing): Low volatility — breakout likely soon.
+- Band expansion: Increased volatility and strong trend.
+- Price walking up the upper band: Strong uptrend, not a sell signal alone.
+- Price walking down the lower band: Strong downtrend.
+- W-bottom pattern (two lows near lower band): Bullish reversal.
+- M-top pattern (two highs near upper band): Bearish reversal.
+
+AVERAGE TRUE RANGE (ATR)
+ATR measures market volatility by calculating the average range of price
+movement including gaps.
+
+Interpretation:
+- High ATR: High volatility — use wider stop losses.
+- Low ATR: Low volatility — price range is narrow.
+- ATR rising: Volatility increasing — potential for large moves.
+- ATR falling: Volatility decreasing — market consolidating.
+- ATR is used for position sizing: smaller positions in high ATR environments.
+
+─────────────────────────────────────────────────────────────────────────────
+VOLUME INDICATORS
+─────────────────────────────────────────────────────────────────────────────
+
+VOLUME WEIGHTED AVERAGE PRICE (VWAP)
+VWAP represents the average price weighted by volume, widely used by
+institutional traders as a benchmark.
+
+Interpretation:
+- Price above VWAP: Bullish bias — institutional buyers are in control.
+- Price below VWAP: Bearish bias — selling pressure is dominant.
+- VWAP as support: Price pulling back to VWAP in an uptrend may bounce.
+- VWAP as resistance: Price rallying to VWAP in a downtrend may reverse.
+- Institutional traders often use VWAP to benchmark execution quality.
+
+ON-BALANCE VOLUME (OBV)
+OBV adds volume on up days and subtracts it on down days, creating a
+cumulative volume-price momentum indicator.
+
+Interpretation:
+- Rising OBV with rising price: Healthy uptrend confirmed by volume.
+- Falling OBV with falling price: Downtrend confirmed by volume.
+- OBV rising but price flat: Accumulation — possible bullish breakout soon.
+- OBV falling but price flat: Distribution — possible bearish breakdown.
+- OBV divergence from price: Early warning of potential trend reversal.
+
+─────────────────────────────────────────────────────────────────────────────
+PRICE ACTION
+─────────────────────────────────────────────────────────────────────────────
+
+SUPPORT AND RESISTANCE
+Support is a price level where buying interest is strong enough to prevent
+further decline. Resistance is where selling pressure prevents further rise.
+
+Interpretation:
+- Price approaching support: Potential buying zone (long opportunity).
+- Price approaching resistance: Potential selling zone (short opportunity).
+- Breakout above resistance: Resistance becomes support — bullish signal.
+- Breakdown below support: Support becomes resistance — bearish signal.
+- Strong support/resistance: Multiple touches without breaking = stronger level.
+
+CANDLESTICK PATTERNS
+
+Bullish Engulfing:
+A large bullish candle completely engulfs the previous bearish candle.
+Signal: Strong reversal from downtrend — bullish. Reliability increases near support.
+
+Bearish Engulfing:
+A large bearish candle completely engulfs the previous bullish candle.
+Signal: Strong reversal from uptrend — bearish. Reliability increases near resistance.
+
+Hammer:
+Small body at the top, long lower shadow (≥ 2× body), tiny upper shadow.
+Signal: Bullish reversal, especially at support. Indicates buyers defended low prices.
+
+Shooting Star:
+Small body at the bottom, long upper shadow (≥ 2× body), tiny lower shadow.
+Signal: Bearish reversal, especially at resistance. Indicates sellers pushed price back.
+
+Doji:
+Open and close are nearly equal, creating a cross shape.
+Signal: Indecision — potential reversal, especially after a strong trend.
+
+─────────────────────────────────────────────────────────────────────────────
+BREAKOUT SIGNALS
+─────────────────────────────────────────────────────────────────────────────
+
+Breakout Up:
+When price closes above the most recent 20-period resistance level.
+Signal: Potential new uptrend beginning. Volume confirmation strengthens the signal.
+Risk: False breakouts are common — look for 1-2 closes above resistance.
+
+Breakout Down:
+When price closes below the most recent 20-period support level.
+Signal: Potential new downtrend beginning. High volume increases reliability.
+Risk: Dead-cat bounces can trap shorts — wait for confirmation.
+
+─────────────────────────────────────────────────────────────────────────────
+TREND STRENGTH COMPOSITE
+─────────────────────────────────────────────────────────────────────────────
+
+TREND STRENGTH (EMA12 - EMA26)
+A simplified momentum measure derived from the difference between short and
+long exponential moving averages.
+
+Interpretation:
+- Positive value: Short-term EMA above long-term EMA — bullish momentum.
+- Negative value: Short-term EMA below long-term EMA — bearish momentum.
+- Increasing magnitude: Trend strengthening.
+- Decreasing magnitude: Trend weakening, possible consolidation.
+- Zero crossing: Potential trend change.
