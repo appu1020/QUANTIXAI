@@ -8,7 +8,6 @@ __pycache__/
 # Django specific
 stockapp/db.sqlite3
 stockapp/media/
-stockapp/static/
 
 # Ignore environment variables containing API Keys!
 stockapp/.env
