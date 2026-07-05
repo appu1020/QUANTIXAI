@@ -65,111 +65,43 @@
     <!-- Bottom row: Indicators | Backtest | Explanation -->
     <div class="bottom-grid" style="margin-top:1rem;">
 
-      <!-- Technical Indicators -->
-      <div class="card">
+        <!-- Technical Indicators -->
+      <div class="card" id="indicators-card" style="display:none;">
         <div class="card-header">
           <span class="card-title">Technical Indicators</span>
           <i class="fas fa-chart-bar" style="color:var(--text-muted);font-size:0.85rem;"></i>
         </div>
-        {% if signal %}
-        <div class="indicator-grid">
-          {% if indicator_signals %}
-            {% for sig in indicator_signals %}
-            <div class="indicator-pill" title="{{ sig.explanation }}">
-              <div class="indicator-name">{{ sig.indicator|truncatechars:12 }}</div>
-              <div class="indicator-value">{{ sig.value|truncatechars:10 }}</div>
-              <div class="indicator-signal {{ sig.signal|lower }}">{{ sig.signal }}</div>
-            </div>
-            {% endfor %}
-          {% endif %}
-          <!-- Raw indicator values from feature snapshot -->
-          {% for key, val in indicator_raw.items %}
-          <div class="indicator-pill">
-            <div class="indicator-name">{{ key }}</div>
-            <div class="indicator-value">{{ val }}</div>
-          </div>
-          {% endfor %}
+        <div class="indicator-grid" id="indicator-grid">
+          <!-- Populated by JS -->
         </div>
-        {% else %}
-        <div style="color:var(--text-muted);font-size:0.85rem;padding:1rem 0;">
-          Train models first to see indicator analysis.
-        </div>
-        {% endif %}
       </div>
 
       <!-- Backtest Results -->
-      <div class="card">
+      <div class="card" id="backtest-card" style="display:none;">
         <div class="card-header">
           <span class="card-title">Strategy Backtest</span>
           <i class="fas fa-flask" style="color:var(--text-muted);font-size:0.85rem;"></i>
         </div>
-        {% if backtest %}
-        <div class="stat-grid">
-          <div class="stat-item">
-            <div class="stat-label">Win Rate</div>
-            <div class="stat-value" style="color:{% if backtest.win_rate >= 50 %}var(--accent-green){% else %}var(--accent-red){% endif %};">
-              {{ backtest.win_rate }}%
-            </div>
-          </div>
-          <div class="stat-item">
-            <div class="stat-label">Profit Factor</div>
-            <div class="stat-value" style="color:{% if backtest.profit_factor >= 1 %}var(--accent-green){% else %}var(--accent-red){% endif %};">
-              {{ backtest.profit_factor }}
-            </div>
-          </div>
-          <div class="stat-item">
-            <div class="stat-label">Sharpe Ratio</div>
-            <div class="stat-value">{{ backtest.sharpe_ratio }}</div>
-          </div>
-          <div class="stat-item">
-            <div class="stat-label">Max Drawdown</div>
-            <div class="stat-value" style="color:var(--accent-red);">{{ backtest.max_drawdown }}%</div>
-          </div>
-          <div class="stat-item" style="grid-column:span 2;">
-            <div class="stat-label">Total Trades</div>
-            <div class="stat-value">{{ backtest.trades }}</div>
-          </div>
+        <div class="stat-grid" id="backtest-grid">
+          <!-- Populated by JS -->
         </div>
-        {% else %}
-        <div style="color:var(--text-muted);font-size:0.85rem;padding:1rem 0;">Backtest data unavailable.</div>
-        {% endif %}
       </div>
 
-      <!-- Signal Explanation -->
-      <div class="card">
+      <!-- Signal Reasoning -->
+      <div class="card" id="reasoning-card" style="display:none;">
         <div class="card-header">
           <span class="card-title">Signal Reasoning</span>
           <i class="fas fa-brain" style="color:var(--text-muted);font-size:0.85rem;"></i>
         </div>
-        {% if explanation %}
-        <div class="explanation-panel">
-          <p style="margin-bottom:0.75rem;">{{ explanation }}</p>
-          {% if indicator_signals %}
-          <div style="margin-top:0.5rem;">
-            {% for sig in indicator_signals|slice:":4" %}
-            <div class="signal-factor">
-              <div class="signal-factor-dot {{ sig.signal }}"></div>
-              <div class="signal-factor-content">
-                <div class="signal-factor-title">{{ sig.indicator }}</div>
-                <div class="signal-factor-desc">{{ sig.explanation|truncatechars:120 }}</div>
-              </div>
-            </div>
-            {% endfor %}
-          </div>
-          {% endif %}
+        <div class="explanation-panel" id="reasoning-panel">
+          <!-- Populated by JS -->
         </div>
-        {% else %}
-        <div style="color:var(--text-muted);font-size:0.85rem;padding:1rem 0;">
-          Run model inference to see AI explanation.
-        </div>
-        {% endif %}
       </div>
 
     </div><!-- .bottom-grid -->
 
     <!-- Model Metrics -->
-    {% if model_metrics %}
-    <div class="card" style="margin-top:1rem;">
+    <div class="card" id="metrics-card" style="margin-top:1rem;display:none;">
       <div class="card-header">
         <span class="card-title">Model Performance Comparison</span>
         <i class="fas fa-table" style="color:var(--text-muted);font-size:0.85rem;"></i>
@@ -187,64 +119,45 @@
               <th>F1</th>
             </tr>
           </thead>
-          <tbody>
-            {% for mname, metrics in model_metrics.items %}
-            <tr>
-              <td>{{ mname }}</td>
-              {% if metrics.rmse %}
-              <td>{{ metrics.rmse|floatformat:4 }}</td>
-              <td>{{ metrics.mae|floatformat:4 }}</td>
-              <td>{{ metrics.mape|floatformat:2 }}%</td>
-              <td>{{ metrics.r2|floatformat:4 }}</td>
-              {% if 'accuracy' in metrics %}
-              <td>{{ metrics.accuracy|floatformat:4 }}</td>
-              {% else %}
-              <td style="color:var(--text-muted); font-size:0.75rem;">N/A (Reg)</td>
-              {% endif %}
-              <td style="color:var(--text-muted); font-size:0.75rem;">N/A (Reg)</td>
-              {% elif metrics.accuracy %}
-              <td style="color:var(--text-muted); font-size:0.75rem;">N/A (Cls)</td>
-              <td style="color:var(--text-muted); font-size:0.75rem;">N/A (Cls)</td>
-              <td style="color:var(--text-muted); font-size:0.75rem;">N/A (Cls)</td>
-              <td style="color:var(--text-muted); font-size:0.75rem;">N/A (Cls)</td>
-              <td>{{ metrics.accuracy|floatformat:4 }}</td>
-              <td>{{ metrics.f1|floatformat:4 }}</td>
-              {% endif %}
-            </tr>
-            {% endfor %}
+          <tbody id="metrics-tbody">
+            <!-- Populated by JS -->
           </tbody>
         </table>
       </div>
     </div>
-    {% endif %}
 
   </div><!-- left column -->
 
   <!-- Right panel: Signal | Probabilities | Horizons | Sentiment | AI -->
   <div class="right-panel">
 
+    <!-- Train Models Placeholder -->
+    <div id="train-models-prompt" style="color:var(--text-muted);font-size:0.85rem;text-align:center;padding:1.5rem 0;display:none;">
+      <i class="fas fa-brain" style="font-size:2rem;opacity:0.3;display:block;margin-bottom:0.5rem;"></i>
+      Train models to activate AI predictions.
+      <br><br>
+      <code style="font-size:0.75rem;color:var(--text-muted);">POST /api/train/</code>
+      <br>
+      <div id="missing-files-list" style="margin-top:10px;color:#ef4444;font-size:0.7rem;"></div>
+    </div>
+
     <!-- Signal Card -->
-    <div class="card">
+    <div class="card" id="signal-card" style="display:none;">
       <div class="card-header">
         <span class="card-title">AI Signal</span>
-        {% if signal %}
         <div class="confidence-ring" id="conf-ring">
           <svg width="72" height="72" viewBox="0 0 72 72">
             <circle class="ring-bg" cx="36" cy="36" r="32"/>
             <circle class="ring-fill" id="ring-fill" cx="36" cy="36" r="32"/>
           </svg>
-          <span class="confidence-value" id="conf-value">{{ confidence_score|floatformat:0 }}%</span>
+          <span class="confidence-value confidence-val" id="conf-value">--%</span>
         </div>
-        {% endif %}
       </div>
 
-      {% if signal %}
       <div style="text-align:center;margin-bottom:1rem;">
-        <div class="signal-badge signal-{{ signal|lower }}">
-          {% if signal == 'BUY' %}<i class="fas fa-arrow-up"></i>
-          {% elif signal == 'SELL' %}<i class="fas fa-arrow-down"></i>
-          {% else %}<i class="fas fa-minus"></i>{% endif %}
-          {{ signal }}
+        <div class="signal-badge" id="signal-badge-el">
+          <i id="signal-icon" class="fas fa-minus"></i>
+          <span id="signal-text">--</span>
         </div>
       </div>
 
@@ -253,23 +166,37 @@
         <div class="prob-row">
           <span class="prob-label">BUY</span>
           <div class="prob-track">
-            <div class="prob-fill buy" style="width:{{ probability.buy|floatformat:0 }}%;"></div>
+            <div class="prob-fill buy" id="prob-buy-bar" style="width:0%;"></div>
           </div>
-          <span class="prob-value buy">{{ probability.buy|floatformat:1 }}%</span>
+          <span class="prob-value buy" id="prob-buy-val">--%</span>
         </div>
         <div class="prob-row">
           <span class="prob-label">SELL</span>
           <div class="prob-track">
-            <div class="prob-fill sell" style="width:{{ probability.sell|floatformat:0 }}%;"></div>
+            <div class="prob-fill sell" id="prob-sell-bar" style="width:0%;"></div>
           </div>
-          <span class="prob-value sell">{{ probability.sell|floatformat:1 }}%</span>
+          <span class="prob-value sell" id="prob-sell-val">--%</span>
         </div>
         <div class="prob-row">
           <span class="prob-label">HOLD</span>
           <div class="prob-track">
-            <div class="prob-fill hold" style="width:{{ probability.hold|floatformat:0 }}%;"></div>
+            <div class="prob-fill hold" id="prob-hold-bar" style="width:0%;"></div>
           </div>
-          <span class="prob-value hold">{{ probability.hold|floatformat:1 }}%</span>
+          <span class="prob-value hold" id="prob-hold-val">--%</span>
+        </div>
+      </div>
+      
+      <!-- Prediction Price -->
+      <div style="margin-top:1rem;text-align:center;">
+        <span style="font-size:0.75rem;color:var(--text-muted);">AI Target Price:</span>
+        <span id="ai-target-price" style="font-size:1.1rem;font-weight:600;margin-left:0.5rem;color:var(--text-primary);">--</span>
+      </div>
+      
+      <!-- Individual Model Predictions -->
+      <div id="individual-predictions-container" style="margin-top:0.75rem; padding: 0.5rem; background: rgba(0,0,0,0.1); border-radius: 6px; display: none;">
+        <div style="font-size:0.7rem;color:var(--text-muted);margin-bottom:0.4rem;text-align:center;text-transform:uppercase;letter-spacing:1px;">Model Predictions</div>
+        <div id="individual-predictions-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:0.4rem;">
+            <!-- Populated by JS -->
         </div>
       </div>
 
@@ -281,83 +208,48 @@
           <i class="fas fa-star"></i> Add to Watchlist
         </button>
       </form>
-
-      {% else %}
-      <div style="color:var(--text-muted);font-size:0.85rem;text-align:center;padding:1.5rem 0;">
-        <i class="fas fa-brain" style="font-size:2rem;opacity:0.3;display:block;margin-bottom:0.5rem;"></i>
-        Train models to activate AI predictions.
-        <br><br>
-        <code style="font-size:0.75rem;color:var(--text-muted);">POST /api/train/</code>
-      </div>
-      {% endif %}
     </div>
 
     <!-- Price Horizons -->
-    {% if horizon_prices %}
-    <div class="card">
+    <div class="card" id="horizons-card" style="display:none;">
       <div class="card-header">
         <span class="card-title">Price Targets</span>
         <i class="fas fa-bullseye" style="color:var(--text-muted);font-size:0.85rem;"></i>
       </div>
-      <div class="horizon-grid">
-        {% for label, price in horizon_prices.items %}
-        <div class="horizon-card">
-          <div class="horizon-label">{{ label }}</div>
-          <div class="horizon-price">${{ price|floatformat:2 }}</div>
-          {% if current_price %}
-          {% with delta_pct=price|add:"-0"|floatformat:4 %}
-          <div class="horizon-delta {% if price >= current_price %}up{% else %}down{% endif %}">
-            {% if price >= current_price %}▲{% else %}▼{% endif %}
-          </div>
-          {% endwith %}
-          {% endif %}
-        </div>
-        {% endfor %}
+      <div class="horizon-grid" id="horizon-grid">
+        <!-- Populated by JS -->
       </div>
     </div>
-    {% endif %}
 
     <!-- Sentiment -->
-    {% if sentiment %}
-    <div class="card">
+    <div class="card" id="sentiment-card" style="display:none;">
       <div class="card-header">
         <span class="card-title">Market Sentiment</span>
         <i class="fas fa-newspaper" style="color:var(--text-muted);font-size:0.85rem;"></i>
       </div>
-      <div style="font-size:0.8rem;color:var(--text-secondary);margin-bottom:0.75rem;" id="sentiment-summary">{{ sentiment.summary }}</div>
+      <div style="font-size:0.8rem;color:var(--text-secondary);margin-bottom:0.75rem;" id="sentiment-summary">Analyzing sentiment...</div>
       <div class="sentiment-gauge">
         <div class="sentiment-bar-container">
           <div class="sentiment-label">Bullish</div>
           <div class="sentiment-track">
-            <div class="sentiment-fill-bull" id="bull-fill" style="width:{{ sentiment.bullish_score|floatformat:0 }}%;"></div>
+            <div class="sentiment-fill-bull" id="bull-fill" style="width:0%;"></div>
           </div>
         </div>
-        <span id="bull-val" style="font-family:'JetBrains Mono';font-size:0.8rem;color:var(--accent-green);">{{ sentiment.bullish_score|floatformat:1 }}</span>
+        <span id="bull-val" style="font-family:'JetBrains Mono';font-size:0.8rem;color:var(--accent-green);">0</span>
       </div>
       <div class="sentiment-gauge">
         <div class="sentiment-bar-container">
           <div class="sentiment-label">Bearish</div>
           <div class="sentiment-track">
-            <div class="sentiment-fill-bear" id="bear-fill" style="width:{{ sentiment.bearish_score|floatformat:0 }}%;"></div>
+            <div class="sentiment-fill-bear" id="bear-fill" style="width:0%;"></div>
           </div>
         </div>
-        <span id="bear-val" style="font-family:'JetBrains Mono';font-size:0.8rem;color:var(--accent-red);">{{ sentiment.bearish_score|floatformat:1 }}</span>
+        <span id="bear-val" style="font-family:'JetBrains Mono';font-size:0.8rem;color:var(--accent-red);">0</span>
       </div>
       <div class="news-list" id="sentiment-news-list">
-      {% if sentiment.articles %}
-        {% for article in sentiment.articles %}
-        <a href="{{ article.url }}" target="_blank" class="news-item">
-          <div class="news-sentiment-dot {{ article.sentiment|lower }}"></div>
-          <div>
-            <div class="news-title">{{ article.title }}</div>
-            <div class="news-source">{{ article.source }}</div>
-          </div>
-        </a>
-        {% endfor %}
-      {% endif %}
+        <!-- Populated by JS -->
       </div>
     </div>
-    {% endif %}
 
     <!-- AI Financial Assistant -->
     <div class="card">
@@ -397,6 +289,44 @@
 <script>
 const SYMBOL   = "{{ symbol|default:'AAPL' }}";
 const INTERVAL = "{{ interval|default:'1d' }}";
+
+// ── Model Metrics Rendering ────────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', () => {
+  const metricsJsonStr = `{{ model_metrics_json|safe }}`;
+  if (metricsJsonStr && metricsJsonStr.trim() !== "") {
+    try {
+      const metrics = JSON.parse(metricsJsonStr);
+      const metricsCard = document.getElementById('metrics-card');
+      const metricsTbody = document.getElementById('metrics-tbody');
+      
+      if (metricsCard && metricsTbody && Object.keys(metrics).length > 0) {
+        metricsCard.style.display = 'block';
+        let html = '';
+        for (const [mname, mdata] of Object.entries(metrics)) {
+          let rmse = mdata.rmse ? mdata.rmse.toFixed(4) : `<span style="color:var(--text-muted);font-size:0.75rem;">N/A (Cls)</span>`;
+          let mae = mdata.mae ? mdata.mae.toFixed(4) : `<span style="color:var(--text-muted);font-size:0.75rem;">N/A (Cls)</span>`;
+          let mape = mdata.mape ? mdata.mape.toFixed(2) + '%' : `<span style="color:var(--text-muted);font-size:0.75rem;">N/A (Cls)</span>`;
+          let r2 = mdata.r2 ? mdata.r2.toFixed(4) : `<span style="color:var(--text-muted);font-size:0.75rem;">N/A (Cls)</span>`;
+          let acc = mdata.accuracy ? mdata.accuracy.toFixed(4) : `<span style="color:var(--text-muted);font-size:0.75rem;">N/A (Reg)</span>`;
+          let f1 = mdata.f1 ? mdata.f1.toFixed(4) : `<span style="color:var(--text-muted);font-size:0.75rem;">N/A (Reg)</span>`;
+          
+          html += `<tr>
+            <td>${mname}</td>
+            <td>${rmse}</td>
+            <td>${mae}</td>
+            <td>${mape}</td>
+            <td>${r2}</td>
+            <td>${acc}</td>
+            <td>${f1}</td>
+          </tr>`;
+        }
+        metricsTbody.innerHTML = html;
+      }
+    } catch(err) {
+      console.error("Failed to parse model metrics JSON", err);
+    }
+  }
+});
 
 // ── Confidence ring animation ──────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
@@ -581,11 +511,12 @@ let _livePollingInterval = null;
 async function pollDashboardData() {
   try {
     // Concurrent fetch for performance
-    const [liveResp, candleResp, predictResp, sentimentResp] = await Promise.all([
+    const [liveResp, candleResp, predictResp, sentimentResp, backtestResp] = await Promise.all([
       fetch(`/api/live-data/?symbol=${SYMBOL}`, { cache: 'no-store', headers: { 'Cache-Control': 'no-cache' } }),
       fetch(`/api/candle-data/?symbol=${SYMBOL}&interval=${INTERVAL}&limit=1`, { cache: 'no-store', headers: { 'Cache-Control': 'no-cache' } }),
       fetch(`/api/predict/?symbol=${SYMBOL}&interval=${INTERVAL}`, { cache: 'no-store', headers: { 'Cache-Control': 'no-cache' } }),
-      fetch(`/api/sentiment/?symbol=${SYMBOL}`, { cache: 'no-store', headers: { 'Cache-Control': 'no-cache' } })
+      fetch(`/api/sentiment/?symbol=${SYMBOL}`, { cache: 'no-store', headers: { 'Cache-Control': 'no-cache' } }),
+      fetch(`/api/backtest/?symbol=${SYMBOL}`, { cache: 'no-store', headers: { 'Cache-Control': 'no-cache' } })
     ]);
 
     if (!liveResp.ok || !predictResp.ok) throw new Error(`HTTP Error`);
@@ -595,9 +526,10 @@ async function pollDashboardData() {
     const predictData = await predictResp.json();
     
     let sentimentData = null;
-    if (sentimentResp.ok) {
-      sentimentData = await sentimentResp.json();
-    }
+    if (sentimentResp.ok) sentimentData = await sentimentResp.json();
+    
+    let backtestData = null;
+    if (backtestResp.ok) backtestData = await backtestResp.json();
 
     if (liveData.status !== 'ok' || !liveData.latest) throw new Error('Invalid live data response');
     
@@ -638,39 +570,63 @@ async function pollDashboardData() {
       lastUpdateEl.textContent = 'Live · ' + new Date().toLocaleTimeString();
     }
 
-    // ── Update Chart (Latest Candle) ───────────────────────────────────
-    if (window.candleSeries && candleData.status === 'ok' && candleData.candles.length > 0) {
-      try {
-        const c = candleData.candles[0];
-        window.candleSeries.update({
-          time: new Date(c.time).getTime() / 1000,
-          open: c.open,
-          high: c.high,
-          low: c.low,
-          close: c.close
-        });
-        
-        if (window._livePriceLine) {
-          window.candleSeries.removePriceLine(window._livePriceLine);
+    // ── Update Chart (Latest Candle & AI Line) ─────────────────────────
+    if (window.candleSeries) {
+      if (candleData.status === 'ok' && candleData.candles.length > 0) {
+        try {
+          const c = candleData.candles[0];
+          window.candleSeries.update({
+            time: new Date(c.time).getTime() / 1000,
+            open: c.open,
+            high: c.high,
+            low: c.low,
+            close: c.close
+          });
+          
+          if (window._livePriceLine) {
+            window.candleSeries.removePriceLine(window._livePriceLine);
+          }
+          window._livePriceLine = window.candleSeries.createPriceLine({
+            price: price,
+            color: changePct >= 0 ? '#10b981' : '#ef4444',
+            lineWidth: 1,
+            lineStyle: 1,
+            axisLabelVisible: true,
+            title: '● Live',
+          });
+        } catch(e) { console.warn('Chart update failed:', e); }
+      }
+
+      // Async injection of AI Target Line onto Chart
+      if (predictData.status === 'ok' && predictData.ensemble_price) {
+        if (window.predictedPriceLine) {
+          window.candleSeries.removePriceLine(window.predictedPriceLine);
         }
-        window._livePriceLine = window.candleSeries.createPriceLine({
-          price: price,
-          color: changePct >= 0 ? '#10b981' : '#ef4444',
-          lineWidth: 1,
-          lineStyle: 1,
+        window.predictedPriceLine = window.candleSeries.createPriceLine({
+          price: predictData.ensemble_price,
+          color: '#f59e0b',
+          lineWidth: 2,
+          lineStyle: 2, // 2 = Dashed
           axisLabelVisible: true,
-          title: '● Live',
+          title: '⚡ Target',
         });
-      } catch(e) { console.warn('Chart update failed:', e); }
+      }
     }
 
     // ── Update AI Signal & Indicators ──────────────────────────────────
     if (predictData.status === 'ok') {
-      // Update Confidence Ring
+      // Unhide AI Cards
+      ['signal-card', 'indicators-card', 'backtest-card', 'reasoning-card', 'horizons-card'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.style.display = 'block';
+      });
+      const promptEl = document.getElementById('train-models-prompt');
+      if (promptEl) promptEl.style.display = 'none';
+
+      // 1. Signal Card
       const confidence = predictData.confidence || 0;
       const ring = document.getElementById('ring-fill');
       const confText = document.querySelector('.confidence-val');
-      const confLabel = document.querySelector('.confidence-label');
       
       if (ring && confText) {
         const circumference = 2 * Math.PI * 32;
@@ -679,30 +635,132 @@ async function pollDashboardData() {
         if (confidence >= 70) ring.style.stroke = 'var(--accent-green)';
         else if (confidence >= 50) ring.style.stroke = 'var(--accent-gold)';
         else ring.style.stroke = 'var(--accent-red)';
-        
         confText.textContent = confidence.toFixed(1) + '%';
-        if (confLabel) confLabel.textContent = predictData.signal || 'WAIT';
       }
 
-      // Update AI Insights
-      const signalValue = document.querySelector('.signal-value');
-      const signalDesc = document.querySelector('.signal-desc');
-      if (signalValue && signalDesc) {
-        const sig = predictData.signal || 'NEUTRAL';
-        signalValue.textContent = sig;
-        signalValue.className = `signal-value ${sig.toLowerCase()}`;
-        signalDesc.textContent = `Probability: ${(predictData.probability * 100 || 0).toFixed(1)}%`;
+      const sig = predictData.signal || 'WAIT';
+      const badge = document.getElementById('signal-badge-el');
+      if (badge) {
+        badge.className = `signal-badge signal-${sig.toLowerCase()}`;
+        const icon = document.getElementById('signal-icon');
+        if (icon) {
+            if (sig === 'BUY') icon.className = 'fas fa-arrow-up';
+            else if (sig === 'SELL') icon.className = 'fas fa-arrow-down';
+            else icon.className = 'fas fa-minus';
+        }
+        const text = document.getElementById('signal-text');
+        if (text) text.textContent = sig;
+      }
+
+      // Probabilities
+      if (predictData.probability) {
+        ['buy', 'sell', 'hold'].forEach(key => {
+            const val = predictData.probability[key] || 0;
+            const bar = document.getElementById(`prob-${key}-bar`);
+            const txt = document.getElementById(`prob-${key}-val`);
+            if (bar) bar.style.width = `${val}%`;
+            if (txt) txt.textContent = `${val.toFixed(1)}%`;
+        });
       }
       
-      const pxPred = document.querySelector('.prediction-item:nth-child(2) .pred-val');
-      if (pxPred) {
-        pxPred.textContent = '$' + (predictData.ensemble_price || 0).toFixed(2);
+      const targetPx = document.getElementById('ai-target-price');
+      if (targetPx && predictData.ensemble_price) {
+        targetPx.textContent = '$' + predictData.ensemble_price.toFixed(2);
+      }
+
+      // Render Individual Model Predictions
+      if (predictData.predictions && Object.keys(predictData.predictions).length > 0) {
+        const container = document.getElementById('individual-predictions-container');
+        const grid = document.getElementById('individual-predictions-grid');
+        if (container && grid) {
+          container.style.display = 'block';
+          let html = '';
+          for (const [mname, mprice] of Object.entries(predictData.predictions)) {
+             html += `
+             <div style="display:flex; justify-content:space-between; align-items:center; background:rgba(255,255,255,0.03); padding:0.3rem 0.5rem; border-radius:4px; border:1px solid rgba(255,255,255,0.05);">
+               <span style="font-size:0.7rem; color:var(--text-muted); font-weight:600;">${mname}</span>
+               <span style="font-size:0.75rem; color:var(--accent-blue-lt); font-family:'JetBrains Mono', monospace;">$${mprice.toFixed(2)}</span>
+             </div>
+             `;
+          }
+          grid.innerHTML = html;
+        }
+      }
+
+      // 2. Indicators
+      if (predictData.indicator_signals) {
+        let html = '';
+        predictData.indicator_signals.forEach(sig => {
+            html += `
+            <div class="indicator-pill" title="${sig.explanation}">
+              <div class="indicator-name">${sig.indicator.substring(0,12)}</div>
+              <div class="indicator-value">${String(sig.value).substring(0,10)}</div>
+              <div class="indicator-signal ${sig.signal.toLowerCase()}">${sig.signal}</div>
+            </div>`;
+        });
+        const grid = document.getElementById('indicator-grid');
+        if (grid) grid.innerHTML = html;
+      }
+
+      // 3. Signal Reasoning
+      if (predictData.explanation) {
+        let html = `<p style="margin-bottom:0.75rem;">${predictData.explanation}</p>`;
+        if (predictData.indicator_signals) {
+            html += `<div style="margin-top:0.5rem;">`;
+            predictData.indicator_signals.slice(0, 4).forEach(sig => {
+                html += `
+                <div class="signal-factor">
+                  <div class="signal-factor-dot ${sig.signal}"></div>
+                  <div class="signal-factor-content">
+                    <div class="signal-factor-title">${sig.indicator}</div>
+                    <div class="signal-factor-desc">${(sig.explanation||'').substring(0,120)}</div>
+                  </div>
+                </div>`;
+            });
+            html += `</div>`;
+        }
+        const panel = document.getElementById('reasoning-panel');
+        if (panel) panel.innerHTML = html;
+      }
+
+      // 4. Horizons
+      if (predictData.horizon_prices) {
+        let html = '';
+        for (const [label, price] of Object.entries(predictData.horizon_prices)) {
+            const isUp = price >= price; // Simplified, compare with current price if available
+            html += `
+            <div class="horizon-card">
+              <div class="horizon-label">${label}</div>
+              <div class="horizon-price">$${Number(price).toFixed(2)}</div>
+              <div class="horizon-delta ${isUp ? 'up' : 'down'}">${isUp ? '▲' : '▼'}</div>
+            </div>`;
+        }
+        const hGrid = document.getElementById('horizon-grid');
+        if (hGrid) hGrid.innerHTML = html;
+      }
+
+    } else if (predictData.status === 'error' && predictData.reason === 'models_missing') {
+      // Hide AI Cards
+      ['signal-card', 'indicators-card', 'backtest-card', 'reasoning-card', 'horizons-card', 'metrics-card'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.style.display = 'none';
+      });
+      // Show Prompt
+      const promptEl = document.getElementById('train-models-prompt');
+      if (promptEl) {
+          promptEl.style.display = 'block';
+          const filesEl = document.getElementById('missing-files-list');
+          if (filesEl && predictData.message) {
+              filesEl.textContent = `Error: ${predictData.message}`;
+          }
       }
     }
 
     // ── Update Sentiment ───────────────────────────────────────────────
     if (sentimentData && sentimentData.status === 'ok') {
       const sent = sentimentData.sentiment;
+      const sentCard = document.getElementById('sentiment-card');
+      if (sentCard) sentCard.style.display = 'block';
       
       const summaryEl = document.getElementById('sentiment-summary');
       if (summaryEl) summaryEl.textContent = sent.summary;
@@ -732,6 +790,42 @@ async function pollDashboardData() {
           `;
         });
         newsList.innerHTML = html;
+      }
+    }
+
+    // ── Update Backtest ────────────────────────────────────────────────
+    if (backtestData && backtestData.status === 'ok' && backtestData.backtest) {
+      const bt = backtestData.backtest;
+      const btCard = document.getElementById('backtest-card');
+      if (btCard) btCard.style.display = 'block';
+
+      const winRateColor = bt.win_rate >= 50 ? 'var(--accent-green)' : 'var(--accent-red)';
+      const profitColor = bt.profit_factor >= 1 ? 'var(--accent-green)' : 'var(--accent-red)';
+      
+      const grid = document.getElementById('backtest-grid');
+      if (grid) {
+        grid.innerHTML = `
+          <div class="stat-item">
+            <div class="stat-label">Win Rate</div>
+            <div class="stat-value" style="color:${winRateColor};">${bt.win_rate.toFixed(1)}%</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-label">Profit Factor</div>
+            <div class="stat-value" style="color:${profitColor};">${bt.profit_factor.toFixed(2)}</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-label">Sharpe Ratio</div>
+            <div class="stat-value">${bt.sharpe_ratio.toFixed(2)}</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-label">Max Drawdown</div>
+            <div class="stat-value" style="color:var(--accent-red);">${bt.max_drawdown.toFixed(1)}%</div>
+          </div>
+          <div class="stat-item" style="grid-column:span 2;">
+            <div class="stat-label">Total Trades</div>
+            <div class="stat-value">${bt.trades}</div>
+          </div>
+        `;
       }
     }
 

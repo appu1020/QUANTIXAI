@@ -37,8 +37,8 @@ from .data_pipeline import (
     fetch_live_quotes_batch,
     invalidate_cache,
 )
-from .model_engine import MODEL_FILE_MAP, ModelLoader, load_metrics_report
-from .prediction_engine import infer
+from .model_engine import MODEL_FILE_MAP, load_metrics_report
+from .services.prediction_service import infer
 from .sentiment_engine import aggregate_sentiment, fetch_news_for_symbol
 from .training_engine import train_models
 
@@ -69,7 +69,7 @@ def predict(request):
     """
     symbol, interval = _get_symbol_interval(request)
     try:
-        result = infer(symbol=symbol, interval=interval, model_dir=MODEL_DIR)
+        result = infer(symbol=symbol, interval=interval)
         resp = JsonResponse({
             "status":          "ok",
             "symbol":          result.symbol,
@@ -88,7 +88,11 @@ def predict(request):
         resp["Pragma"] = "no-cache"
         return resp
     except FileNotFoundError as exc:
-        return _json_error(str(exc), status=404)
+        return JsonResponse({
+            "status": "error",
+            "reason": "models_missing",
+            "message": str(exc)
+        }, status=404)
     except Exception as exc:
         logger.exception("Prediction API error")
         return _json_error(str(exc))
@@ -128,6 +132,10 @@ def train(request):
             model_dir=MODEL_DIR,
             train_classifiers=train_cls,
         )
+        # Invalidate memory cache so new models load on next inference
+        from .services.model_manager import ModelManager
+        ModelManager.clear_cache()
+        
         return JsonResponse({
             "status":   "ok",
             "symbol":   symbol,
@@ -380,7 +388,7 @@ def rag_query(request):
 
         if include_pred and symbol:
             try:
-                result = infer(symbol=symbol, interval="1d", model_dir=MODEL_DIR, persist=False)
+                result = infer(symbol=symbol, interval="1d", persist=False)
                 prediction_context = build_prediction_context(
                     symbol=result.symbol,
                     current_price=result.current_price,
@@ -448,7 +456,7 @@ def explain_prediction(request):
     """
     symbol, interval = _get_symbol_interval(request)
     try:
-        result = infer(symbol=symbol, interval=interval, model_dir=MODEL_DIR, persist=False)
+        result = infer(symbol=symbol, interval=interval, persist=False)
 
         from .explainability import generate_prediction_explanation
         explanation_data = generate_prediction_explanation(
@@ -476,3 +484,43 @@ def explain_prediction(request):
     except Exception as exc:
         logger.exception("Explain prediction API error")
         return _json_error(str(exc))
+
+@require_http_methods(["GET"])
+def health_check(request):
+    """
+    Render health check endpoint to ensure Gunicorn worker is responsive and ML artifacts are loaded.
+    """
+    from .services.model_manager import ModelManager
+    from django.conf import settings
+    from pathlib import Path
+    
+    MODEL_DIR = Path(settings.BASE_DIR) / "myapp" / "models"
+    
+    models_status = "uninitialized"
+    scaler_status = "uninitialized"
+    missing = []
+    
+    try:
+        ModelManager.initialize(MODEL_DIR)
+        models = ModelManager.get_models()
+        models_status = "loaded" if models else "empty"
+        
+        try:
+            scaler = ModelManager.get_scaler()
+            scaler_status = "loaded" if scaler else "missing"
+        except FileNotFoundError:
+            scaler_status = "missing"
+            
+    except FileNotFoundError as exc:
+        models_status = "error"
+        missing.append(str(exc))
+    except Exception as exc:
+        models_status = f"error: {str(exc)}"
+
+    return JsonResponse({
+        "status": "ok" if models_status == "loaded" else "warning",
+        "message": "QuantixAI backend is running.",
+        "models_status": models_status,
+        "scaler_status": scaler_status,
+        "missing_files": missing
+    })

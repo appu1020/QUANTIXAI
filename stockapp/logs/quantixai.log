@@ -10940,3 +10940,297 @@ ValueError: yfinance returned empty data for RELIANCE.NS at interval 1d after 3 
 2026-07-04 18:23:43 [ERROR] yfinance multi:189 — ['ICICIBANK.NS']: TypeError("'NoneType' object is not subscriptable")
 2026-07-04 18:23:43 [INFO] myapp.data_pipeline data_pipeline:193 — Batch download for 2 symbols in 2813ms
 2026-07-04 18:23:44 [INFO] myapp.data_pipeline data_pipeline:193 — Batch download for 3 symbols in 1703ms
+2026-07-05 17:01:10 [INFO] django.utils.autoreload autoreload:667 — Watching for file changes with StatReloader
+2026-07-05 17:03:07 [INFO] django.utils.autoreload autoreload:667 — Watching for file changes with StatReloader
+2026-07-05 17:47:16 [WARNING] django.request log:246 — Not Found: /favicon.ico
+2026-07-05 17:47:34 [INFO] myapp.data_pipeline data_pipeline:154 — Live quote [1m_history] AAPL: $308.22 (+4.75%) in 9391ms
+2026-07-05 17:47:35 [INFO] myapp.data_pipeline data_pipeline:287 — Downloading AAPL | interval=1d | period=5y (cache_ttl=300s)
+2026-07-05 17:47:35 [DEBUG] myapp.data_pipeline data_pipeline:107 — Live quote cache HIT: AAPL
+2026-07-05 17:47:35 [INFO] myapp.data_pipeline data_pipeline:287 — Downloading AAPL | interval=1d | period=5y (cache_ttl=300s)
+2026-07-05 17:47:35 [DEBUG] myapp.services.cache_service cache_service:26 — Cache miss for key: prediction_AAPL_1d
+2026-07-05 17:47:35 [INFO] myapp.services.model_manager model_manager:73 — Initializing ModelManager: Loading ML artifacts into memory...
+2026-07-05 17:47:35 [INFO] myapp.data_pipeline data_pipeline:193 — Batch download for 3 symbols in 359ms
+2026-07-05 17:47:35 [INFO] myapp.services.model_manager model_manager:79 — Scaler loaded successfully.
+2026-07-05 17:47:35 [INFO] myapp.data_pipeline data_pipeline:343 — Downloaded AAPL @ 1d: 1254 rows, latest close=$308.63 @ 2026-07-02 00:00:00-04:00
+2026-07-05 17:47:35 [INFO] myapp.data_pipeline data_pipeline:343 — Downloaded AAPL @ 1d: 1254 rows, latest close=$308.63 @ 2026-07-02 00:00:00-04:00
+2026-07-05 17:47:37 [INFO] myapp.sentiment_engine sentiment_engine:124 — Fetched 8 Yahoo Finance news for AAPL
+2026-07-05 17:47:43 [INFO] myapp.data_pipeline data_pipeline:193 — Batch download for 3 symbols in 344ms
+2026-07-05 17:47:46 [INFO] myapp.data_pipeline data_pipeline:154 — Live quote [1m_history] AAPL: $308.22 (+4.75%) in 359ms
+2026-07-05 17:47:46 [DEBUG] myapp.data_pipeline data_pipeline:59 — Cache HIT (age=11s): AAPL_1d
+2026-07-05 17:47:46 [DEBUG] myapp.services.cache_service cache_service:26 — Cache miss for key: prediction_AAPL_1d
+2026-07-05 17:47:46 [INFO] myapp.services.model_manager model_manager:73 — Initializing ModelManager: Loading ML artifacts into memory...
+2026-07-05 17:47:46 [DEBUG] myapp.data_pipeline data_pipeline:107 — Live quote cache HIT: AAPL
+2026-07-05 17:47:46 [DEBUG] myapp.data_pipeline data_pipeline:59 — Cache HIT (age=11s): AAPL_1d
+2026-07-05 17:47:46 [INFO] myapp.services.model_manager model_manager:79 — Scaler loaded successfully.
+2026-07-05 17:47:47 [INFO] myapp.sentiment_engine sentiment_engine:124 — Fetched 8 Yahoo Finance news for AAPL
+2026-07-05 17:47:47 [INFO] myapp.data_pipeline data_pipeline:193 — Batch download for 3 symbols in 859ms
+2026-07-05 17:47:53 [WARNING] rag.embeddings embeddings:102 — sentence-transformers not installed. Falling back to TF-IDF embedder. Run: pip install sentence-transformers
+2026-07-05 17:47:53 [ERROR] rag.vector_store vector_store:46 — chromadb is not installed. Run `pip install chromadb`.
+2026-07-05 17:47:53 [INFO] rag.pipeline pipeline:133 — Building RAG pipeline from documents…
+2026-07-05 17:47:53 [INFO] rag.document_loader document_loader:63 — Loaded TXT document: market_regimes.txt (6440 chars)
+2026-07-05 17:47:53 [INFO] rag.document_loader document_loader:63 — Loaded TXT document: technical_analysis.txt (9604 chars)
+2026-07-05 17:47:53 [INFO] rag.document_loader document_loader:96 — Loaded 2 static knowledge documents from C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\rag\documents (total chars: 16044)
+2026-07-05 17:47:53 [INFO] rag.document_loader document_loader:135 — Loaded 38 news documents from DB (0 skipped as too short)
+2026-07-05 17:47:53 [INFO] rag.document_loader document_loader:173 — Loaded 50 prediction documents from DB
+2026-07-05 17:47:53 [INFO] rag.document_loader document_loader:203 — Total RAG documents: 90 loaded, 28 deduplicated -> 62 unique | total_chars=26316
+2026-07-05 17:47:53 [INFO] rag.pipeline pipeline:153 — Fitting embedder on 28 chunks…
+2026-07-05 17:47:53 [INFO] rag.embeddings embeddings:48 — TFIDFEmbedder fitted on 28 texts, vocab size=2447
+2026-07-05 17:47:53 [INFO] rag.pipeline pipeline:157 — Embeddings generated: shape=(28, 2447), dtype=float32
+2026-07-05 17:47:53 [ERROR] rag.vector_store vector_store:53 — ChromaVectorStore is not available.
+2026-07-05 17:47:53 [INFO] rag.embeddings embeddings:65 — TFIDFEmbedder saved to C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\rag\vector_store_data\embedder.pkl (dim=2447)
+2026-07-05 17:47:53 [DEBUG] rag.vector_store vector_store:148 — ChromaVectorStore automatically persists data.
+2026-07-05 17:47:53 [WARNING] rag.embeddings embeddings:219 — sentence-transformers not installed, CrossEncoder unavailable.
+2026-07-05 17:47:53 [INFO] rag.retriever retriever:133 — BM25 keyword retriever available (rank_bm25 installed)
+2026-07-05 17:47:53 [INFO] rag.pipeline pipeline:194 — SemanticRetriever ready (BM25 available: True)
+2026-07-05 17:47:53 [INFO] rag.pipeline pipeline:179 — RAG pipeline built: 62 documents -> 28 chunks indexed (embed_dim=2447)
+2026-07-05 17:47:53 [DEBUG] myapp.services.cache_service cache_service:26 — Cache miss for key: prediction_AAPL_1d
+2026-07-05 17:47:53 [INFO] myapp.services.model_manager model_manager:73 — Initializing ModelManager: Loading ML artifacts into memory...
+2026-07-05 17:47:53 [INFO] myapp.services.model_manager model_manager:79 — Scaler loaded successfully.
+2026-07-05 17:47:54 [INFO] myapp.data_pipeline data_pipeline:193 — Batch download for 3 symbols in 281ms
+2026-07-05 17:48:03 [INFO] myapp.data_pipeline data_pipeline:193 — Batch download for 3 symbols in 547ms
+2026-07-05 17:48:04 [INFO] myapp.services.model_manager model_manager:98 — Loaded model 'lstm'
+2026-07-05 17:48:04 [INFO] myapp.services.model_manager model_manager:98 — Loaded model 'lstm'
+2026-07-05 17:48:04 [INFO] myapp.services.model_manager model_manager:98 — Loaded model 'lstm'
+2026-07-05 17:48:11 [INFO] myapp.data_pipeline data_pipeline:193 — Batch download for 3 symbols in 516ms
+2026-07-05 17:48:12 [INFO] myapp.services.model_manager model_manager:98 — Loaded model 'bilstm'
+2026-07-05 17:48:12 [INFO] myapp.services.model_manager model_manager:98 — Loaded model 'bilstm'
+2026-07-05 17:48:12 [INFO] myapp.services.model_manager model_manager:98 — Loaded model 'bilstm'
+2026-07-05 17:48:16 [INFO] myapp.services.model_manager model_manager:98 — Loaded model 'gru'
+2026-07-05 17:48:16 [INFO] myapp.services.model_manager model_manager:98 — Loaded model 'gru'
+2026-07-05 17:48:16 [INFO] myapp.services.model_manager model_manager:98 — Loaded model 'gru'
+2026-07-05 17:48:16 [DEBUG] myapp.services.cache_service cache_service:26 — Cache miss for key: prediction_AAPL_1d
+2026-07-05 17:48:16 [DEBUG] myapp.data_pipeline data_pipeline:59 — Cache HIT (age=41s): AAPL_1d
+2026-07-05 17:48:17 [INFO] myapp.services.model_manager model_manager:73 — Initializing ModelManager: Loading ML artifacts into memory...
+2026-07-05 17:48:17 [INFO] myapp.services.model_manager model_manager:79 — Scaler loaded successfully.
+2026-07-05 17:48:17 [INFO] myapp.sentiment_engine sentiment_engine:124 — Fetched 8 Yahoo Finance news for AAPL
+2026-07-05 17:48:17 [INFO] myapp.data_pipeline data_pipeline:154 — Live quote [1m_history] AAPL: $308.22 (+4.75%) in 1250ms
+2026-07-05 17:48:19 [INFO] myapp.data_pipeline data_pipeline:193 — Batch download for 3 symbols in 578ms
+2026-07-05 17:48:22 [INFO] myapp.data_pipeline data_pipeline:193 — Batch download for 10 symbols in 954ms
+2026-07-05 17:48:23 [INFO] myapp.data_pipeline data_pipeline:193 — Batch download for 10 symbols in 985ms
+2026-07-05 17:48:24 [INFO] myapp.data_pipeline data_pipeline:193 — Batch download for 3 symbols in 360ms
+2026-07-05 17:48:24 [INFO] myapp.services.model_manager model_manager:98 — Loaded model 'cnn_lstm'
+2026-07-05 17:48:24 [INFO] myapp.services.model_manager model_manager:98 — Loaded model 'lstm'
+2026-07-05 17:48:24 [INFO] myapp.services.model_manager model_manager:98 — Loaded model 'cnn_lstm'
+2026-07-05 17:48:24 [INFO] myapp.services.model_manager model_manager:98 — Loaded model 'cnn_lstm'
+2026-07-05 17:48:25 [INFO] myapp.services.model_manager model_manager:98 — Loaded model 'xgboost'
+2026-07-05 17:48:25 [INFO] myapp.services.model_manager model_manager:98 — Loaded model 'xgboost'
+2026-07-05 17:48:25 [INFO] myapp.services.model_manager model_manager:98 — Loaded model 'xgboost'
+2026-07-05 17:48:26 [INFO] myapp.services.model_manager model_manager:98 — Loaded model 'lightgbm'
+2026-07-05 17:48:26 [INFO] myapp.services.model_manager model_manager:98 — Loaded model 'lightgbm'
+2026-07-05 17:48:26 [INFO] myapp.services.model_manager model_manager:98 — Loaded model 'lightgbm'
+2026-07-05 17:48:27 [INFO] myapp.data_pipeline data_pipeline:193 — Batch download for 3 symbols in 438ms
+2026-07-05 17:48:28 [INFO] myapp.services.model_manager model_manager:98 — Loaded model 'bilstm'
+2026-07-05 17:48:29 [INFO] myapp.services.model_manager model_manager:98 — Loaded model 'rf'
+2026-07-05 17:48:29 [INFO] myapp.services.model_manager model_manager:98 — Loaded model 'rf'
+2026-07-05 17:48:29 [INFO] myapp.services.model_manager model_manager:98 — Loaded model 'rf'
+2026-07-05 17:48:29 [INFO] myapp.services.model_manager model_manager:98 — Loaded model 'xgb_cls'
+2026-07-05 17:48:29 [INFO] myapp.services.model_manager model_manager:98 — Loaded model 'xgb_cls'
+2026-07-05 17:48:29 [INFO] myapp.services.model_manager model_manager:98 — Loaded model 'xgb_cls'
+2026-07-05 17:48:29 [INFO] myapp.services.model_manager model_manager:98 — Loaded model 'lgbm_cls'
+2026-07-05 17:48:29 [INFO] myapp.services.model_manager model_manager:98 — Loaded model 'lgbm_cls'
+2026-07-05 17:48:29 [INFO] myapp.services.model_manager model_manager:98 — Loaded model 'lgbm_cls'
+2026-07-05 17:48:29 [INFO] myapp.services.model_manager model_manager:98 — Loaded model 'rf_cls'
+2026-07-05 17:48:29 [INFO] myapp.services.model_manager model_manager:103 — ModelManager initialization complete.
+2026-07-05 17:48:29 [DEBUG] myapp.data_pipeline data_pipeline:59 — Cache HIT (age=54s): AAPL_1d
+2026-07-05 17:48:29 [INFO] myapp.services.model_manager model_manager:98 — Loaded model 'rf_cls'
+2026-07-05 17:48:29 [INFO] myapp.services.model_manager model_manager:103 — ModelManager initialization complete.
+2026-07-05 17:48:29 [INFO] myapp.services.model_manager model_manager:98 — Loaded model 'rf_cls'
+2026-07-05 17:48:29 [DEBUG] myapp.data_pipeline data_pipeline:59 — Cache HIT (age=54s): AAPL_1d
+2026-07-05 17:48:29 [INFO] myapp.services.model_manager model_manager:103 — ModelManager initialization complete.
+2026-07-05 17:48:29 [DEBUG] myapp.data_pipeline data_pipeline:59 — Cache HIT (age=54s): AAPL_1d
+2026-07-05 17:48:29 [INFO] myapp.data_pipeline data_pipeline:193 — Batch download for 2 symbols in 532ms
+2026-07-05 17:48:30 [INFO] myapp.data_pipeline data_pipeline:193 — Batch download for 3 symbols in 390ms
+2026-07-05 17:48:30 [INFO] myapp.services.model_manager model_manager:98 — Loaded model 'gru'
+2026-07-05 17:48:32 [INFO] myapp.data_pipeline data_pipeline:154 — Live quote [1m_history] AAPL: $308.22 (+4.75%) in 531ms
+2026-07-05 17:48:32 [DEBUG] myapp.data_pipeline data_pipeline:59 — Cache HIT (age=57s): AAPL_1d
+2026-07-05 17:48:32 [DEBUG] myapp.data_pipeline data_pipeline:107 — Live quote cache HIT: AAPL
+2026-07-05 17:48:32 [DEBUG] myapp.data_pipeline data_pipeline:59 — Cache HIT (age=57s): AAPL_1d
+2026-07-05 17:48:33 [DEBUG] myapp.services.cache_service cache_service:26 — Cache miss for key: prediction_AAPL_1d
+2026-07-05 17:48:33 [DEBUG] myapp.data_pipeline data_pipeline:59 — Cache HIT (age=58s): AAPL_1d
+2026-07-05 17:48:33 [INFO] myapp.data_pipeline data_pipeline:193 — Batch download for 3 symbols in 844ms
+2026-07-05 17:48:33 [INFO] myapp.sentiment_engine sentiment_engine:124 — Fetched 8 Yahoo Finance news for AAPL
+2026-07-05 17:48:35 [INFO] myapp.services.model_manager model_manager:98 — Loaded model 'cnn_lstm'
+2026-07-05 17:48:35 [INFO] myapp.services.model_manager model_manager:98 — Loaded model 'xgboost'
+2026-07-05 17:48:35 [INFO] myapp.services.model_manager model_manager:98 — Loaded model 'lightgbm'
+2026-07-05 17:48:35 [INFO] myapp.services.model_manager model_manager:98 — Loaded model 'rf'
+2026-07-05 17:48:35 [INFO] myapp.services.model_manager model_manager:98 — Loaded model 'xgb_cls'
+2026-07-05 17:48:35 [INFO] myapp.services.model_manager model_manager:98 — Loaded model 'lgbm_cls'
+2026-07-05 17:48:35 [INFO] myapp.services.model_manager model_manager:98 — Loaded model 'rf_cls'
+2026-07-05 17:48:35 [INFO] myapp.services.model_manager model_manager:103 — ModelManager initialization complete.
+2026-07-05 17:48:35 [DEBUG] myapp.data_pipeline data_pipeline:59 — Cache HIT (age=60s): AAPL_1d
+2026-07-05 17:48:39 [DEBUG] myapp.services.cache_service cache_service:26 — Cache miss for key: prediction_AAPL_1d
+2026-07-05 17:48:39 [DEBUG] myapp.data_pipeline data_pipeline:59 — Cache HIT (age=64s): AAPL_1d
+2026-07-05 17:48:41 [INFO] myapp.data_pipeline data_pipeline:193 — Batch download for 3 symbols in 438ms
+2026-07-05 17:48:46 [INFO] rag.pipeline pipeline:314 — Hybrid AI Router | question='Why did the model predict BUY?' | symbol=AAPL | intent=Prediction | session=nojwwqnolcc5y4sqim4w6gw97vb6svxd
+2026-07-05 17:48:46 [DEBUG] rag.pipeline pipeline:348 — Final prompt length: 1544 chars
+2026-07-05 17:48:46 [INFO] rag.llm llm:14 — GROQ_API_KEY Loaded: True
+2026-07-05 17:48:46 [INFO] rag.pipeline pipeline:429 — Generating response via Groq for question: 'Why did the model predict BUY?' with 2 docs
+2026-07-05 17:48:46 [INFO] rag.pipeline pipeline:314 — Hybrid AI Router | question='Why did the model predict BUY?' | symbol=AAPL | intent=Prediction | session=nojwwqnolcc5y4sqim4w6gw97vb6svxd
+2026-07-05 17:48:46 [DEBUG] rag.pipeline pipeline:348 — Final prompt length: 1544 chars
+2026-07-05 17:48:46 [INFO] rag.pipeline pipeline:429 — Generating response via Groq for question: 'Why did the model predict BUY?' with 2 docs
+2026-07-05 17:48:48 [INFO] rag.llm llm:26 — Groq Client Initialized: True
+2026-07-05 17:48:48 [INFO] rag.llm llm:26 — Groq Client Initialized: True
+2026-07-05 17:48:49 [INFO] myapp.data_pipeline data_pipeline:193 — Batch download for 3 symbols in 313ms
+2026-07-05 17:48:49 [INFO] httpx _client:1025 — HTTP Request: GET https://api.groq.com/openai/v1/models "HTTP/1.1 200 OK"
+2026-07-05 17:48:49 [INFO] rag.llm llm:70 — Selected Groq Model: llama-3.3-70b-versatile
+2026-07-05 17:48:49 [DEBUG] rag.llm llm:71 — Prompt length: 1544 chars
+2026-07-05 17:48:49 [INFO] httpx _client:1025 — HTTP Request: GET https://api.groq.com/openai/v1/models "HTTP/1.1 200 OK"
+2026-07-05 17:48:49 [INFO] rag.llm llm:70 — Selected Groq Model: llama-3.3-70b-versatile
+2026-07-05 17:48:49 [DEBUG] rag.llm llm:71 — Prompt length: 1544 chars
+2026-07-05 17:48:50 [INFO] httpx _client:1025 — HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-07-05 17:48:50 [INFO] httpx _client:1025 — HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-07-05 17:48:50 [INFO] rag.llm llm:89 — Groq API Response Time: 1.55 seconds
+2026-07-05 17:48:50 [INFO] rag.llm llm:92 — Groq successfully generated response (1196 chars).
+2026-07-05 17:48:50 [INFO] rag.pipeline pipeline:359 — RAG answer generated (1196 chars)
+2026-07-05 17:48:50 [INFO] rag.llm llm:89 — Groq API Response Time: 1.59 seconds
+2026-07-05 17:48:50 [INFO] rag.llm llm:92 — Groq successfully generated response (1298 chars).
+2026-07-05 17:48:50 [INFO] rag.pipeline pipeline:359 — RAG answer generated (1298 chars)
+2026-07-05 17:48:57 [INFO] myapp.data_pipeline data_pipeline:193 — Batch download for 3 symbols in 297ms
+2026-07-05 17:48:59 [DEBUG] myapp.services.cache_service cache_service:23 — Cache hit for key: prediction_AAPL_1d
+2026-07-05 17:48:59 [INFO] rag.pipeline pipeline:314 — Hybrid AI Router | question='helo' | symbol=AAPL | intent=Financial | session=nojwwqnolcc5y4sqim4w6gw97vb6svxd
+2026-07-05 17:48:59 [DEBUG] rag.pipeline pipeline:348 — Final prompt length: 1474 chars
+2026-07-05 17:48:59 [INFO] rag.pipeline pipeline:429 — Generating response via Groq for question: 'helo' with 2 docs
+2026-07-05 17:48:59 [INFO] rag.llm llm:26 — Groq Client Initialized: True
+2026-07-05 17:48:59 [INFO] httpx _client:1025 — HTTP Request: GET https://api.groq.com/openai/v1/models "HTTP/1.1 200 OK"
+2026-07-05 17:48:59 [INFO] rag.llm llm:70 — Selected Groq Model: llama-3.3-70b-versatile
+2026-07-05 17:48:59 [DEBUG] rag.llm llm:71 — Prompt length: 1474 chars
+2026-07-05 17:49:00 [INFO] httpx _client:1025 — HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-07-05 17:49:00 [INFO] rag.llm llm:89 — Groq API Response Time: 0.55 seconds
+2026-07-05 17:49:00 [INFO] rag.llm llm:92 — Groq successfully generated response (565 chars).
+2026-07-05 17:49:00 [INFO] rag.pipeline pipeline:359 — RAG answer generated (565 chars)
+2026-07-05 17:49:02 [DEBUG] myapp.data_pipeline data_pipeline:59 — Cache HIT (age=87s): AAPL_1d
+2026-07-05 17:49:02 [DEBUG] myapp.services.cache_service cache_service:23 — Cache hit for key: prediction_AAPL_1d
+2026-07-05 17:49:03 [INFO] myapp.data_pipeline data_pipeline:154 — Live quote [1m_history] AAPL: $308.22 (+4.75%) in 391ms
+2026-07-05 17:49:03 [INFO] myapp.sentiment_engine sentiment_engine:124 — Fetched 8 Yahoo Finance news for AAPL
+2026-07-05 17:49:05 [INFO] myapp.data_pipeline data_pipeline:193 — Batch download for 3 symbols in 297ms
+2026-07-05 17:49:13 [INFO] myapp.data_pipeline data_pipeline:193 — Batch download for 3 symbols in 266ms
+2026-07-05 17:49:19 [INFO] myapp.data_pipeline data_pipeline:154 — Live quote [1m_history] AAPL: $308.22 (+4.75%) in 735ms
+2026-07-05 17:49:19 [DEBUG] myapp.data_pipeline data_pipeline:59 — Cache HIT (age=104s): AAPL_1d
+2026-07-05 17:49:19 [DEBUG] myapp.services.cache_service cache_service:23 — Cache hit for key: prediction_AAPL_1d
+2026-07-05 17:49:19 [DEBUG] myapp.data_pipeline data_pipeline:107 — Live quote cache HIT: AAPL
+2026-07-05 17:49:19 [DEBUG] myapp.data_pipeline data_pipeline:59 — Cache HIT (age=104s): AAPL_1d
+2026-07-05 17:49:20 [INFO] myapp.sentiment_engine sentiment_engine:124 — Fetched 8 Yahoo Finance news for AAPL
+2026-07-05 17:49:20 [INFO] myapp.data_pipeline data_pipeline:193 — Batch download for 3 symbols in 766ms
+2026-07-05 17:49:27 [INFO] myapp.data_pipeline data_pipeline:193 — Batch download for 3 symbols in 235ms
+2026-07-05 17:49:32 [INFO] myapp.data_pipeline data_pipeline:193 — Batch download for 10 symbols in 375ms
+2026-07-05 17:49:32 [INFO] myapp.data_pipeline data_pipeline:193 — Batch download for 10 symbols in 4735ms
+2026-07-05 17:49:33 [INFO] myapp.data_pipeline data_pipeline:193 — Batch download for 2 symbols in 234ms
+2026-07-05 17:49:33 [INFO] myapp.data_pipeline data_pipeline:193 — Batch download for 3 symbols in 265ms
+2026-07-05 17:49:35 [INFO] myapp.data_pipeline data_pipeline:193 — Batch download for 10 symbols in 3672ms
+2026-07-05 17:49:35 [INFO] myapp.data_pipeline data_pipeline:193 — Batch download for 10 symbols in 3594ms
+2026-07-05 17:49:35 [INFO] myapp.data_pipeline data_pipeline:193 — Batch download for 10 symbols in 672ms
+2026-07-05 17:49:36 [INFO] myapp.data_pipeline data_pipeline:193 — Batch download for 10 symbols in 438ms
+2026-07-05 17:49:36 [INFO] myapp.data_pipeline data_pipeline:193 — Batch download for 3 symbols in 266ms
+2026-07-05 17:49:39 [INFO] myapp.data_pipeline data_pipeline:154 — Live quote [1m_history] GOOGL: $359.55 (-0.46%) in 296ms
+2026-07-05 17:49:39 [INFO] myapp.data_pipeline data_pipeline:287 — Downloading GOOGL | interval=1d | period=5y (cache_ttl=300s)
+2026-07-05 17:49:39 [DEBUG] myapp.data_pipeline data_pipeline:107 — Live quote cache HIT: GOOGL
+2026-07-05 17:49:39 [INFO] myapp.data_pipeline data_pipeline:287 — Downloading GOOGL | interval=1d | period=5y (cache_ttl=300s)
+2026-07-05 17:49:39 [DEBUG] myapp.services.cache_service cache_service:26 — Cache miss for key: prediction_GOOGL_1d
+2026-07-05 17:49:39 [INFO] myapp.data_pipeline data_pipeline:287 — Downloading GOOGL | interval=1d | period=5y (cache_ttl=300s)
+2026-07-05 17:49:40 [INFO] myapp.data_pipeline data_pipeline:193 — Batch download for 3 symbols in 312ms
+2026-07-05 17:49:40 [INFO] myapp.data_pipeline data_pipeline:343 — Downloaded GOOGL @ 1d: 1254 rows, latest close=$359.91 @ 2026-07-02 00:00:00-04:00
+2026-07-05 17:49:40 [DEBUG] myapp.data_pipeline data_pipeline:397 — Removing 43 outlier rows for GOOGL @ 1d
+2026-07-05 17:49:40 [INFO] myapp.data_pipeline data_pipeline:343 — Downloaded GOOGL @ 1d: 1254 rows, latest close=$359.91 @ 2026-07-02 00:00:00-04:00
+2026-07-05 17:49:40 [INFO] myapp.sentiment_engine sentiment_engine:124 — Fetched 8 Yahoo Finance news for GOOGL
+2026-07-05 17:49:40 [INFO] myapp.data_pipeline data_pipeline:343 — Downloaded GOOGL @ 1d: 1254 rows, latest close=$359.91 @ 2026-07-02 00:00:00-04:00
+2026-07-05 17:49:40 [DEBUG] myapp.data_pipeline data_pipeline:397 — Removing 43 outlier rows for GOOGL @ 1d
+2026-07-05 17:49:48 [INFO] myapp.data_pipeline data_pipeline:193 — Batch download for 3 symbols in 250ms
+2026-07-05 17:50:02 [INFO] myapp.data_pipeline data_pipeline:154 — Live quote [1m_history] AAPL: $308.22 (+4.75%) in 437ms
+2026-07-05 17:50:02 [DEBUG] myapp.data_pipeline data_pipeline:59 — Cache HIT (age=147s): AAPL_1d
+2026-07-05 17:50:02 [DEBUG] myapp.data_pipeline data_pipeline:107 — Live quote cache HIT: AAPL
+2026-07-05 17:50:02 [DEBUG] myapp.data_pipeline data_pipeline:59 — Cache HIT (age=147s): AAPL_1d
+2026-07-05 17:50:03 [DEBUG] myapp.services.cache_service cache_service:26 — Cache miss for key: prediction_AAPL_1d
+2026-07-05 17:50:03 [DEBUG] myapp.data_pipeline data_pipeline:59 — Cache HIT (age=148s): AAPL_1d
+2026-07-05 17:50:03 [INFO] myapp.data_pipeline data_pipeline:193 — Batch download for 3 symbols in 844ms
+2026-07-05 17:50:03 [WARNING] django.request log:246 — Not Found: /favicon.ico
+2026-07-05 17:50:03 [INFO] myapp.sentiment_engine sentiment_engine:124 — Fetched 8 Yahoo Finance news for AAPL
+2026-07-05 17:50:10 [INFO] myapp.data_pipeline data_pipeline:193 — Batch download for 3 symbols in 328ms
+2026-07-05 17:50:19 [INFO] myapp.data_pipeline data_pipeline:193 — Batch download for 3 symbols in 422ms
+2026-07-05 17:50:26 [INFO] myapp.data_pipeline data_pipeline:193 — Batch download for 3 symbols in 250ms
+2026-07-05 17:50:32 [DEBUG] myapp.data_pipeline data_pipeline:59 — Cache HIT (age=177s): AAPL_1d
+2026-07-05 17:50:32 [DEBUG] myapp.services.cache_service cache_service:23 — Cache hit for key: prediction_AAPL_1d
+2026-07-05 17:50:32 [INFO] myapp.sentiment_engine sentiment_engine:124 — Fetched 8 Yahoo Finance news for AAPL
+2026-07-05 17:50:33 [INFO] myapp.data_pipeline data_pipeline:154 — Live quote [1m_history] AAPL: $308.22 (+4.75%) in 625ms
+2026-07-05 17:50:34 [INFO] myapp.data_pipeline data_pipeline:193 — Batch download for 3 symbols in 266ms
+2026-07-05 17:50:42 [INFO] myapp.data_pipeline data_pipeline:193 — Batch download for 3 symbols in 313ms
+2026-07-05 17:50:50 [INFO] myapp.data_pipeline data_pipeline:193 — Batch download for 3 symbols in 297ms
+2026-07-05 17:50:58 [INFO] myapp.data_pipeline data_pipeline:193 — Batch download for 3 symbols in 266ms
+2026-07-05 17:51:02 [DEBUG] myapp.data_pipeline data_pipeline:59 — Cache HIT (age=207s): AAPL_1d
+2026-07-05 17:51:02 [DEBUG] myapp.services.cache_service cache_service:23 — Cache hit for key: prediction_AAPL_1d
+2026-07-05 17:51:02 [INFO] myapp.sentiment_engine sentiment_engine:124 — Fetched 8 Yahoo Finance news for AAPL
+2026-07-05 17:51:03 [INFO] myapp.data_pipeline data_pipeline:154 — Live quote [1m_history] AAPL: $308.22 (+4.75%) in 375ms
+2026-07-05 17:51:06 [INFO] myapp.data_pipeline data_pipeline:193 — Batch download for 3 symbols in 297ms
+2026-07-05 17:51:14 [INFO] myapp.data_pipeline data_pipeline:193 — Batch download for 3 symbols in 266ms
+2026-07-05 17:51:22 [INFO] myapp.data_pipeline data_pipeline:193 — Batch download for 3 symbols in 281ms
+2026-07-05 17:51:30 [INFO] myapp.data_pipeline data_pipeline:193 — Batch download for 3 symbols in 281ms
+2026-07-05 17:51:32 [DEBUG] myapp.data_pipeline data_pipeline:59 — Cache HIT (age=237s): AAPL_1d
+2026-07-05 17:51:32 [DEBUG] myapp.services.cache_service cache_service:26 — Cache miss for key: prediction_AAPL_1d
+2026-07-05 17:51:32 [DEBUG] myapp.data_pipeline data_pipeline:59 — Cache HIT (age=237s): AAPL_1d
+2026-07-05 17:51:33 [INFO] myapp.sentiment_engine sentiment_engine:124 — Fetched 8 Yahoo Finance news for AAPL
+2026-07-05 17:51:33 [INFO] myapp.data_pipeline data_pipeline:154 — Live quote [1m_history] AAPL: $308.22 (+4.75%) in 531ms
+2026-07-05 17:51:38 [INFO] myapp.data_pipeline data_pipeline:193 — Batch download for 3 symbols in 297ms
+2026-07-05 17:51:46 [INFO] myapp.data_pipeline data_pipeline:193 — Batch download for 3 symbols in 266ms
+2026-07-05 17:51:54 [INFO] myapp.data_pipeline data_pipeline:193 — Batch download for 3 symbols in 281ms
+2026-07-05 17:52:02 [DEBUG] myapp.data_pipeline data_pipeline:59 — Cache HIT (age=267s): AAPL_1d
+2026-07-05 17:52:02 [DEBUG] myapp.services.cache_service cache_service:23 — Cache hit for key: prediction_AAPL_1d
+2026-07-05 17:52:02 [INFO] myapp.sentiment_engine sentiment_engine:124 — Fetched 8 Yahoo Finance news for AAPL
+2026-07-05 17:52:03 [INFO] myapp.data_pipeline data_pipeline:193 — Batch download for 3 symbols in 531ms
+2026-07-05 17:52:03 [INFO] myapp.data_pipeline data_pipeline:154 — Live quote [1m_history] AAPL: $308.22 (+4.75%) in 703ms
+2026-07-05 17:55:38 [INFO] django.utils.autoreload autoreload:265 — C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\services\model_manager.py changed, reloading.
+2026-07-05 17:55:38 [INFO] django.utils.autoreload autoreload:265 — C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\services\model_manager.py changed, reloading.
+2026-07-05 17:55:42 [INFO] django.utils.autoreload autoreload:667 — Watching for file changes with StatReloader
+2026-07-05 17:55:44 [INFO] django.utils.autoreload autoreload:667 — Watching for file changes with StatReloader
+2026-07-05 17:55:50 [INFO] django.utils.autoreload autoreload:265 — C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\api_views.py changed, reloading.
+2026-07-05 17:55:53 [INFO] django.utils.autoreload autoreload:667 — Watching for file changes with StatReloader
+2026-07-05 17:56:00 [INFO] django.utils.autoreload autoreload:265 — C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\api_views.py changed, reloading.
+2026-07-05 17:56:00 [INFO] django.utils.autoreload autoreload:265 — C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\api_views.py changed, reloading.
+2026-07-05 17:56:03 [INFO] django.utils.autoreload autoreload:667 — Watching for file changes with StatReloader
+2026-07-05 17:56:03 [INFO] django.utils.autoreload autoreload:667 — Watching for file changes with StatReloader
+2026-07-05 17:57:36 [INFO] myapp.services.model_manager model_manager:73 — Initializing ModelManager: Loading ML artifacts into memory...
+2026-07-05 17:57:36 [INFO] myapp.services.model_manager model_manager:84 — Scaler loaded successfully.
+2026-07-05 17:57:49 [INFO] myapp.services.model_manager model_manager:106 — Loaded model 'lstm'
+2026-07-05 17:57:52 [INFO] myapp.services.model_manager model_manager:106 — Loaded model 'bilstm'
+2026-07-05 17:57:53 [INFO] myapp.services.model_manager model_manager:106 — Loaded model 'gru'
+2026-07-05 17:57:55 [INFO] myapp.services.model_manager model_manager:106 — Loaded model 'cnn_lstm'
+2026-07-05 17:57:56 [INFO] myapp.services.model_manager model_manager:106 — Loaded model 'xgboost'
+2026-07-05 17:57:56 [INFO] myapp.services.model_manager model_manager:106 — Loaded model 'lightgbm'
+2026-07-05 17:57:57 [INFO] myapp.services.model_manager model_manager:106 — Loaded model 'rf'
+2026-07-05 17:57:57 [INFO] myapp.services.model_manager model_manager:106 — Loaded model 'xgb_cls'
+2026-07-05 17:57:57 [INFO] myapp.services.model_manager model_manager:106 — Loaded model 'lgbm_cls'
+2026-07-05 17:57:57 [INFO] myapp.services.model_manager model_manager:106 — Loaded model 'rf_cls'
+2026-07-05 17:57:57 [INFO] myapp.services.model_manager model_manager:118 — ModelManager initialization complete.
+2026-07-05 17:58:10 [ERROR] myapp.api_views api_views:50 — API error [400]: Invalid JSON body
+2026-07-05 17:58:10 [WARNING] django.request log:246 — Bad Request: /api/rag-query/
+2026-07-05 19:00:23 [INFO] myapp.data_pipeline data_pipeline:154 — Live quote [1m_history] AAPL: $308.22 (+4.75%) in 3266ms
+2026-07-05 19:00:23 [INFO] myapp.data_pipeline data_pipeline:287 — Downloading AAPL | interval=1d | period=5y (cache_ttl=300s)
+2026-07-05 19:00:23 [DEBUG] myapp.data_pipeline data_pipeline:107 — Live quote cache HIT: AAPL
+2026-07-05 19:00:23 [INFO] myapp.data_pipeline data_pipeline:287 — Downloading AAPL | interval=1d | period=5y (cache_ttl=300s)
+2026-07-05 19:00:23 [DEBUG] myapp.services.cache_service cache_service:26 — Cache miss for key: prediction_AAPL_1d
+2026-07-05 19:00:23 [INFO] myapp.data_pipeline data_pipeline:287 — Downloading AAPL | interval=1d | period=5y (cache_ttl=300s)
+2026-07-05 19:00:24 [WARNING] django.request log:246 — Not Found: /favicon.ico
+2026-07-05 19:00:24 [INFO] myapp.data_pipeline data_pipeline:193 — Batch download for 3 symbols in 703ms
+2026-07-05 19:00:24 [INFO] myapp.data_pipeline data_pipeline:343 — Downloaded AAPL @ 1d: 1254 rows, latest close=$308.63 @ 2026-07-02 00:00:00-04:00
+2026-07-05 19:00:24 [INFO] myapp.data_pipeline data_pipeline:343 — Downloaded AAPL @ 1d: 1254 rows, latest close=$308.63 @ 2026-07-02 00:00:00-04:00
+2026-07-05 19:00:24 [INFO] myapp.sentiment_engine sentiment_engine:124 — Fetched 8 Yahoo Finance news for AAPL
+2026-07-05 19:00:24 [INFO] myapp.data_pipeline data_pipeline:343 — Downloaded AAPL @ 1d: 1254 rows, latest close=$308.63 @ 2026-07-02 00:00:00-04:00
+2026-07-05 19:00:32 [INFO] myapp.data_pipeline data_pipeline:193 — Batch download for 3 symbols in 532ms
+2026-07-05 19:00:38 [DEBUG] myapp.data_pipeline data_pipeline:59 — Cache HIT (age=13s): AAPL_1d
+2026-07-05 19:00:40 [INFO] myapp.data_pipeline data_pipeline:193 — Batch download for 3 symbols in 422ms
+2026-07-05 19:00:48 [INFO] myapp.data_pipeline data_pipeline:193 — Batch download for 3 symbols in 547ms
+2026-07-05 19:00:53 [DEBUG] myapp.data_pipeline data_pipeline:59 — Cache HIT (age=29s): AAPL_1d
+2026-07-05 19:00:53 [DEBUG] myapp.services.cache_service cache_service:23 — Cache hit for key: prediction_AAPL_1d
+2026-07-05 19:00:54 [INFO] myapp.data_pipeline data_pipeline:154 — Live quote [1m_history] AAPL: $308.22 (+4.75%) in 813ms
+2026-07-05 19:00:54 [INFO] myapp.sentiment_engine sentiment_engine:124 — Fetched 8 Yahoo Finance news for AAPL
+2026-07-05 19:00:54 [DEBUG] myapp.data_pipeline data_pipeline:107 — Live quote cache HIT: AAPL
+2026-07-05 19:00:54 [DEBUG] myapp.services.cache_service cache_service:23 — Cache hit for key: prediction_AAPL_1d
+2026-07-05 19:00:54 [DEBUG] myapp.data_pipeline data_pipeline:59 — Cache HIT (age=29s): AAPL_1d
+2026-07-05 19:00:54 [DEBUG] myapp.data_pipeline data_pipeline:59 — Cache HIT (age=29s): AAPL_1d
+2026-07-05 19:00:54 [INFO] myapp.data_pipeline data_pipeline:154 — Live quote [1m_history] AAPL: $308.22 (+4.75%) in 797ms
+2026-07-05 19:00:54 [INFO] myapp.sentiment_engine sentiment_engine:124 — Fetched 8 Yahoo Finance news for AAPL
+2026-07-05 19:00:55 [DEBUG] myapp.sentiment_engine sentiment_engine:337 — Could not cache articles to DB: database is locked
+2026-07-05 19:00:55 [INFO] myapp.data_pipeline data_pipeline:193 — Batch download for 3 symbols in 922ms
+2026-07-05 19:01:02 [INFO] myapp.data_pipeline data_pipeline:193 — Batch download for 3 symbols in 281ms
+2026-07-05 19:03:33 [INFO] django.utils.autoreload autoreload:265 — C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\views.py changed, reloading.
+2026-07-05 19:03:34 [INFO] django.utils.autoreload autoreload:265 — C:\Users\abhishek\Downloads\stock-prediction-webapp-main (2)\stock-prediction-webapp-main\stockapp\myapp\views.py changed, reloading.
+2026-07-05 19:03:38 [INFO] django.utils.autoreload autoreload:667 — Watching for file changes with StatReloader
+2026-07-05 19:03:39 [INFO] django.utils.autoreload autoreload:667 — Watching for file changes with StatReloader

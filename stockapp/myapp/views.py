@@ -28,18 +28,7 @@ MODEL_DIR = Path(settings.BASE_DIR) / "myapp" / "models"
 TIME_STEPS = 60
 
 
-def _load_models_and_scaler():
-    """Load trained model artifacts. Returns (models, scaler) or (None, None)."""
-    try:
-        loader = ModelLoader(model_dir=MODEL_DIR)
-        scaler = loader.get_scaler()
-        models = loader.get_models()
-        if not models:
-            return None, None
-        return models, scaler
-    except Exception as exc:
-        logger.warning("Could not load model artifacts: %s", exc)
-        return None, None
+# Model loaded via services
 
 
 # ── Auth views ─────────────────────────────────────────────────────────────
@@ -110,92 +99,27 @@ def dashboard(request):
     }
 
     try:
-        df = download_market_data(symbol, interval)
-        if df.empty or len(df) < TIME_STEPS:
-            context["error"] = f"Not enough data for {symbol} ({len(df)} rows). Need ≥ {TIME_STEPS}."
-            return render(request, "index.html", context)
+        # Fast live quote for initial rendering
+        from .data_pipeline import fetch_live_quote
+        quote = fetch_live_quote(symbol)
+        context["current_price"] = round(quote.get("close", 0.0), 4)
+        context["price_change"] = round(quote.get("change", 0.0), 4)
+        context["price_change_pct"] = round(quote.get("change_pct", 0.0), 2)
+        
+        # Load static model metrics
+        from .services.model_manager import ModelManager
+        from django.conf import settings
+        from pathlib import Path
+        import json
+        
+        metrics_path = Path(settings.BASE_DIR) / "myapp" / "models" / "model_metrics.json"
+        if metrics_path.exists():
+            with open(metrics_path, "r") as f:
+                context["model_metrics_json"] = f.read()
 
-        # Price chart data (last 500 candles for performance)
-        chart_df = df.tail(500)
-        context["stock_dates"]  = chart_df.index.strftime("%Y-%m-%d %H:%M").tolist()
-        context["stock_prices"] = [round(p, 4) for p in chart_df["Close"].tolist()]
-        context["stock_volumes"] = [int(v) for v in chart_df["Volume"].tolist()]  # Fixed: was using prices
-        context["current_price"] = round(float(df["Close"].iloc[-1]), 4)
-        context["prev_close"]    = round(float(df["Close"].iloc[-2]), 4) if len(df) > 1 else context["current_price"]
-        context["price_change"]  = round(context["current_price"] - context["prev_close"], 4)
-        context["price_change_pct"] = round(
-            (context["price_change"] / max(context["prev_close"], 1e-8)) * 100, 2
-        )
-
-        # Attempt model inference
-        models, scaler = _load_models_and_scaler()
-        if models and scaler:
-            try:
-                from .prediction_engine import infer
-                result = infer(symbol=symbol, interval=interval, model_dir=MODEL_DIR, persist=True)
-                context.update({
-                    "predicted_price":  round(result.ensemble_price, 4),
-                    "predicted_high":   round(result.ensemble_price * 1.025, 4),
-                    "predicted_low":    round(result.ensemble_price * 0.975, 4),
-                    "confidence_score": round(result.confidence, 2),
-                    "signal":           result.direction,
-                    "probability":      result.probability,
-                    "horizon_prices":   result.horizon_prices,
-                    "predictions":      {k: round(v, 4) for k, v in result.predictions.items()},
-                    "explanation":      result.explanation,
-                    "indicator_signals": result.indicator_signals,
-                })
-                context["model_metrics"] = load_metrics_report(MODEL_DIR)
-
-                # Sentiment
-                try:
-                    from .sentiment_engine import fetch_news_for_symbol, aggregate_sentiment
-                    api_key = getattr(settings, "NEWSDATA_API_KEY", "")
-                    articles = fetch_news_for_symbol(symbol=symbol, api_key=api_key or None)
-                    sent = aggregate_sentiment(symbol=symbol, articles=articles)
-                    context["sentiment"] = {
-                        "bullish_score": sent.bullish_score,
-                        "bearish_score": sent.bearish_score,
-                        "impact_score":  sent.impact_score,
-                        "summary":       sent.summary,
-                        "articles": [
-                            {
-                                "title":     a.title,
-                                "source":    a.source,
-                                "url":       a.url,
-                                "sentiment": a.sentiment_label,
-                            }
-                            for a in sent.articles[:5]
-                        ],
-                    }
-                except Exception as exc:
-                    logger.warning("Sentiment enrichment failed: %s", exc)
-
-                # Backtest metrics
-                try:
-                    from .backtest_engine import run_backtest
-                    bt_df = df.reset_index()
-                    col0 = bt_df.columns[0]
-                    bt_df = bt_df.rename(columns={col0: "Date"})
-                    bt = run_backtest(bt_df)
-                    context["backtest"] = {
-                        "win_rate":      round(bt.win_rate * 100, 1),
-                        "profit_factor": round(bt.profit_factor, 2),
-                        "sharpe_ratio":  round(bt.sharpe_ratio, 2),
-                        "max_drawdown":  round(bt.max_drawdown * 100, 1),
-                        "trades":        bt.trades,
-                    }
-                except Exception as exc:
-                    logger.warning("Backtest enrichment failed: %s", exc)
-
-            except FileNotFoundError:
-                context["model_warning"] = "Models not trained yet. Run training via POST /api/train/"
-            except Exception as exc:
-                logger.warning("Dashboard inference failed: %s", exc)
-                context["model_warning"] = f"Prediction unavailable: {exc}"
-        else:
-            context["model_warning"] = "Model artifacts not found. Run training first."
-
+        # We NO LONGER run models synchronously.
+        # Everything else (chart, prediction, sentiment, backtest) 
+        # is handled by the async frontend API calls to prevent Render Gunicorn timeouts.
     except Exception as exc:
         logger.error("Dashboard error for %s: %s", symbol, exc)
         context["error"] = str(exc)

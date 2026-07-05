@@ -28,4 +28,5 @@ urlpatterns = [
     path("api/model-performance/",       api_views.model_performance,     name="api_model_performance"),
     path("api/explain-prediction/",      api_views.explain_prediction,    name="api_explain_prediction"),
     path("api/invalidate-cache/",        api_views.invalidate_market_cache, name="api_invalidate_cache"),
+    path("api/health/",                  api_views.health_check,          name="api_health"),
 ]
