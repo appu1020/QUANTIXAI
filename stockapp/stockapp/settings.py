@@ -27,7 +27,7 @@ SECRET_KEY = _config(
     default="django-insecure-change-me-in-production-set-SECRET_KEY-in-env",
 )
 DEBUG = _config("DEBUG", default="True", cast=lambda v: v.lower() in ("true", "1", "yes"))
-ALLOWED_HOSTS = _config("ALLOWED_HOSTS", default="localhost,127.0.0.1").split(",")
+ALLOWED_HOSTS = _config("ALLOWED_HOSTS", default="quantixai.onrender.com,localhost,127.0.0.1").split(",")
 
 # External API keys
 NEWSDATA_API_KEY: str = _config("NEWSDATA_API_KEY", default="")
