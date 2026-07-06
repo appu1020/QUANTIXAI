@@ -1,0 +1,24 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual Environments
+.env
+.venv
+env/
+venv/
+ENV/
+
+# OS Generated Files
+.DS_Store
+Thumbs.db
+
+# Project Specific
+db.sqlite3
+*.log
+.gitignore
+.git/
+Dockerfile
+.dockerignore
+start.sh

@@ -1,0 +1,36 @@
+:root {
+    --primary-color: #635BFF;
+    --success-color: #10b981;
+    --danger-color: #ef4444;
+    --secondary-color: #2f2f2f;
+  }
+  
+  body {
+    background-color: #f9f9fb;
+    font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  }
+
+  .primary-color{
+    color: var(--primary-color);
+  }
+
+  .nav-link{
+    color: var(--secondary-color);
+  }
+  
+  .nav-link.active {
+    color: var(--primary-color) !important;
+    font-weight: 600;
+    position: relative;
+  }
+  
+  .nav-link.active::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0.5rem;
+    right: 0.5rem;
+    height: 2px;
+    background-color: var(--primary-color);
+  }
+  

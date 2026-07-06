@@ -1,0 +1,166 @@
+"""
+Market Regimes and Trading Strategy Knowledge
+============================================
+
+─────────────────────────────────────────────────────────────────────────────
+MARKET REGIMES
+─────────────────────────────────────────────────────────────────────────────
+
+BULL MARKET
+A bull market is defined as a sustained rise of 20% or more from recent lows.
+
+Characteristics:
+- Rising prices across most assets.
+- Strong economic fundamentals (GDP growth, low unemployment).
+- Investor optimism and high risk appetite.
+- Increasing earnings per share (EPS).
+- Low credit spreads.
+
+Trading Approach:
+- Trend-following strategies perform well.
+- Buy pullbacks to moving averages (SMA50, EMA20).
+- Long bias — breakouts above resistance have higher success rates.
+- Sector rotation: early bull favors financials, tech; late bull favors energy, materials.
+
+BEAR MARKET
+A bear market is defined as a sustained decline of 20% or more from recent highs.
+
+Characteristics:
+- Declining prices, often over months to years.
+- Weak economic fundamentals (recession fears, rising unemployment).
+- Investor pessimism and low risk appetite.
+- Declining corporate earnings.
+- Widening credit spreads.
+
+Trading Approach:
+- Shorting (selling) strategies are applicable.
+- Sell rallies to key resistance levels.
+- Defensive sectors outperform: utilities, healthcare, consumer staples.
+- Cash preservation is a valid strategy.
+- Short duration bonds and gold often perform well.
+
+RANGING / SIDEWAYS MARKET
+A market where price oscillates between identifiable support and resistance
+without a clear directional trend.
+
+Characteristics:
+- ADX below 20 — weak trend.
+- Price bouncing between established levels.
+- Indicators like RSI and Stochastic RSI are most useful.
+- Breakouts fail frequently (false breakouts).
+
+Trading Approach:
+- Buy near support, sell near resistance (mean-reversion strategies).
+- Oscillators (RSI, Stochastic) provide better signals than moving averages.
+- Use tight stop losses — swings are limited.
+- Avoid trend-following strategies; they generate whipsaws.
+
+HIGH VOLATILITY REGIME
+Characterized by rapid, large price swings in either direction.
+
+Characteristics:
+- VIX index > 30 (fear index elevated).
+- ATR significantly above its historical average.
+- Wide bid-ask spreads.
+- News-driven price action dominates technical signals.
+
+Trading Approach:
+- Reduce position sizes (ATR-based sizing).
+- Widen stop losses to account for noise.
+- Avoid overtrading — volatility generates many false signals.
+- Options strategies benefit from high implied volatility (selling premium).
+- Trend reversals are frequent and fast.
+
+LOW VOLATILITY REGIME
+Characterized by small, slow price movements.
+
+Characteristics:
+- VIX index below 15.
+- ATR at or below historical average.
+- Markets trending slowly upward (typical of bull market mid-phase).
+- Complacency can precede sudden volatility spikes.
+
+Trading Approach:
+- Momentum strategies work well.
+- Breakouts from tight consolidation are more reliable.
+- Carry trades and income strategies are favored.
+
+─────────────────────────────────────────────────────────────────────────────
+RISK MANAGEMENT PRINCIPLES
+─────────────────────────────────────────────────────────────────────────────
+
+STOP LOSS
+A stop loss order automatically exits a position when price reaches a
+predetermined adverse level, limiting maximum loss.
+
+Best Practices:
+- ATR-based stop: Set stop at 1.5-2x ATR below entry for longs.
+- Structure-based stop: Place stop below key support (for longs).
+- Never move stop further away from entry to avoid losses.
+- Typical stop: 1-3% of trade value for swing trades.
+
+TAKE PROFIT / TARGET LEVELS
+Risk-to-reward ratio should be at least 1:2 (risk $1 to make $2).
+
+Common Target Techniques:
+- Next resistance level for long trades.
+- Fibonacci extension levels (1.272x, 1.618x move).
+- Fixed R-multiple targets (e.g., 2R, 3R where R = stop distance).
+
+POSITION SIZING
+Position sizing determines how much capital to risk per trade.
+
+Kelly Criterion (simplified): Position Size = Win Rate - (Loss Rate / Win-Loss Ratio)
+Conservative: Risk 1-2% of total capital per trade.
+Aggressive: Risk up to 5% of total capital per trade.
+
+SHARPE RATIO
+Sharpe Ratio = (Strategy Return - Risk-Free Rate) / Standard Deviation of Returns
+
+Interpretation:
+- < 0: Strategy underperforms risk-free rate.
+- 0–1: Adequate returns for risk taken.
+- 1–2: Good risk-adjusted performance.
+- > 2: Excellent performance (rare in live trading).
+
+MAXIMUM DRAWDOWN
+The maximum observed loss from a peak to a trough before a new peak.
+
+Interpretation:
+- < 10%: Conservative, appropriate for institutional capital.
+- 10-20%: Moderate — acceptable for most retail strategies.
+- > 30%: High drawdown — difficult psychologically to sustain.
+- Recovery time from drawdown can take months to years.
+
+WIN RATE AND PROFIT FACTOR
+Win Rate = Winning Trades / Total Trades
+Profit Factor = Gross Profits / Gross Losses
+
+A strategy can be profitable with a low win rate if the average win is much
+larger than the average loss (high risk-reward ratio).
+
+Example: 40% win rate with 3:1 reward-to-risk = profitable strategy.
+
+─────────────────────────────────────────────────────────────────────────────
+SECTOR ROTATION
+─────────────────────────────────────────────────────────────────────────────
+
+Different economic phases favor different sectors:
+
+Early Recession: Consumer Staples, Healthcare, Utilities (defensive)
+Late Recession / Recovery: Financials, Technology (growth)
+Early Bull / Expansion: Technology, Consumer Discretionary, Industrials
+Late Bull: Energy, Materials, Real Estate (cyclical)
+
+─────────────────────────────────────────────────────────────────────────────
+COMMON TRADING MISTAKES
+─────────────────────────────────────────────────────────────────────────────
+
+1. Overtrading: Taking too many positions leads to excessive commissions and emotional decisions.
+2. Moving Stop Losses: Letting losses run beyond planned exit destroys accounts.
+3. Revenge Trading: Trading emotionally after losses to "make it back" quickly.
+4. Ignoring Risk-Reward: Taking trades with poor reward-to-risk ratios.
+5. Confirmation Bias: Only looking for signals that confirm existing opinion.
+6. Overconfidence: Past success does not guarantee future results.
+7. No Trading Plan: Entering trades without defined entry, exit, and risk rules.
+8. Ignoring Market Context: Technical signals work differently in different regimes.

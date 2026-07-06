@@ -1,0 +1,88 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Create Account | QuantixAI</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="{% static 'css/app.css' %}">
+</head>
+<body>
+<div class="auth-page">
+  <div style="position:absolute;inset:0;overflow:hidden;pointer-events:none;">
+    <svg width="100%" height="100%" style="opacity:0.04;">
+      <defs>
+        <pattern id="dots" x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse">
+          <circle cx="2" cy="2" r="1.5" fill="#60a5fa"/>
+        </pattern>
+      </defs>
+      <rect width="100%" height="100%" fill="url(#dots)"/>
+    </svg>
+  </div>
+
+  <div class="auth-card fade-slide-in">
+    <div class="auth-logo">
+      <div class="auth-logo-icon">⚡</div>
+      <div class="auth-logo-title">QuantixAI</div>
+      <div class="auth-logo-subtitle">AI-Powered Financial Intelligence</div>
+    </div>
+
+    <div class="auth-title">Create your account</div>
+
+    {% if error %}
+    <div class="alert alert-error"><i class="fas fa-exclamation-circle"></i> {{ error }}</div>
+    {% endif %}
+
+    {% if messages %}
+      {% for message in messages %}
+      <div class="alert alert-{% if message.tags == 'success' %}success{% else %}info{% endif %}">
+        {{ message }}
+      </div>
+      {% endfor %}
+    {% endif %}
+
+    <form method="POST" action="{% url 'register' %}">
+      {% csrf_token %}
+      <div class="form-group">
+        <label class="form-label" for="reg-username">
+          <i class="fas fa-user" style="margin-right:0.35rem;opacity:0.6;"></i>Username
+        </label>
+        <input id="reg-username" name="username" type="text" class="form-input"
+               placeholder="Choose a username" autocomplete="username" required>
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="reg-email">
+          <i class="fas fa-envelope" style="margin-right:0.35rem;opacity:0.6;"></i>Email
+        </label>
+        <input id="reg-email" name="email" type="email" class="form-input"
+               placeholder="your@email.com" autocomplete="email">
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="reg-password">
+          <i class="fas fa-lock" style="margin-right:0.35rem;opacity:0.6;"></i>Password
+        </label>
+        <input id="reg-password" name="password" type="password" class="form-input"
+               placeholder="Create a strong password" autocomplete="new-password" required>
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="reg-confirm">
+          <i class="fas fa-check-circle" style="margin-right:0.35rem;opacity:0.6;"></i>Confirm Password
+        </label>
+        <input id="reg-confirm" name="confirm_password" type="password" class="form-input"
+               placeholder="Repeat your password" autocomplete="new-password" required>
+      </div>
+      <button type="submit" class="btn btn-primary btn-full" style="margin-top:1.25rem;">
+        <i class="fas fa-user-plus"></i> Create Account
+      </button>
+    </form>
+
+    <div class="auth-link">
+      Already have an account? <a href="{% url 'login' %}">Sign in</a>
+    </div>
+  </div>
+</div>
+</body>
+</html>
