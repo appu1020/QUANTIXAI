@@ -10,5 +10,5 @@ class MyappConfig(AppConfig):
         import sys
         if 'runserver' in sys.argv or 'gunicorn' in sys.modules or 'uvicorn' in sys.modules or 'waitress' in sys.modules:
             from myapp.services.model_manager import ModelManager
-            MODEL_DIR = Path(settings.BASE_DIR) / "myapp" / "models"
+            MODEL_DIR = Path(settings.BASE_DIR) / "models"
             ModelManager.initialize(MODEL_DIR)
