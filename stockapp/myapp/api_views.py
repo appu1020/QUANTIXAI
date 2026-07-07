@@ -43,7 +43,7 @@ from .sentiment_engine import aggregate_sentiment, fetch_news_for_symbol
 from .training_engine import train_models
 
 logger = logging.getLogger(__name__)
-MODEL_DIR = Path(settings.BASE_DIR) / "myapp" / "models"
+MODEL_DIR = Path(settings.BASE_DIR) / "models"
 
 
 def _json_error(message: str, status: int = 500) -> JsonResponse:
