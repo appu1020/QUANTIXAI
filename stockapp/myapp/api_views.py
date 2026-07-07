@@ -494,7 +494,7 @@ def health_check(request):
     from django.conf import settings
     from pathlib import Path
     
-    MODEL_DIR = Path(settings.BASE_DIR) / "myapp" / "models"
+    MODEL_DIR = Path(settings.BASE_DIR) / "models"
     
     models_status = "uninitialized"
     scaler_status = "uninitialized"
@@ -538,7 +538,7 @@ def health_check_comprehensive(request):
     import tensorflow as tf
     from rag.pipeline import get_pipeline
     
-    MODEL_DIR = Path(settings.BASE_DIR) / "myapp" / "models"
+    MODEL_DIR = Path(settings.BASE_DIR) / "models"
     
     health_status = {
         "status": "ok",
