@@ -19,5 +19,3 @@ db.sqlite3
 *.log
 .gitignore
 .git/
-Dockerfile
-.dockerignore
