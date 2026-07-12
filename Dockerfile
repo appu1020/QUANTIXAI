@@ -33,4 +33,4 @@ ENV ALLOWED_HOSTS="*,localhost,127.0.0.1"
 EXPOSE 8000
 
 # Run the startup script
-CMD ["bash" , /app/start.sh"]
+CMD ["bash" , "/app/start.sh"]
